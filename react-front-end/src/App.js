@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import AudioPlayer from './AudioPlayer';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
+import UserForm from './components/UserForm';
+import Game from './Game'
+
 //Socket io client
 import socketIOClient from 'socket.io-client';
 
 const ENDPOINT = '/';
-const socket = socketIOClient(ENDPOINT);
+let socket = '';
 
 const App = () => {
-  const [user, setUser] = useState('');
-  const [users, setUsers] = useState([]);
+
+  const [username, setUsername] = useState('');
   const [tracks, setTracks] = useState([]);
   const [song, setSong] = useState({});
   const [state, setState] = useState({
@@ -19,25 +22,6 @@ const App = () => {
     src: ''
   });
 
-  useEffect(() => {
-    console.log("This useEffect runs only once!")
-    socket.on('INITIAL_CONNNECTION', data => {
-      setUser(data.name)
-      setUsers(data.users)
-    })
-
-    socket.on('NEW_USER', data => {
-      setUsers(prev => {
-        return [...prev, data.name]
-      })
-    })
-
-    socket.on('DISCONNECTED_USER', data => {
-      setUsers(data.users)
-    })
-
-  }, [socket]);
-  
   const fetchData = () => {
     axios.get('/api/data') 
     .then((response) => {
@@ -75,6 +59,12 @@ const App = () => {
       song.fade(0.3, 0, 1000)
     }, 29000)
   }
+  const createSocket = (user) => {
+    socket = socketIOClient(ENDPOINT, {
+      query: `username=${user}`
+    });
+    setUsername(user);
+  }
 
   return (
     <div className="App">
@@ -88,11 +78,10 @@ const App = () => {
       <button>
         Submit
       </button>
-      {/* {state.src && <AudioPlayer src ={state.src}/>} */}
-      {user ? <h2>User: {user}</h2> : <h3>Loading...</h3>}
-      <ul>
-        {users.map(user => <li>{user}</li>)}
-      </ul> 
+
+      {state.src && <AudioPlayer src ={state.src}/>}
+      {username ? <Game username = {username} socket = {socket}/> : <UserForm setUserName ={setUsername} createSocket = {createSocket}/>}
+      
     </div>
   );
 }
