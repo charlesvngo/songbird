@@ -45,7 +45,7 @@ getToken().then((res) => token = res.data.access_token)
 // sample GET route
 app.get('/api/data', (req, res) => {
   getPlaylist(token)
-    .then(result => res.json({ src: result.data.tracks[0].preview_url }))
+    .then(result => res.json({ tracks: result.data.tracks }))
 })
 
 
