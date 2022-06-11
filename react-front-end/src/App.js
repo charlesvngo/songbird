@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import AudioPlayer from './AudioPlayer';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 import UserForm from './components/UserForm';
 import Game from './Game'
 
