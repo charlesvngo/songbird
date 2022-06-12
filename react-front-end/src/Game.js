@@ -12,7 +12,8 @@ const Game = (props) => {
 
   useEffect(() => {
     console.log("This useEffect runs only once!")
-  }, [socket]);
+    return socket.disconnect()
+  }, []);
 
   return(
     <>

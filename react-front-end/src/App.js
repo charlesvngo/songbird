@@ -12,7 +12,7 @@ const ENDPOINT = "/";
 
 const App = () => {
   const [username, setUsername] = useState("");
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
   const [socket, setSocket] = useState({})
   const [state, setState] = useState({
     message: "Click the button to load data!",
@@ -32,9 +32,12 @@ const App = () => {
 
   const createSocket = (user) => {
     setSocket(socketIOClient(ENDPOINT, {
-      query: `username=${user}`,
+      query: {
+        name: user.name,
+        roomId: user.roomId
+      },
     }));
-    setUsername(user);
+    setUser(user);
   };
 
   return (
@@ -44,10 +47,10 @@ const App = () => {
 
       {state.src && <AudioPlayer src={state.src} />}
 
-      {username ? (
-        <Game username={username} socket={socket} />
+      {user.name ? (
+        <Game user={user} socket={socket} />
       ) : (
-        <UserForm setUserName={setUsername} createSocket={createSocket} />
+        <UserForm setUser={setUser} createSocket={createSocket} />
       )}
     </div>
   );

@@ -33,17 +33,22 @@ server.listen(PORT, () => {
 });
 
 
-let users = [];
+let users = {};
 
 //Socket listeners
 io.on('connection', socket => {
-  console.log("User has connected ", socket.handshake.query.username )
-  users.push(socket.handshake.query.username)
+  console.log("User has connected ", socket.handshake.query)
+  console.log(socket.handshake.query.user )
+  users[socket.id] = {name: socket.handshake.query.name, roomId: socket.handshake.query.roomId}
   console.log("users: ", users)
-});  
 
-io.on('guess', socket => {
-  console.log()
-})
+  socket.on('disconnet', () => {
+    console.log('disconnected', socket.handshake.query.user.name)
+    const user = JSON.parse(socket.handshake.query.user.name)
+    const name = getUserById(socket.id)
+    if(name) delete users[socket.id]
+    console.log(users)
+  })
+});  
 
 

@@ -3,15 +3,18 @@ import socketIOClient from 'socket.io-client';
 
 
 const UserForm = (props) => {  
-  const[username, setUsername] = useState('');
+  const[user, setUser] = useState({
+    name: "",
+    roomId: "",
+  });
 
   const userNameSubmitted = (e) => {
     console.log("submit")
       e.preventDefault();
-      if (username === '') {
+      if (user === '') {
         return;
       }
-      props.createSocket(username);
+      props.createSocket(user);
   }
 
   return (
@@ -21,8 +24,14 @@ const UserForm = (props) => {
           type='text'
           id='username' 
           placeholder='Enter Username'
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}/>
+          value={user.name}
+          onChange={(e) => setUser({...user, name: e.target.value})}/>
+          <input 
+          type='text'
+          id='room-id' 
+          placeholder='Enter Room code'
+          value={user.roomID}
+          onChange={(e) => setUser({...user, roomId: e.target.value})}/>
         <button type="submit">
           Submit
         </button>
