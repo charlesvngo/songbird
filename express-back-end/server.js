@@ -14,7 +14,7 @@ const http = require("http");
 const server = http.createServer(app);
 const io = socketio(server);
 
-// global varibales
+// global variables
 let token = "";
 let users = [];
 
