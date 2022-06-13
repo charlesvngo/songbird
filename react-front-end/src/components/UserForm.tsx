@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 
 // interfaces
-import { IUserFormProps } from "../interfaces/UserFormInterfaces";
-=======
 import { IUserFormProps } from "../Interfaces";
->>>>>>> 0a6f62d709c887773dd492e2546bcfcd18c3b073
 
 // styling
 import {

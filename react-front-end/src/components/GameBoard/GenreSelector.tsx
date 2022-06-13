@@ -1,19 +1,13 @@
 import React from "react";
-<<<<<<< HEAD
+
+// interfaces
+import { IGenreSelector } from "../../Interfaces";
 
 // styling
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-const GenreSelector = () => {
-  const [alignment, setAlignment] = React.useState<string | null>("pop");
-
-=======
-import { IGenreSelector } from "../../Interfaces";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-
 const GenreSelector = (props: IGenreSelector) => {
   const [alignmenttGenre, setAlignmentGenre] = React.useState<string>("pop");
->>>>>>> 0a6f62d709c887773dd492e2546bcfcd18c3b073
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string

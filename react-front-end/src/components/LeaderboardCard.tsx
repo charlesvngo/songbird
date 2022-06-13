@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 import React from "react";
-=======
-import React from 'react';
-import {ListItem, Divider, ListItemAvatar , ListItemText, Avatar   } from '@mui/material';
-import { ILeaderboardCardProps } from '../Interfaces';
->>>>>>> 0a6f62d709c887773dd492e2546bcfcd18c3b073
 
 // styling
 import {
@@ -16,7 +10,7 @@ import {
 } from "@mui/material";
 
 // interfaces
-import { ILeaderboardCardProps } from "../interfaces/LeaderBoardInterfaces";
+import { ILeaderboardCardProps } from "../Interfaces";
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
   return (
