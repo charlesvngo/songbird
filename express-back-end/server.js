@@ -62,19 +62,19 @@ io.on("connection", (socket) => {
 
 
 
-  socket.emit("update-users", users.filter((u) => u.roomId === roomId))
+  //socket.emit("update-users", users.filter((u) => u.roomId === roomId))
 
   socket.on("player-joined", () => {
-    socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
+    io.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
   });
 
   socket.on("Guess", (guess) => {
-    socket.in(roomId).emit("chat-messages", `${username}: ${guess}`);
+    io.in(roomId).emit("chat-messages", `${username}: ${guess}`);
   });
 
   socket.on("start-game", () => {
     console.log('game started')
-    socket.to(roomId).emit("game-started", `Game has started`); 
+    io.to(roomId).emit("game-started", `Game has started`); 
   });
 
   socket.on('genre-selected', (genre) => {
@@ -103,8 +103,8 @@ io.on("connection", (socket) => {
     console.log("The tracks length after slice", rooms[currentRoom].tracks.length)
 
 
-    socket.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
-    socket.emit("new-track", rooms[currentRoom].currentTrack);
+    io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
+    //socket.emit("new-track", rooms[currentRoom].currentTrack);
     console.log(rooms[currentRoom])
   });
  
@@ -113,7 +113,7 @@ io.on("connection", (socket) => {
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
     users = users.filter((u) => u.id !== socket.id);
-    socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
+    io.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
     console.log(`${username} has diconnected!`);
     console.log("All Users: ", users);
   });
