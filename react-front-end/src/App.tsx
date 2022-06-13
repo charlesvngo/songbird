@@ -18,6 +18,7 @@ const ENDPOINT = "/";
 const App = () => {
   // grab the window URL and set the Room ID to that url. URL should be formatted as localhost:3000/?[:roomId]
   const roomId: string = getRoomId();
+
   // create a colour palette for the App
   const theme: ITheme = createTheme({
     palette: {
@@ -29,7 +30,7 @@ const App = () => {
       },
     },
   });
-
+  
   const [user, setUser] = useState<IUser>({
     username: "",
     roomId: roomId,
