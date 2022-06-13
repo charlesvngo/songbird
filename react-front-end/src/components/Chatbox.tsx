@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { IUser, ISocket } from "../interfaces/AppInterfaces";
 import { IChatboxProps } from "../interfaces/ChatboxInterfaces";
-import { List, Box, Divider } from "@mui/material";
+import { Box } from "@mui/material";
 
 const Chatbox = (props: IChatboxProps) => {
   const socket: ISocket = props.socket;
-  const [guess, setGuess] = useState<string>("");
+
+  const [guess, setGuess] = useState("");
+  const [guesses, setGuesses] = useState([guess]);
+
   const [user, setUser] = useState<IUser>(props.user);
   const [users, setUsers] = useState<[IUser]>([user]);
 
@@ -22,10 +25,17 @@ const Chatbox = (props: IChatboxProps) => {
   const sendGuess = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${guess}`);
+
+    const currentGuesses = [...guesses];
+    setGuesses([...currentGuesses, guess]);
+
     socket.emit("Guess", guess);
   };
   return (
     <Box sx={{ width: 300 }}>
+      <div className="message-list">
+        <p>{guesses}</p>
+      </div>
       <form onSubmit={(e) => sendGuess(e)}>
         <input
           type="text"

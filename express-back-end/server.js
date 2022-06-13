@@ -63,11 +63,7 @@ io.on("connection", (socket) => {
 
   // send message to the room
   socket.on("Guess", (guess) => {
-    socket.to(roomId).emit("chat-messages", {
-      guess,
-      username,
-      time: `${date.getHours()}:${date.getMinutes()}`,
-    });
+    socket.to(roomId).emit("chat-messages", `${username}: ${guess}`);
   });
 
   // disconnects user and removes them from users array
