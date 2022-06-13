@@ -47,10 +47,12 @@ io.on("connection", (socket) => {
   console.log(`${user} has connected!`);
   console.log("All Users: ", users);
 
+  socket.emit("update-users", users.filter((u) => u.roomId === roomId))
+
   socket.on("player-joined", () => {
     socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
   });
-  
+
   socket.on("Guess", (guess) => {
     socket.to(roomId).emit("chat-messages", `${user}: ${guess}`);
   });

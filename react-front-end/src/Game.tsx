@@ -12,6 +12,7 @@ const Game = (props: IGameProps) => {
   
   useEffect(() => {
     socket.emit('player-joined', 'hi')
+    // return socket.disconnect()
   }, []);
   
   useEffect(() => {

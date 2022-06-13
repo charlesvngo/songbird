@@ -7,6 +7,7 @@ export interface IUser {
 export interface ISocket {
   emit: (eventName: string, sentData: string) => void;
   on: (eventName: string, callback: (message: any) => void) => void;
+  disconnect: () => void;
 }
 
 export interface ITheme {
