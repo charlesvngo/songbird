@@ -23,9 +23,8 @@ const getToken = () => {
 };
 
 // queries spotify for a playlist
-const getPlaylist = (token) => {
-  const limit = 10; // needs to be set as a function argument, number of rounds?
-  const genre = "pop"; // needs to be set as a function argument
+const getPlaylist = (token, genre) => {
+  const limit = 20; // needs to be set as a function argument, number of rounds?
   const api_playlist_url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=CA&seed_genres=${genre}`;
   const header = {
     Accept: "application/json",
