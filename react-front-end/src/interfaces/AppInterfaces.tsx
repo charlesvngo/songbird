@@ -16,6 +16,6 @@ export interface ITheme {
     },
     secondary: {
       main: string;
-    }
+    },
   };
 }

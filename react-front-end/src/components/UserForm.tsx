@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { IUserFormProps } from '../interfaces/UserFormInterfaces';
-
 import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button } from '@mui/material';
 import bird from '../assets/bird_1.png'
-import { userInfo } from 'os';
 
 const UserForm = (props: IUserFormProps) => {  
   const[user, setUser] = useState({
