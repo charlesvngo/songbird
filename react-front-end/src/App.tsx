@@ -12,7 +12,7 @@ import AudioPlayer from "./components/AudioPlayer";
 import UserForm from "./components/UserForm";
 
 // interfaces
-import { IUser, ISocket } from "./interfaces/AppInterfaces";
+import { IUser, ISocket } from "./Interfaces";
 
 // generates random room id
 import { getRoomId } from "./util/roomGenerator";
