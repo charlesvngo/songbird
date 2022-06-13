@@ -2,20 +2,20 @@ import React from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GenreSelector = () => {
-  const [alignment, setAlignment] = React.useState<string | null>('left');
+  const [alignment, setAlignment] = React.useState<string | null>("left");
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    newAlignment: string | null
   ) => {
     setAlignment(newAlignment);
   };
 
   return (
     <ToggleButtonGroup
-    value={alignment}
-    exclusive
-    onChange={handleAlignment}
-    aria-label="text alignment"
+      value={alignment}
+      exclusive
+      onChange={handleAlignment}
+      aria-label="text alignment"
     >
       <ToggleButton value="pop" aria-label="Pop" color="primary">
         Pop
@@ -23,7 +23,7 @@ const GenreSelector = () => {
       <ToggleButton value="rock" aria-label="Rock" color="primary">
         Rock
       </ToggleButton>
-      <ToggleButton value="rb" aria-label="R&B" color="primary">
+      <ToggleButton value="r&b" aria-label="R&B" color="primary">
         R&B
       </ToggleButton>
       <ToggleButton value="k-pop" aria-label="K-Pop" color="primary">
@@ -33,7 +33,7 @@ const GenreSelector = () => {
         Surprise Me!
       </ToggleButton>
     </ToggleButtonGroup>
-  )
-}
+  );
+};
 
-export default GenreSelector
+export default GenreSelector;

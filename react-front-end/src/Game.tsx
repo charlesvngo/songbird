@@ -35,8 +35,7 @@ const Game = (props: IGameProps) => {
   return(
     <>
       <h2> THE GAME </h2>
-      <h3> Room ID: {props.user.roomId}</h3>
-      <GameBoard />
+      <GameBoard roomId={props.user.roomId}/>
       <form onSubmit = {(e) => sendGuess(e)}>
         <input 
           type='text'

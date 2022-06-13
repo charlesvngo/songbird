@@ -1,15 +1,15 @@
-import { Container } from "@mui/material"
-import React from "react"
-import { GameLobby } from "./GameLobby"
+import { Container, CssBaseline } from "@mui/material";
+import React from "react";
+import { IGameBoard } from "../../interfaces/GameBoardInterfaces";
+import { GameLobby } from "./GameLobby";
 
-
-
-const GameBoard = () => {
+const GameBoard = (props: IGameBoard) => {
   return (
-    <Container>
-      <GameLobby />
+    <Container maxWidth="xs">
+      <CssBaseline />
+      <GameLobby roomId={props.roomId}/>
     </Container>
-  )
-}
+  );
+};
 
-export default GameBoard
+export default GameBoard;
