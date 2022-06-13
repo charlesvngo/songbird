@@ -40,19 +40,25 @@ io.on("connection", (socket) => {
   const user = socket.handshake.query.username;
   const roomId = socket.handshake.query.roomId;
 
-  users.push(user);
   socket.join(roomId);
-
+  
+  users.push({username: socket.handshake.query.username, roomId: socket.handshake.query.roomId, score: 0});
+  
   console.log(`${user} has connected!`);
   console.log("All Users: ", users);
 
+  socket.on("player-joined", () => {
+    socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
+  });
+  
   socket.on("Guess", (guess) => {
     socket.to(roomId).emit("chat-messages", `${user}: ${guess}`);
   });
+  
 
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
-    users = users.filter((name) => name !== user);
+    users = users.filter((u) => u.username !== user);
 
     console.log(`${user} has diconnected!`);
     console.log("All Users: ", users);
