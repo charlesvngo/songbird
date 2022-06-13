@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 
 import bird from "../assets/bird_1.png";
+import bird2 from "../assets/bird_2.png";
+import bird3 from "../assets/bird_3.png";
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
 
@@ -32,20 +34,45 @@ const UserForm = (props: IUserFormProps) => {
     props.createSocket(user);
   };
 
+  const nextAvatar = () => {
+    console.log("next arrow clicked!");
+  };
+
+  const prevAvatar = () => {
+    console.log("prev arrow clicked!");
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 20,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Avatar src={prev} sx={{ width: 40, height: 40 }} />
-        <Avatar src={bird} sx={{ width: 100, height: 100 }} />
-        <Avatar src={next} sx={{ width: 40, height: 40 }} />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Avatar
+            src={prev}
+            onClick={prevAvatar}
+            sx={{ marginRight: 3, width: 30, height: 30 }}
+          />
+          <Avatar src={bird} sx={{ width: 100, height: 100 }} />
+          <Avatar
+            src={next}
+            onClick={nextAvatar}
+            sx={{ marginLeft: 3, width: 30, height: 30 }}
+          />
+        </Box>
         <Typography component="h1" variant="h5">
           Songbird
         </Typography>
