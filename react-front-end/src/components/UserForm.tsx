@@ -21,6 +21,7 @@ import bird7 from "../assets/bird_7.png";
 import bird8 from "../assets/bird_8.png";
 import bird9 from "../assets/bird_9.png";
 import bird10 from "../assets/bird_10.png";
+import bird12 from "../assets/bird_12.png";
 
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
@@ -56,6 +57,7 @@ const UserForm = (props: IUserFormProps) => {
     bird8,
     bird9,
     bird10,
+    bird12,
   ];
   const [birdIndex, setBirdIndex] = useState(0);
   const [history, setHistory] = useState([0]);
