@@ -7,7 +7,7 @@ const GameBoard = (props: IGameBoard) => {
   return (
     <Container maxWidth="xs">
       <CssBaseline />
-      <GameLobby roomId={props.roomId}/>
+      <GameLobby roomId={props.roomId} />
     </Container>
   );
 };
