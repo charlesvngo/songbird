@@ -35,7 +35,7 @@ server.listen(PORT, () => {
   console.log(`Express is listening on port ${PORT} 👍`);
 });
 
-// established socket connection
+// establishes socket connection
 io.on("connection", (socket) => {
   const user = socket.handshake.query.username;
   const roomId = socket.handshake.query.roomId;
