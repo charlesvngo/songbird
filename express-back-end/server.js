@@ -55,7 +55,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("Guess", (guess) => {
-    socket.to(roomId).emit("chat-messages", `${username}: ${guess}`);
+    socket.in(roomId).emit("chat-messages", `${username}: ${guess}`);
   });
   
 
