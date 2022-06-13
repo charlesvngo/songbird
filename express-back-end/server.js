@@ -2,8 +2,9 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 8080;
 require("dotenv").config();
+
+const PORT = process.env.PORT || 8080;
 
 // helper functions
 const { getToken, getPlaylist } = require("./helpers/spotify");
@@ -39,30 +40,38 @@ server.listen(PORT, () => {
 io.on("connection", (socket) => {
   const username = socket.handshake.query.username;
   const roomId = socket.handshake.query.roomId;
-  const avatar = socket.handshake.query.avatar
+  const avatar = socket.handshake.query.avatar;
 
   socket.join(roomId);
-  
-  users.push({id: socket.id, username, roomId, avatar, score: 0});
-  
+
+  users.push({ id: socket.id, username, roomId, avatar, score: 0 });
+
   console.log(`${username} has connected!`);
   console.log("All Users: ", users);
 
-  socket.emit("update-users", users.filter((u) => u.roomId === roomId))
+  socket.emit(
+    "update-users",
+    users.filter((u) => u.roomId === roomId)
+  );
 
   socket.on("player-joined", () => {
-    socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
+    socket.in(roomId).emit(
+      "update-users",
+      users.filter((u) => u.roomId === roomId)
+    );
   });
 
   socket.on("Guess", (guess) => {
     socket.in(roomId).emit("chat-messages", `${username}: ${guess}`);
   });
-  
 
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
     users = users.filter((u) => u.id !== socket.id);
-    socket.in(roomId).emit("update-users", users.filter((u) => u.roomId === roomId))
+    socket.in(roomId).emit(
+      "update-users",
+      users.filter((u) => u.roomId === roomId)
+    );
     console.log(`${username} has diconnected!`);
     console.log("All Users: ", users);
   });
