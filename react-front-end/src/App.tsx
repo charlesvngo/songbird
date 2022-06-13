@@ -42,15 +42,18 @@ const App = () => {
     });
   };
 
-  const createSocket = (username: string): void => {
+  const createSocket = (user: IUser): void => {
     setUser(prev => {
+
+     const newRoomId = user.roomId ? user.roomId : prev.roomId
       return { 
         ...prev,
-        username: username,
+        username: user.username,
+        roomId: newRoomId
       }
     });
     setSocket(socketIOClient(ENDPOINT, {
-      query: { username: username, roomId: user.roomId }
+      query: { username: user.username, roomId: user.roomId }
     }));
   };
 

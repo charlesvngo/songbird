@@ -3,17 +3,22 @@ import { IUserFormProps } from '../interfaces/UserFormInterfaces';
 
 import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button } from '@mui/material';
 import bird from '../assets/bird_1.png'
+import { userInfo } from 'os';
 
 const UserForm = (props: IUserFormProps) => {  
-  const[username, setUsername] = useState('');
+  const[user, setUser] = useState({
+    username: "",
+    roomId: "",
+    score: 0
+  });
 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    if (username === '') {
+    if (user.username === '') {
       return;
     }
-    props.createSocket(username);
+    props.createSocket(user);
   }
 
   return (
@@ -40,7 +45,7 @@ const UserForm = (props: IUserFormProps) => {
             label="Username"
             name="username"
             autoComplete="username"
-            onChange={e => setUsername(e.target.value)}
+            onChange={e => setUser({...user, username: e.target.value})}
             autoFocus
           />
           <TextField
@@ -51,6 +56,7 @@ const UserForm = (props: IUserFormProps) => {
             type="room-id"
             id="room-id"
             autoComplete="room-id"
+            onChange={e => setUser({...user, roomId: e.target.value})}
           />
           <Button
             type="submit"
