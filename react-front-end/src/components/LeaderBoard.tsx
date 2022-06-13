@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, Box, Divider } from '@mui/material';
-import LeaderboardCard from './LeacerboardCard';
+import LeaderboardCard from './LeaderboardCard';
 import { IUser } from "../interfaces/AppInterfaces"
 import { ILeaderboardProps } from '../interfaces/LeaderBoardInterfaces'
 

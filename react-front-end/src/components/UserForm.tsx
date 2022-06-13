@@ -26,25 +26,7 @@ import bird12 from "../assets/bird_12.png";
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
 
-import { userInfo } from "os";
-
 const UserForm = (props: IUserFormProps) => {
-  const [user, setUser] = useState({
-    username: "",
-    roomId: "",
-    score: 0,
-    avatar: "",
-  });
-
-  // submit new user form
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    if (user.username === "") {
-      return;
-    }
-    props.createSocket(user);
-  };
-
   // bird avatar state
   const birds = [
     bird1,
@@ -62,6 +44,14 @@ const UserForm = (props: IUserFormProps) => {
   const [birdIndex, setBirdIndex] = useState(0);
   const [history, setHistory] = useState([0]);
 
+  const [user, setUser] = useState({
+    username: "",
+    roomId: "",
+    score: 0,
+    avatar: birds[birdIndex],
+  });
+
+
   const nextAvatar = () => {
     console.log("next arrow clicked!");
 
@@ -72,6 +62,7 @@ const UserForm = (props: IUserFormProps) => {
     if (newBirdIndex < birds.length) {
       setHistory([...currentHistory, newBirdIndex]);
       setBirdIndex(newBirdIndex);
+      setUser({...user, avatar: birds[newBirdIndex]})
     }
   };
 
@@ -83,10 +74,21 @@ const UserForm = (props: IUserFormProps) => {
     if (history.length > 1) {
       currentHistory.pop();
       setHistory(currentHistory);
-      const prevBird = currentHistory[currentHistory.length - 1];
-      setBirdIndex(prevBird);
+      const prevBirdIndex = currentHistory[currentHistory.length - 1];
+      setBirdIndex(prevBirdIndex);
+      setUser({...user, avatar: birds[prevBirdIndex]})
     }
   };
+
+  // submit new user form
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    if (user.username === "") {
+      return;
+    }
+    props.createSocket(user);
+  };
+
 
   return (
     <Container component="main" maxWidth="xs">

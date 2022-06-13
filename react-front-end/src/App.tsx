@@ -53,11 +53,12 @@ const App = () => {
      return { 
        ...prev,
        username: createUser.username,
-       roomId: newRoomId
+       roomId: newRoomId,
+       avatar: createUser.avatar
       }
     });
     setSocket(socketIOClient(ENDPOINT, {
-      query: { username: createUser.username, roomId: newRoomId }
+      query: { username: createUser.username, roomId: newRoomId, avatar: createUser.avatar }
     }));
 
   };
