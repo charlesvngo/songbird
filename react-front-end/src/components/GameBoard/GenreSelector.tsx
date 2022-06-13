@@ -1,8 +1,11 @@
 import React from "react";
+
+// styling
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GenreSelector = () => {
   const [alignment, setAlignment] = React.useState<string | null>("pop");
+
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null

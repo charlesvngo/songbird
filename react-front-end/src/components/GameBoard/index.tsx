@@ -1,7 +1,13 @@
-import { Container, CssBaseline } from "@mui/material";
 import React from "react";
-import { IGameBoard } from "../../interfaces/GameBoardInterfaces";
+
+// styling
+import { Container, CssBaseline } from "@mui/material";
+
+// components
 import { GameLobby } from "./GameLobby";
+
+// interfaces
+import { IGameBoard } from "../../interfaces/GameBoardInterfaces";
 
 const GameBoard = (props: IGameBoard) => {
   return (

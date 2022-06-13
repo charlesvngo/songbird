@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+// styling
 import {
   Typography,
   Box,
@@ -9,7 +11,11 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+
+// components
 import GenreSelector from "./GenreSelector";
+
+// interfaces
 import { IGameLobby } from "../../interfaces/GameLobbyInterfaces";
 
 export const GameLobby = (props: IGameLobby) => {

@@ -1,30 +1,27 @@
-import React from 'react';
-import { ListItem, List, Box, Divider } from '@mui/material';
-import LeaderboardCard from './LeaderboardCard';
-import { IUser } from "../interfaces/AppInterfaces"
-import { ILeaderboardProps } from '../interfaces/LeaderBoardInterfaces'
+import React from "react";
+
+// styling
+import { ListItem, List, Box, Divider } from "@mui/material";
+
+// components
+import LeaderboardCard from "./LeaderboardCard";
+
+// interfaces
+import { IUser } from "../interfaces/AppInterfaces";
+import { ILeaderboardProps } from "../interfaces/LeaderBoardInterfaces";
 
 const Leaderboard = (props: ILeaderboardProps) => {
+  const users = props.users.map((user: IUser, i: number) => {
+    return <LeaderboardCard key={i} user={user} />;
+  });
 
-const users = props.users.map( (user: IUser, i: number) => {
   return (
-  <LeaderboardCard 
-    key = {i}
-    user = {user}
-    />
-  )
-})
-
-return(
-  <Box
-    sx={{width: 300 }}>
+    <Box sx={{ width: 300 }}>
       <ListItem>Room ID: {props.users[0].roomId}</ListItem>
-      <Divider/>
-    <List>
-      {users}
-    </List>
-  </Box>
-)
-}
+      <Divider />
+      <List>{users}</List>
+    </Box>
+  );
+};
 
-export default Leaderboard
+export default Leaderboard;

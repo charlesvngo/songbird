@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+
+// interfaces
 import { IUserFormProps } from "../interfaces/UserFormInterfaces";
 
+// styling
 import {
   Container,
   CssBaseline,
@@ -11,6 +14,7 @@ import {
   Button,
 } from "@mui/material";
 
+// assets
 import bird1 from "../assets/bird_1.png";
 import bird2 from "../assets/bird_2.png";
 import bird3 from "../assets/bird_3.png";
@@ -22,7 +26,6 @@ import bird8 from "../assets/bird_8.png";
 import bird9 from "../assets/bird_9.png";
 import bird10 from "../assets/bird_10.png";
 import bird12 from "../assets/bird_12.png";
-
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
 
@@ -51,7 +54,6 @@ const UserForm = (props: IUserFormProps) => {
     avatar: birds[birdIndex],
   });
 
-
   const nextAvatar = () => {
     console.log("next arrow clicked!");
 
@@ -62,7 +64,7 @@ const UserForm = (props: IUserFormProps) => {
     if (newBirdIndex < birds.length) {
       setHistory([...currentHistory, newBirdIndex]);
       setBirdIndex(newBirdIndex);
-      setUser({...user, avatar: birds[newBirdIndex]})
+      setUser({ ...user, avatar: birds[newBirdIndex] });
     }
   };
 
@@ -76,7 +78,7 @@ const UserForm = (props: IUserFormProps) => {
       setHistory(currentHistory);
       const prevBirdIndex = currentHistory[currentHistory.length - 1];
       setBirdIndex(prevBirdIndex);
-      setUser({...user, avatar: birds[prevBirdIndex]})
+      setUser({ ...user, avatar: birds[prevBirdIndex] });
     }
   };
 
@@ -88,7 +90,6 @@ const UserForm = (props: IUserFormProps) => {
     }
     props.createSocket(user);
   };
-
 
   return (
     <Container component="main" maxWidth="xs">
