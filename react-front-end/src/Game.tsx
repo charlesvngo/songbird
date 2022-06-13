@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Howl, Howler } from "howler";
-import { IUser, ISocket } from "./interfaces/AppInterfaces";
-import { IGameProps } from "./interfaces/GameInterfaces";
+
+// components
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import AudioPlayer from "./components/AudioPlayer";
 
+// interfaces
+import { IUser, ISocket } from "./interfaces/AppInterfaces";
+import { IGameProps } from "./interfaces/GameInterfaces";
+
+// modes
 const ROUND = "ROUND";
 const LOBBY = "LOBBY";
 const COUNTDOWN = "COUNTDOWN";
@@ -51,6 +56,7 @@ const Game = (props: IGameProps) => {
     console.log(`${props.user.username}: ${guess}`);
     socket.emit("Guess", guess);
   };
+
   const nextRound = () => {
     setMode(COUNTDOWN);
     socket.emit("next-round", "next-round");
@@ -58,6 +64,7 @@ const Game = (props: IGameProps) => {
       setMode(ROUND);
     }, 5000);
   };
+
   const startGame = () => {
     socket.emit("start-game", "start");
     nextRound();
