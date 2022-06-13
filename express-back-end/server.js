@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const axios = require("axios");
+// const axios = require("axios");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8080;
 require("dotenv").config();
@@ -30,10 +30,6 @@ getToken().then((res) => {
   console.log(token)
 });
 
-app.get("/api/data", (req, res) => {
-  // retrieves playlist data from spotify
-  getPlaylist(token).then((result) => res.json({ tracks: result.data.tracks }));
-});
 
 server.listen(PORT, () => {
   console.log(`Express is listening on port ${PORT} 👍`);

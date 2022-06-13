@@ -31,13 +31,6 @@ const App = () => {
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);
 
-  const fetchData = (): void => {
-    axios.get("/api/data").then((response) => {
-      // handle success
-      console.log(response.data);
-    });
-  };
-
   const createSocket = (createUser: IUser): void => {
 
     const newRoomId = createUser.roomId ? createUser.roomId : user.roomId
