@@ -64,13 +64,13 @@ const UserForm = (props: IUserFormProps) => {
           <Avatar
             src={prev}
             onClick={prevAvatar}
-            sx={{ marginRight: 3, width: 30, height: 30 }}
+            sx={{ width: 30, height: 30 }}
           />
-          <Avatar src={bird} sx={{ width: 100, height: 100 }} />
+          <Avatar src={bird} sx={{ padding: 2, width: 150, height: 150 }} />
           <Avatar
             src={next}
             onClick={nextAvatar}
-            sx={{ marginLeft: 3, width: 30, height: 30 }}
+            sx={{ width: 30, height: 30 }}
           />
         </Box>
         <Typography component="h1" variant="h5">
