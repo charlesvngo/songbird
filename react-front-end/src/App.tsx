@@ -1,21 +1,19 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 // styling
 import "./App.css";
-import { theme } from "./util/theme";
+import { theme } from "./helpers/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
 // components
 import Game from "./Game";
-import AudioPlayer from "./components/AudioPlayer";
 import UserForm from "./components/UserForm";
 
 // interfaces
 import { IUser, ISocket } from "./Interfaces";
 
 // generates random room id
-import { getRoomId } from "./util/roomGenerator";
+import { getRoomId } from "./helpers/roomGenerator";
 
 // socket io client
 // import socketIOClient from "socket.io-client";
