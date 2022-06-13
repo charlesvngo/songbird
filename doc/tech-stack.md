@@ -18,7 +18,6 @@
 ## Front-end
 
 - JSX
-- SASS
 - Material.ui
 
 ## Third-Party Integrations

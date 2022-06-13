@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
+
 import AudioPlayer from "./components/AudioPlayer";
 import UserForm from "./components/UserForm";
 import Game from "./Game";
+
 import { getRoomId } from "./util/roomGenerator";
 import { IUser, ISocket, ITheme } from "./interfaces/AppInterfaces";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 // socket io client
 // import socketIOClient from "socket.io-client";
@@ -14,26 +16,28 @@ const socketIOClient = require("socket.io-client");
 const ENDPOINT = "/";
 
 const App = () => {
-  // Grab the window URL and set the Room ID to that url. URL should be formatted as localhost:3000/?[:roomId]
+  // grab the window URL and set the Room ID to that url. URL should be formatted as localhost:3000/?[:roomId]
   const roomId: string = getRoomId();
-  // Create a colour palette for the App
+
+  // create a colour palette for the App
   const theme: ITheme = createTheme({
     palette: {
       primary: {
-        main: '#3EB489', // Mint Green
+        main: "#3EB489", // Mint Green
       },
       secondary: {
-        main: '#3EA4B4', // Pacific Blue
+        main: "#3EA4B4", // Pacific Blue
       },
     },
   });
   
   const [user, setUser] = useState<IUser>({
-    username: '',
+    username: "",
     roomId: roomId,
-    score: 0
+    score: 0,
+    avatar: "",
   });
-  const [socket, setSocket] = useState<ISocket | undefined>(undefined)
+  const [socket, setSocket] = useState<ISocket | undefined>(undefined);
 
   const fetchData = (): void => {
     axios.get("/api/data").then((response) => {
@@ -55,6 +59,7 @@ const App = () => {
     setSocket(socketIOClient(ENDPOINT, {
       query: { username: createUser.username, roomId: newRoomId }
     }));
+
   };
 
   return (

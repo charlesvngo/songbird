@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const bodyParser = require("body-parser");
-const PORT = 8080;
+const PORT = 8081;
 require("dotenv").config();
 
 // helper functions
@@ -14,7 +14,7 @@ const http = require("http");
 const server = http.createServer(app);
 const io = socketio(server);
 
-// global varibales
+// global variables
 let token = "";
 let users = [];
 
@@ -35,7 +35,7 @@ server.listen(PORT, () => {
   console.log(`Express is listening on port ${PORT} 👍`);
 });
 
-// established socket connection
+// establishes socket connection
 io.on("connection", (socket) => {
   const user = socket.handshake.query.username;
   const roomId = socket.handshake.query.roomId;
