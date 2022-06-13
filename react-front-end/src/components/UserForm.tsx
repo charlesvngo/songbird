@@ -11,9 +11,14 @@ import {
   Button,
 } from "@mui/material";
 
-import bird from "../assets/bird_1.png";
+import bird1 from "../assets/bird_1.png";
 import bird2 from "../assets/bird_2.png";
 import bird3 from "../assets/bird_3.png";
+import bird4 from "../assets/bird_4.png";
+import bird5 from "../assets/bird_5.png";
+import bird6 from "../assets/bird_6.png";
+import bird7 from "../assets/bird_7.png";
+
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
 
@@ -24,7 +29,10 @@ const UserForm = (props: IUserFormProps) => {
     username: "",
     roomId: "",
     score: 0,
+    avatar: "",
   });
+
+  const [birdAvatar, setBirdAvatar] = useState(bird1);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -36,10 +44,12 @@ const UserForm = (props: IUserFormProps) => {
 
   const nextAvatar = () => {
     console.log("next arrow clicked!");
+    setBirdAvatar(bird2);
   };
 
   const prevAvatar = () => {
     console.log("prev arrow clicked!");
+    setBirdAvatar(bird1);
   };
 
   return (
@@ -47,7 +57,7 @@ const UserForm = (props: IUserFormProps) => {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 20,
+          marginTop: 15,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -66,7 +76,10 @@ const UserForm = (props: IUserFormProps) => {
             onClick={prevAvatar}
             sx={{ width: 30, height: 30 }}
           />
-          <Avatar src={bird} sx={{ padding: 2, width: 150, height: 150 }} />
+          <Avatar
+            src={birdAvatar}
+            sx={{ padding: 2, width: 150, height: 150 }}
+          />
           <Avatar
             src={next}
             onClick={nextAvatar}
