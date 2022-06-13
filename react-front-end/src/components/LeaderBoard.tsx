@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Box, Divider } from '@mui/material';
+import { ListItem, List, Box, Divider } from '@mui/material';
 import LeaderboardCard from './LeaderboardCard';
 import { IUser } from "../interfaces/AppInterfaces"
 import { ILeaderboardProps } from '../interfaces/LeaderBoardInterfaces'
@@ -18,6 +18,7 @@ const users = props.users.map( (user: IUser, i: number) => {
 return(
   <Box
     sx={{width: 300 }}>
+      <ListItem>Room ID: {props.users[0].roomId}</ListItem>
       <Divider/>
     <List>
       {users}
