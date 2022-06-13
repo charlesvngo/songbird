@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Howl, Howler } from 'howler'
-
+import React, { useState, useEffect } from "react";
+import { Howl, Howler } from "howler";
 
 // components
 import Leaderboard from "./components/LeaderBoard";
@@ -8,7 +7,7 @@ import GameBoard from "./components/GameBoard";
 import AudioPlayer from "./components/AudioPlayer";
 
 // interfaces
-import { IUser, ISocket, IGameProps } from './Interfaces';
+import { IUser, ISocket, IGameProps } from "./Interfaces";
 
 // modes
 const ROUND = "ROUND";
@@ -16,14 +15,14 @@ const LOBBY = "LOBBY";
 const COUNTDOWN = "COUNTDOWN";
 
 const Game = (props: IGameProps) => {
-  const socket: ISocket = props.socket
-  const user = props.user
+  const socket: ISocket = props.socket;
+  const user = props.user;
   const [guess, setGuess] = useState<string>("");
-  const [users, setUsers] = useState<[IUser]>([user])
-  const [track, setTrack] = useState<any>({}) 
-  const [mode, setMode] = useState<string>(LOBBY)
-  const [genre, setGenre] = useState<string>("")
-  
+  const [users, setUsers] = useState<[IUser]>([user]);
+  const [track, setTrack] = useState<any>({});
+  const [mode, setMode] = useState<string>(LOBBY);
+  const [genre, setGenre] = useState<string>("");
+
   useEffect(() => {
     socket.emit("player-joined", "hi");
     // return socket.disconnect()
@@ -70,34 +69,20 @@ const Game = (props: IGameProps) => {
     nextRound();
   };
 
-<<<<<<< HEAD
   const selectGenre = (newGenre: string) => {
     setGenre(newGenre);
-=======
-  const selectGenre = (newGenre: string): void => {
-    setGenre(newGenre)
->>>>>>> 0a6f62d709c887773dd492e2546bcfcd18c3b073
     socket.emit("genre-selected", newGenre);
   };
 
   return (
     <>
       <h2> THE GAME </h2>
-<<<<<<< HEAD
-      <GameBoard roomId={props.user.roomId} />
+      <GameBoard roomId={props.user.roomId} selectGenre={selectGenre} />
       <form onSubmit={(e) => sendGuess(e)}>
         <input
           type="text"
           id="guess"
           placeholder="Enter guess"
-=======
-      <GameBoard roomId={props.user.roomId} selectGenre={selectGenre}/>
-      <form onSubmit = {(e) => sendGuess(e)}>
-        <input 
-          type='text'
-          id='guess' 
-          placeholder='Enter guess'
->>>>>>> 0a6f62d709c887773dd492e2546bcfcd18c3b073
           value={guess}
           onChange={(e) => setGuess(e.target.value)}
         />
