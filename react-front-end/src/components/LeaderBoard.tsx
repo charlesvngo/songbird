@@ -1,8 +1,7 @@
 import React from 'react';
 import { ListItem, List, Box, Divider } from '@mui/material';
 import LeaderboardCard from './LeaderboardCard';
-import { IUser } from "../interfaces/AppInterfaces"
-import { ILeaderboardProps } from '../interfaces/LeaderBoardInterfaces'
+import { IUser, ILeaderboardProps } from '../Interfaces';
 
 const Leaderboard = (props: ILeaderboardProps) => {
 

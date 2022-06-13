@@ -1,6 +1,6 @@
 import React from 'react';
 import {ListItem, Divider, ListItemAvatar , ListItemText, Avatar   } from '@mui/material';
-import { ILeaderboardCardProps } from '../interfaces/LeaderBoardInterfaces'
+import { ILeaderboardCardProps } from '../Interfaces';
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
 

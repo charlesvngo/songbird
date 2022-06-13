@@ -1,4 +1,4 @@
-import { ITheme } from "../interfaces/AppInterfaces";
+import { ITheme } from "../Interfaces";
 import { createTheme } from "@mui/material";
 
 export const theme: ITheme = createTheme({

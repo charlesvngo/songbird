@@ -10,7 +10,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import GenreSelector from "./GenreSelector";
-import { IGameLobby } from "../../interfaces/GameLobbyInterfaces";
+import { IGameLobby } from "../../Interfaces";
 
 export const GameLobby = (props: IGameLobby) => {
   const [rounds, setRounds] = useState<number>(5);
@@ -46,7 +46,7 @@ export const GameLobby = (props: IGameLobby) => {
         alignItems: "center",
       }}
     >
-      <GenreSelector />
+      <GenreSelector selectGenre={props.selectGenre}/>
       <Typography component="h3" variant="h5" m={2}>
         Rounds
       </Typography>

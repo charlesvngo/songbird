@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IUserFormProps } from "../interfaces/UserFormInterfaces";
+import { IUserFormProps } from "../Interfaces";
 
 import {
   Container,

@@ -8,7 +8,7 @@ import Game from "./Game";
 import { theme } from "./util/theme";
 
 import { getRoomId } from "./util/roomGenerator";
-import { IUser, ISocket,  } from "./interfaces/AppInterfaces";
+import { IUser, ISocket,  } from './Interfaces';
 import { ThemeProvider } from "@mui/material/styles";
 
 // socket io client

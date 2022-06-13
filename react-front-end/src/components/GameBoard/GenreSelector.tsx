@@ -1,18 +1,20 @@
 import React from "react";
+import { IGenreSelector } from "../../Interfaces";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-const GenreSelector = () => {
-  const [alignment, setAlignment] = React.useState<string | null>("pop");
+const GenreSelector = (props: IGenreSelector) => {
+  const [alignmenttGenre, setAlignmentGenre] = React.useState<string>("pop");
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null
+    newAlignment: string
   ) => {
-    setAlignment(newAlignment);
+    setAlignmentGenre(newAlignment);
+    props.selectGenre(newAlignment);
   };
 
   return (
     <ToggleButtonGroup
-      value={alignment}
+      value={alignmenttGenre}
       exclusive
       onChange={handleAlignment}
       aria-label="text alignment"

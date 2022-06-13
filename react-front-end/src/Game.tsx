@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Howl, Howler } from 'howler'
-import { IUser, ISocket } from './interfaces/AppInterfaces';
-import { IGameProps } from './interfaces/GameInterfaces';
+import { IUser, ISocket, IGameProps } from './Interfaces';
 import Leaderboard from './components/LeaderBoard';
 import GameBoard from './components/GameBoard';
 import  AudioPlayer from './components/AudioPlayer'
@@ -12,8 +11,8 @@ const COUNTDOWN = 'COUNTDOWN'
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket
+  const user = props.user
   const [guess, setGuess] = useState<string>("");
-  const [user, setUser] = useState<IUser>(props.user)
   const [users, setUsers] = useState<[IUser]>([user])
   const [track, setTrack] = useState<any>({}) 
   const [mode, setMode] = useState<string>(LOBBY)
@@ -64,7 +63,7 @@ const Game = (props: IGameProps) => {
     nextRound()
   }
 
-  const selectGenre = (newGenre: string) => {
+  const selectGenre = (newGenre: string): void => {
     setGenre(newGenre)
     socket.emit("genre-selected", newGenre);
   }
@@ -72,7 +71,7 @@ const Game = (props: IGameProps) => {
   return(
     <>
       <h2> THE GAME </h2>
-      <GameBoard roomId={props.user.roomId}/>
+      <GameBoard roomId={props.user.roomId} selectGenre={selectGenre}/>
       <form onSubmit = {(e) => sendGuess(e)}>
         <input 
           type='text'
