@@ -87,7 +87,7 @@ export const GameLobby = (props: IGameLobby) => {
           <AlertTitle>Link Copied</AlertTitle>
         </Alert>
       )}
-      <Button variant="contained" size="large">
+      <Button variant="contained" size="large" onClick={props.startGame}>
         Start Game
       </Button>
     </Box>

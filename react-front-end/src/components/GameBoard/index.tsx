@@ -11,7 +11,10 @@ const GameBoard = (props: IGameBoard) => {
   return (
     <Container maxWidth="xs">
       <CssBaseline />
-      <GameLobby roomId={props.roomId} selectGenre={props.selectGenre} />
+      <GameLobby 
+      roomId={props.roomId} 
+      selectGenre={props.selectGenre}
+      startGame = {props.startGame} />
     </Container>
   );
 };

@@ -77,7 +77,11 @@ const Game = (props: IGameProps) => {
   return (
     <>
       <h2> THE GAME </h2>
-      <GameBoard roomId={props.user.roomId} selectGenre={selectGenre} />
+      <GameBoard 
+      roomId={props.user.roomId} 
+      selectGenre={selectGenre} 
+      startGame ={startGame} 
+      />
       <form onSubmit={(e) => sendGuess(e)}>
         <input
           type="text"
@@ -88,8 +92,6 @@ const Game = (props: IGameProps) => {
         />
         <button type="submit">Submit</button>
       </form>
-      <button onClick={startGame}>Start</button>
-      <button onClick={() => selectGenre("pop")}>POP</button>
       <Leaderboard users={users} />
       {mode === ROUND && <AudioPlayer src={track.preview_url} />}
     </>

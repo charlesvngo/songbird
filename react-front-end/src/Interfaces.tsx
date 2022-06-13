@@ -29,6 +29,7 @@ export interface IAudioProps {
 export interface IGameBoard {
   roomId: string;
   selectGenre: (newGenre: string) => void;
+  startGame: () => void;
 }
 
 export interface IGameProps {
@@ -36,9 +37,8 @@ export interface IGameProps {
   socket: any
 }
 
-export interface IGameLobby {
-  roomId: string;
-  selectGenre: (newGenre: string) => void;
+export interface IGameLobby extends IGameBoard{
+
 }
 
 export interface ILeaderboardProps {
