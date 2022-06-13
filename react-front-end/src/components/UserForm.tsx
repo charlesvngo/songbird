@@ -18,6 +18,9 @@ import bird4 from "../assets/bird_4.png";
 import bird5 from "../assets/bird_5.png";
 import bird6 from "../assets/bird_6.png";
 import bird7 from "../assets/bird_7.png";
+import bird8 from "../assets/bird_8.png";
+import bird9 from "../assets/bird_9.png";
+import bird10 from "../assets/bird_10.png";
 
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
@@ -32,8 +35,7 @@ const UserForm = (props: IUserFormProps) => {
     avatar: "",
   });
 
-  const [birdAvatar, setBirdAvatar] = useState(bird1);
-
+  // submit new user form
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (user.username === "") {
@@ -42,14 +44,46 @@ const UserForm = (props: IUserFormProps) => {
     props.createSocket(user);
   };
 
+  // bird avatar state
+  const birds = [
+    bird1,
+    bird2,
+    bird3,
+    bird4,
+    bird5,
+    bird6,
+    bird7,
+    bird8,
+    bird9,
+    bird10,
+  ];
+  const [birdIndex, setBirdIndex] = useState(0);
+  const [history, setHistory] = useState([0]);
+
   const nextAvatar = () => {
     console.log("next arrow clicked!");
-    setBirdAvatar(bird2);
+
+    const currentHistory = [...history];
+    let newBirdIndex = birdIndex;
+    newBirdIndex++;
+
+    if (newBirdIndex < birds.length) {
+      setHistory([...currentHistory, newBirdIndex]);
+      setBirdIndex(newBirdIndex);
+    }
   };
 
   const prevAvatar = () => {
     console.log("prev arrow clicked!");
-    setBirdAvatar(bird1);
+
+    const currentHistory = [...history];
+
+    if (history.length > 1) {
+      currentHistory.pop();
+      setHistory(currentHistory);
+      const prevBird = currentHistory[currentHistory.length - 1];
+      setBirdIndex(prevBird);
+    }
   };
 
   return (
@@ -77,7 +111,7 @@ const UserForm = (props: IUserFormProps) => {
             sx={{ width: 30, height: 30 }}
           />
           <Avatar
-            src={birdAvatar}
+            src={birds[birdIndex]}
             sx={{ padding: 2, width: 150, height: 150 }}
           />
           <Avatar
