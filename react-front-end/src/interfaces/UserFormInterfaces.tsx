@@ -1,3 +1,5 @@
+import { IUser } from "./AppInterfaces";
+
 export interface IUserFormProps {
-  createSocket: (username: string) => void;
+  createSocket: (username: IUser) => void;
 }
