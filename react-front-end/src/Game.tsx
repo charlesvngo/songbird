@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IUser, ISocket } from './interfaces/AppInterfaces';
 import { IGameProps } from './interfaces/GameInterfaces';
 import Leaderboard from './components/LeaderBoard';
+import GameBoard from './components/GameBoard';
 
 
 const Game = (props: IGameProps) => {
@@ -35,6 +36,7 @@ const Game = (props: IGameProps) => {
     <>
       <h2> THE GAME </h2>
       <h3> Room ID: {props.user.roomId}</h3>
+      <GameBoard />
       <form onSubmit = {(e) => sendGuess(e)}>
         <input 
           type='text'
