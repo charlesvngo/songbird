@@ -2,6 +2,7 @@ export interface IUser {
   username: string;
   roomId: string;
   score: number;
+  avatar: string;
 }
 
 export interface ISocket {
@@ -13,9 +14,9 @@ export interface ITheme {
   palette: {
     primary: {
       main: string;
-    },
+    };
     secondary: {
       main: string;
-    },
+    };
   };
 }
