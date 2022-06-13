@@ -46,20 +46,20 @@ const App = () => {
     });
   };
 
-  const createSocket = (user: IUser): void => {
-    setUser((prev) => {
-      const newRoomId = user.roomId ? user.roomId : prev.roomId;
-      return {
-        ...prev,
-        username: user.username,
-        roomId: newRoomId,
-      };
+  const createSocket = (createUser: IUser): void => {
+
+    const newRoomId = createUser.roomId ? createUser.roomId : user.roomId
+    setUser(prev => {
+     return { 
+       ...prev,
+       username: createUser.username,
+       roomId: newRoomId
+      }
     });
-    setSocket(
-      socketIOClient(ENDPOINT, {
-        query: { username: user.username, roomId: user.roomId },
-      })
-    );
+    setSocket(socketIOClient(ENDPOINT, {
+      query: { username: createUser.username, roomId: newRoomId }
+    }));
+
   };
 
   return (
