@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { ISocket } from './interfaces/AppInterfaces';
+import { IGameProps } from './interfaces/GameInterfaces';
 
-const Game = (props) => {
-  const socket  = props.socket
-  const [guess, setGuess] = useState('');
 
-  const sendGuess = (e) => {
+const Game = (props: IGameProps) => {
+  const socket: ISocket = props.socket
+  const [guess, setGuess] = useState<string>("");
+
+  const sendGuess = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`${props.username}: ${guess}`)
+    console.log(`${props.user.username}: ${guess}`)
     socket.emit('Guess', guess);
   }
 
   useEffect(() => {
-    socket.on('chat-messages', (message) => {
+    socket.on('chat-messages', (message: string) => {
       console.log(message);
     })
   }, []);
@@ -19,6 +22,7 @@ const Game = (props) => {
   return(
     <>
       <h2> THE GAME </h2>
+      <h3> Room ID: {props.user.roomId}</h3>
       <form onSubmit = {(e) => sendGuess(e)}>
         <input 
           type='text'
