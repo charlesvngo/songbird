@@ -89,15 +89,12 @@ const Game = (props: IGameProps) => {
   };
 
   return (
-<<<<<<< HEAD
-    <Grid container direction="row" justifyContent="center" alignItems="center">
-=======
     <Grid
       container
       direction="row"
       justifyContent="center"
-      alignItems="stretch">
->>>>>>> 7c3b2bcca063ca35ddadeea91f06e65d48714e05
+      alignItems="stretch"
+    >
       <Grid item xs={3}>
         <Leaderboard users={users} />
       </Grid>

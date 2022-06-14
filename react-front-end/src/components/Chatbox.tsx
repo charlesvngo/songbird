@@ -1,29 +1,32 @@
 import React from "react";
-import { IChatboxProps } from "../Interfaces"
-import { Box, List, ListItem, TextField, Avatar, ListItemAvatar, ListItemText } from "@mui/material";
-
-
-const Chatbox = (props: IChatboxProps) => {  
+import { IChatboxProps } from "../Interfaces";
+import {
+  Box,
+  List,
+  ListItem,
+  TextField,
+  Avatar,
+  ListItemAvatar,
+  ListItemText,
+} from "@mui/material";
 
 const Chatbox = (props: IChatboxProps) => {
   const chat = props.messages.map((m, i) => {
-   return (<ListItem key ={i}>
-      <ListItemAvatar>
-      {m.avatar && <Avatar
-          src={m.avatar}
-          sx={{ padding: 1, width: 40, height: 40 }}
-        />}
-      </ListItemAvatar>
-      {m.username ? 
-      <ListItemText primary = {m.username} secondary = {m.message}/> :
-      <ListItemText primary = {m.message} />}
-    </ListItem> 
-    )})
-    
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    props.sendMessage(e)
-    props.setMessage("")
-  }
+    return (
+      <ListItem key={i}>
+        <ListItemAvatar>
+          {m.avatar && (
+            <Avatar src={m.avatar} sx={{ padding: 1, width: 45, height: 45 }} />
+          )}
+        </ListItemAvatar>
+        {m.username ? (
+          <ListItemText primary={m.username} secondary={m.message} />
+        ) : (
+          <ListItemText primary={m.message} />
+        )}
+      </ListItem>
+    );
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     props.sendMessage(e);
