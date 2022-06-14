@@ -50,7 +50,6 @@ export const GameLobby = (props: IGameLobby) => {
         flexDirection: "column",
         alignItems: "center",
         border: 3, 
-        padding: 1,
         height: '98vh'
       }}
     >
@@ -73,7 +72,6 @@ export const GameLobby = (props: IGameLobby) => {
       <Typography>Share the room code to invite people to join</Typography>
       <Box
         sx={{
-          padding: 1,
           display: "flex",
           alignItems: "center",
           margin: 2,
