@@ -6,7 +6,8 @@ import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import AudioPlayer from "./components/AudioPlayer";
 import Chatbox from "./components/Chatbox";
-import { Grid } from "@mui/material";
+import { Box } from "@mui/material";
+import { grid } from "@mui/system";
 
 // interfaces
 import { IUser, ISocket, IGameProps, Imessage } from "./Interfaces";
@@ -89,32 +90,33 @@ const Game = (props: IGameProps) => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="stretch"
+    <Box
+      sx={{
+        display: "grid",
+        gap: 0,
+        gridTemplateColumns: "repeat(4, 1fr)",
+      }}
     >
-      <Grid item xs={3}>
+      <Box>
         <Leaderboard users={users} />
-      </Grid>
-      <Grid item xs={6}>
+      </Box>
+      <Box sx={{ gridColumn: "span 2" }}>
         <GameBoard
           roomId={props.user.roomId}
           selectGenre={selectGenre}
           startGame={startGame}
         />
-      </Grid>
-      <Grid item xs={3}>
+      </Box>
+      <Box>
         <Chatbox
           message={message}
           sendMessage={sendMessage}
           setMessage={setMessage}
           messages={messages}
         />
-      </Grid>
+      </Box>
       {mode === ROUND && <AudioPlayer src={track.preview_url} />}
-    </Grid>
+    </Box>
   );
 };
 

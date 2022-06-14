@@ -45,7 +45,8 @@ export const GameLobby = (props: IGameLobby) => {
   return (
     <Box
       sx={{
-        margin: 1,
+        marginTop: 1,
+        marginBottom: 1,
         padding: 2,
         display: "flex",
         flexDirection: "column",

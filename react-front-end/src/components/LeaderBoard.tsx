@@ -19,12 +19,14 @@ const Leaderboard = (props: ILeaderboardProps) => {
       sx={{
         border: 3,
         borderRadius: 2,
-        padding: 2,
         margin: 1,
+        padding: 2,
         height: "98vh",
       }}
     >
-      <ListItem>Room ID: {props.users[0].roomId}</ListItem>
+      <ListItem sx={{ fontWeight: 600 }}>
+        Room ID: {props.users[0].roomId}
+      </ListItem>
       <Divider />
       <List>{users}</List>
     </Box>

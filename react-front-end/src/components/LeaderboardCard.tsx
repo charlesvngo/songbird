@@ -19,11 +19,14 @@ const LeaderboardCard = (props: ILeaderboardCardProps) => {
         <ListItemAvatar>
           <Avatar
             src={props.user.avatar}
-            sx={{ padding: 1, width: 70, height: 70 }}
+            sx={{ padding: 1, width: 80, height: 80 }}
           />
         </ListItemAvatar>
-        <ListItemText primary={props.user.username} />
-        <ListItemText primary={`Score: ${props.user.score}`} />
+        <ListItemText
+          sx={{ padding: 1 }}
+          primary={props.user.username}
+          secondary={`Score: ${props.user.score}`}
+        />
       </ListItem>
       <Divider />
     </div>
