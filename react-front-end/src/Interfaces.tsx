@@ -6,7 +6,7 @@ export interface IUser {
 }
 
 export interface ISocket {
-  emit: (eventName: string, sentData: string) => void;
+  emit: (eventName: string, sentData: string | number, sentData2?: number) => void;
   on: (eventName: string, callback: (data: any) => void) => void;
   disconnect: () => void;
 }
@@ -28,7 +28,7 @@ export interface IAudioProps {
 export interface IGameLobby {
   roomId: string;
   selectGenre: (newGenre: string) => void;
-  startGame: () => void;
+  startGame: (rounds: number) => void;
 }
 
 export interface IGameBoard extends IGameLobby {
@@ -36,9 +36,14 @@ export interface IGameBoard extends IGameLobby {
   mode: string;
 }
 
+export interface IPlayGameProps {
+  track: any;
+}
+
 export interface IGameProps {
   user: IUser;
   socket: any;
+  setUser: (user: IUser) => void;
 }
 
 export interface ILeaderboardProps {

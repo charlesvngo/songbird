@@ -60,14 +60,26 @@ const Game = (props: IGameProps) => {
     });
   }, [socket]);
 
+
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
+    if (mode === ROUND) {
+      if(message === track.name){
+        const audio: any = document.getElementById("songTrack")
+        console.log(`duration: ${audio.duration}, Current time: ${audio.currentTime}`)
+        const score: number = Math.round(((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))*100)/100
+   
+        props.setUser({...user, score});  
+        socket.emit("correct-answer", score);
+        return 
+      }
+    }
     socket.emit("send-chat-message", message);
   };
 
-  const startGame = () => {
-    socket.emit("start-game", genre);
+  const startGame = (rounds: number) => {
+    socket.emit("start-game", genre, rounds);
   };
 
   const selectGenre = (newGenre: string) => {

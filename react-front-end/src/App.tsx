@@ -59,7 +59,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <div className="App">
         {user.username ? (
-          <Game user={user} socket={socket} />
+          <Game user={user} socket={socket} setUser={setUser}/>
         ) : (
           <UserForm createSocket={createSocket} />
         )}

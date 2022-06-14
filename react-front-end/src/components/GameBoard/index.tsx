@@ -21,7 +21,7 @@ const GameBoard = (props: IGameBoard) => {
         />
       )}
       {props.mode === "COUNTDOWN" && <Countdown />}
-      {props.mode === "ROUND" && <PlayGame />}
+      {props.mode === "ROUND" && <PlayGame track = {props.track}/>}
     </Container>
   );
 };
