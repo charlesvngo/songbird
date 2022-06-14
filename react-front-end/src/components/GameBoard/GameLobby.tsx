@@ -45,12 +45,15 @@ export const GameLobby = (props: IGameLobby) => {
   return (
     <Box
       sx={{
-        margin: 1,
+        marginTop: 1,
+        marginBottom: 1,
+        padding: 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: 3, 
-        height: '98vh'
+        border: 3,
+        borderRadius: 2,
+        height: "98vh",
       }}
     >
       <GenreSelector selectGenre={props.selectGenre} />
@@ -78,7 +81,12 @@ export const GameLobby = (props: IGameLobby) => {
         }}
       >
         <TextField id="room-id" label={props.roomId} size="small" disabled />
-        <Button sx={{ marginLeft: 1 }} variant="contained" size="large" onClick={handleCopyClick}>
+        <Button
+          sx={{ marginLeft: 1 }}
+          variant="contained"
+          size="large"
+          onClick={handleCopyClick}
+        >
           Copy
         </Button>
       </Box>

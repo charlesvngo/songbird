@@ -40,7 +40,9 @@ const Chatbox = (props: IChatboxProps) => {
       sx={{
         display: "flex",
         border: 3,
+        borderRadius: 2,
         margin: 1,
+        padding: 2,
         height: "98vh",
         flexDirection: "column-reverse",
         overflow: "hidden",
