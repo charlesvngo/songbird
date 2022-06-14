@@ -13,6 +13,10 @@
 - **Step 5:** User can invite other to join via room code.
 - **Step 6:** Host is able to select music genre and specify # of rounds.
 - **Step 7:** Host can select a ‘start game’ button when ready.
+  -Host runs start game function.
+  -Start game sends get request to server to get the playlist for selected genre
+  -Once playlist is obtained, server emits the notification for everybody to switch to countdown and runs a setTimeout on serverside.
+  -After setTimeout is completed, server then emits the start of the round and calls another setTimeout for 30s.
 
 ## Game Board (Per Round)
 

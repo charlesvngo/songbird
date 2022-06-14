@@ -1,5 +1,7 @@
 import React from "react";
 import { GameLobby } from "./GameLobby";
+import { Countdown } from "./Countdown";
+import { PlayGame } from "./PlayGame";
 
 // styling
 import { Container, CssBaseline } from "@mui/material";
@@ -11,10 +13,15 @@ const GameBoard = (props: IGameBoard) => {
   return (
     <Container>
       <CssBaseline />
-      <GameLobby 
-      roomId={props.roomId} 
-      selectGenre={props.selectGenre}
-      startGame = {props.startGame} />
+      {props.mode === "LOBBY" && (
+        <GameLobby
+          roomId={props.roomId}
+          selectGenre={props.selectGenre}
+          startGame={props.startGame}
+        />
+      )}
+      {props.mode === "COUNTDOWN" && <Countdown />}
+      {props.mode === "ROUND" && <PlayGame />}
     </Container>
   );
 };

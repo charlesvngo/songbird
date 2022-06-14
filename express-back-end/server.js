@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 // helper functions
 const { getToken, getPlaylist } = require("./helpers/spotify");
+const getTrack = require("./helpers/game");
 
 // socket IO
 const socketio = require("socket.io");
@@ -38,7 +39,7 @@ server.listen(PORT, () => {
 // establishes socket connection
 io.on("connection", (socket) => {
   const { username, roomId, avatar } = socket.handshake.query;
-
+  console.log("User has connected:", username);
   socket.join(roomId);
 
   users.push({ id: socket.id, username, roomId, avatar, score: 0 });
@@ -59,40 +60,49 @@ io.on("connection", (socket) => {
     );
   });
 
-  socket.on("Guess", (guess) => {
+  socket.on("send-chat-message", (guess) => {
     // io.in(roomId).emit("chat-messages", `${username}: ${guess}`);
-    io.in(roomId).emit("chat-messages", {username, message: guess, avatar});
-  });
-
-  socket.on("start-game", () => {
-    console.log("game started");
-    io.to(roomId).emit("game-started", `Game has started`);
+    io.in(roomId).emit("receive-chat-messages", {
+      username,
+      message: guess,
+      avatar,
+    });
   });
 
   // what dis doing?
-  socket.on("genre-selected", (genre) => {
+  socket.on("start-game", (genre) => {
+    // Obtain the playlist based on the selected genre passed in from host.
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks;
       const titles = tracks.map((track) => track.name);
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       const updateTracks = { ...rooms[index], tracks, titles };
       rooms[index] = updateTracks;
-      
+      const nextTrack = getTrack(rooms, roomId);
+      io.to(roomId).emit("next-track", nextTrack);
+      // Tell all players that the game has started
+      io.to(roomId).emit("game-started", `Game has started`);
+      setTimeout(() => {
+        // After the 5 second countdown, Tell clients to play track and start guessing.
+        io.to(roomId).emit("round-start", "Round is starting!");
+      }, 5000);
     });
   });
 
-  socket.on("next-round", () => {
-    console.log("next-round");
+  // socket.on("next-round", () => {
+  //   console.log("next-round");
 
-    const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
-    const rnmTrackNum = Math.floor(Math.random() * rooms[currentRoom].tracks.length);
-    const newTrack = rooms[currentRoom].tracks[rnmTrackNum];
+  //   const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
+  //   const rnmTrackNum = Math.floor(
+  //     Math.random() * rooms[currentRoom].tracks.length
+  //   );
+  //   const newTrack = rooms[currentRoom].tracks[rnmTrackNum];
 
-    rooms[currentRoom] = { ...rooms[currentRoom], currentTrack: newTrack };
-    rooms[currentRoom].tracks.splice(rnmTrackNum, 1);
+  //   rooms[currentRoom] = { ...rooms[currentRoom], currentTrack: newTrack };
+  //   rooms[currentRoom].tracks.splice(rnmTrackNum, 1);
 
-    io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
-  });
+  //   io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
+  // });
 
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {

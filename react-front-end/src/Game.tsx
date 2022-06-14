@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Howl, Howler } from "howler";
 
 // components
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
-import AudioPlayer from "./components/AudioPlayer";
 import Chatbox from "./components/Chatbox";
 import { Box } from "@mui/material";
-import { grid } from "@mui/system";
 
 // interfaces
-import { IUser, ISocket, IGameProps, Imessage } from "./Interfaces";
-import { Preview } from "@mui/icons-material";
-import { AnyAaaaRecord } from "dns";
+import { IUser, ISocket, IGameProps } from "./Interfaces";
 
 // modes
 const ROUND: string = "ROUND";
@@ -33,7 +28,7 @@ const Game = (props: IGameProps) => {
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
-  const [genre, setGenre] = useState<string>("");
+  const [genre, setGenre] = useState<string>("pop");
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -41,7 +36,7 @@ const Game = (props: IGameProps) => {
   }, []);
 
   useEffect(() => {
-    socket.on("chat-messages", (data: any) => {
+    socket.on("receive-chat-messages", (data: any) => {
       // console.log(data);
       setMessages((prev) => [...prev, data]);
     });
@@ -52,14 +47,14 @@ const Game = (props: IGameProps) => {
     });
 
     socket.on("game-started", (data: string) => {
-      console.log(data);
       setMode(COUNTDOWN);
-      setTimeout(() => {
-        setMode(ROUND);
-      }, 5000);
     });
 
-    socket.on("new-track", (data: [any]) => {
+    socket.on("round-start", (data: string) => {
+      setMode(ROUND);
+    });
+
+    socket.on("next-track", (data: any) => {
       console.log(data);
       setTrack(data);
     });
@@ -68,21 +63,11 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
-    socket.emit("Guess", message);
-  };
-
-  const nextRound = () => {
-    setMode(COUNTDOWN);
-    socket.emit("next-round", "next-round");
-    setTimeout(() => {
-      setMode(ROUND);
-    }, 5000);
+    socket.emit("send-chat-message", message);
   };
 
   const startGame = () => {
-    socket.emit("genre-selected", genre);
-    socket.emit("start-game", "start");
-    nextRound();
+    socket.emit("start-game", genre);
   };
 
   const selectGenre = (newGenre: string) => {
@@ -105,6 +90,8 @@ const Game = (props: IGameProps) => {
           roomId={props.user.roomId}
           selectGenre={selectGenre}
           startGame={startGame}
+          mode={mode}
+          track={track}
         />
       </Box>
       <Box>
@@ -115,7 +102,6 @@ const Game = (props: IGameProps) => {
           messages={messages}
         />
       </Box>
-      {mode === ROUND && <AudioPlayer src={track.preview_url} />}
     </Box>
   );
 };

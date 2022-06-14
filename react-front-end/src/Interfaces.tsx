@@ -25,20 +25,20 @@ export interface ITheme {
 export interface IAudioProps {
   src: string;
 }
-
-export interface IGameBoard {
+export interface IGameLobby {
   roomId: string;
   selectGenre: (newGenre: string) => void;
   startGame: () => void;
 }
 
-export interface IGameProps {
-  user: IUser;
-  socket: any
+export interface IGameBoard extends IGameLobby {
+  track: any;
+  mode: string;
 }
 
-export interface IGameLobby extends IGameBoard{
-
+export interface IGameProps {
+  user: IUser;
+  socket: any;
 }
 
 export interface ILeaderboardProps {
@@ -53,9 +53,15 @@ export interface ILeaderboardCardProps {
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;
 }
- 
+
 export interface IGenreSelector {
   selectGenre: (newGenre: string) => void;
+}
+
+export interface Imessage {
+  username: string | null;
+  message: string;
+  avatar: string;
 }
 
 export interface IChatboxProps {
@@ -63,10 +69,4 @@ export interface IChatboxProps {
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   messages: Imessage[];
-}
-
-export interface Imessage {
-  username: string | null,
-  message: string,
-  avatar: string
 }
