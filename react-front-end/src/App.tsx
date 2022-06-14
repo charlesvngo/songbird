@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 // styling
 import "./App.css";
@@ -8,7 +7,6 @@ import { ThemeProvider } from "@mui/material/styles";
 
 // components
 import Game from "./Game";
-import AudioPlayer from "./components/AudioPlayer";
 import UserForm from "./components/UserForm";
 
 // interfaces
