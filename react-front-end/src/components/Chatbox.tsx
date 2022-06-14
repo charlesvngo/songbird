@@ -26,7 +26,7 @@ const Chatbox = (props: IChatboxProps) => {
 
 
   return (
-    <Box sx={{ border: 3, padding: 2, width: 300, height: "auto" }}>
+    <Box sx={{ border: 3, margin: 1, height:"98vh" }}>
       <List>
         {chat}
       </List>
