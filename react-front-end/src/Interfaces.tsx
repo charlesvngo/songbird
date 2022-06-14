@@ -62,5 +62,11 @@ export interface IChatboxProps {
   message: string;
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
-  messages: string[];
+  messages: Imessage[];
+}
+
+export interface Imessage {
+  username: string | null,
+  message: string,
+  avatar: string
 }

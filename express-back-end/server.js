@@ -38,8 +38,6 @@ server.listen(PORT, () => {
 // establishes socket connection
 io.on("connection", (socket) => {
   const { username, roomId, avatar } = socket.handshake.query;
-  // const roomId = socket.handshake.query.roomId;
-  // const avatar = socket.handshake.query.avatar
 
   socket.join(roomId);
 
@@ -53,10 +51,6 @@ io.on("connection", (socket) => {
       currentTrack: {},
     });
   }
-  console.log("All Users: ", users);
-  console.log("All Rooms: ", rooms);
-
-  //socket.emit("update-users", users.filter((u) => u.roomId === roomId))
 
   socket.on("player-joined", () => {
     io.in(roomId).emit(
@@ -66,7 +60,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("Guess", (guess) => {
-    io.in(roomId).emit("chat-messages", `${username}: ${guess}`);
+    // io.in(roomId).emit("chat-messages", `${username}: ${guess}`);
+    io.in(roomId).emit("chat-messages", {username, message: guess, avatar});
   });
 
   socket.on("start-game", () => {
@@ -82,35 +77,21 @@ io.on("connection", (socket) => {
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       const updateTracks = { ...rooms[index], tracks, titles };
       rooms[index] = updateTracks;
-      console.log("All rooms after update", rooms);
+      
     });
   });
 
   socket.on("next-round", () => {
     console.log("next-round");
+
     const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
-    const rnmTrackNum = Math.floor(
-      Math.random() * rooms[currentRoom].tracks.length
-    );
-
-    console.log("The randomest number", rnmTrackNum);
-    console.log(
-      "The tracks length before slice",
-      rooms[currentRoom].tracks.length
-    );
-
+    const rnmTrackNum = Math.floor(Math.random() * rooms[currentRoom].tracks.length);
     const newTrack = rooms[currentRoom].tracks[rnmTrackNum];
+
     rooms[currentRoom] = { ...rooms[currentRoom], currentTrack: newTrack };
     rooms[currentRoom].tracks.splice(rnmTrackNum, 1);
 
-    console.log(
-      "The tracks length after slice",
-      rooms[currentRoom].tracks.length
-    );
-
     io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
-    //socket.emit("new-track", rooms[currentRoom].currentTrack);
-    console.log(rooms[currentRoom]);
   });
 
   // disconnects user and removes them from users array
@@ -120,7 +101,5 @@ io.on("connection", (socket) => {
       "update-users",
       users.filter((u) => u.roomId === roomId)
     );
-    console.log(`${username} has diconnected!`);
-    console.log("All Users: ", users);
   });
 });
