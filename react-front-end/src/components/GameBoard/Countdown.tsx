@@ -1,5 +1,30 @@
-import React from "react";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import React, { useEffect, useState } from "react";
 
 export const Countdown = () => {
-  return <h1>Hey</h1>;
+  const [counter, setCounter] = useState<number>(5);
+  useEffect(() => {
+    counter > 1 && setTimeout(() => setCounter(counter - 1), 1000);
+  }, [counter]);
+
+  return (
+    <Box
+      sx={{
+        marginTop: 1,
+        marginBottom: 1,
+        padding: 2,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        border: 3,
+        borderRadius: 2,
+        height: "93vh",
+      }}
+    >
+      <Typography variant="h2">Song starts in: </Typography>
+      <Typography variant="h1">{counter}</Typography>
+    </Box>
+  );
 };

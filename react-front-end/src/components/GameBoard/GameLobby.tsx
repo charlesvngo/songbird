@@ -53,7 +53,7 @@ export const GameLobby = (props: IGameLobby) => {
         alignItems: "center",
         border: 3,
         borderRadius: 2,
-        height: "98vh",
+        height: "93vh",
       }}
     >
       <GenreSelector selectGenre={props.selectGenre} />
