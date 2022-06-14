@@ -51,6 +51,7 @@ export const GameLobby = (props: IGameLobby) => {
         flexDirection: "column",
         alignItems: "center",
         border: 3,
+        borderRadius: 2,
         height: "98vh",
       }}
     >
