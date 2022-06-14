@@ -15,7 +15,7 @@ const Leaderboard = (props: ILeaderboardProps) => {
   });
 
   return (
-    <Box sx={{ border: 3, padding: 2, width: 300 }}>
+    <Box sx={{ border: 3, margin: 1, height:"98vh"  }}>
       <ListItem>Room ID: {props.users[0].roomId}</ListItem>
       <Divider />
       <List>{users}</List>

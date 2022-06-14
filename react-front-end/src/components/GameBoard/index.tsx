@@ -9,7 +9,7 @@ import { IGameBoard } from "../../Interfaces";
 
 const GameBoard = (props: IGameBoard) => {
   return (
-    <Container maxWidth="xs">
+    <Container>
       <CssBaseline />
       <GameLobby 
       roomId={props.roomId} 
