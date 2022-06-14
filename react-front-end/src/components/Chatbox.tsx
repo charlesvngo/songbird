@@ -1,7 +1,5 @@
 import React from "react";
-
 import { IChatboxProps } from "../Interfaces";
-
 import {
   Box,
   List,
@@ -11,7 +9,6 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-
 import bird from "../assets/bird_logo.png";
 
 const Chatbox = (props: IChatboxProps) => {
@@ -46,6 +43,8 @@ const Chatbox = (props: IChatboxProps) => {
         margin: 1,
         height: "98vh",
         flexDirection: "column-reverse",
+        overflow: "hidden",
+        overflowY: "scroll",
       }}
     >
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
