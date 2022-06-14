@@ -45,15 +45,9 @@ export const GameLobby = (props: IGameLobby) => {
   return (
     <Box
       sx={{
-        marginTop: 1,
-        marginBottom: 1,
-        padding: 2,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        border: 3,
-        borderRadius: 2,
-        height: "98vh",
       }}
     >
       <GenreSelector selectGenre={props.selectGenre} />
