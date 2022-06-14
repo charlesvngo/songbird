@@ -9,8 +9,9 @@ import Chatbox from "./components/Chatbox";
 import { Grid } from "@mui/material";
 
 // interfaces
-import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { IUser, ISocket, IGameProps, Imessage } from "./Interfaces";
 import { Preview } from "@mui/icons-material";
+import { AnyAaaaRecord } from "dns";
 
 // modes
 const ROUND: string = "ROUND";
@@ -21,7 +22,11 @@ const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
   const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState(["Welcome to Songbird!"])
+  const [messages, setMessages] = useState([{
+    message: "Welcome to Songbird!", 
+    username: "",
+    avatar: ""
+  }])
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
@@ -33,7 +38,7 @@ const Game = (props: IGameProps) => {
   }, []);
 
   useEffect(() => {
-    socket.on("chat-messages", (data: string) => {
+    socket.on("chat-messages", (data: any) => {
       // console.log(data);
       setMessages(prev => [...prev, data])
     });
