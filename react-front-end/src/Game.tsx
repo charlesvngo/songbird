@@ -91,7 +91,7 @@ const Game = (props: IGameProps) => {
       container
       direction="row"
       justifyContent="center"
-      alignItems="center">
+      alignItems="stretch">
       <Grid item xs={3}>
         <Leaderboard users={users} />
       </Grid>

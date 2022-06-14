@@ -5,7 +5,7 @@
 - **Step 1:** User enters the webpage.
 - **Step 2:** User is shown a field to enter their name.
 - **Step 3:** User (host) enters their name and hits submit.
-  - Invited users enter their name, the generated room code, and hit submit.
+  - Invited users enter their name, room code is autofilled, and they hit submit.
 - **Step 4:** User is redirected to a game lobby.
 
 ## Lobby

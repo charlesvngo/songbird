@@ -80,7 +80,7 @@ export const GameLobby = (props: IGameLobby) => {
         }}
       >
         <TextField id="room-id" label={props.roomId} size="small" disabled />
-        <Button variant="contained" size="large" onClick={handleCopyClick}>
+        <Button sx={{ marginLeft: 1 }} variant="contained" size="large" onClick={handleCopyClick}>
           Copy
         </Button>
       </Box>

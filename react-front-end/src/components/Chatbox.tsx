@@ -1,16 +1,16 @@
 import React from "react";
 import { IChatboxProps } from "../Interfaces"
-import { Box, List, ListItem, TextField, Button, Avatar, ListItemAvatar, ListItemText } from "@mui/material";
+import { Box, List, ListItem, TextField, Avatar, ListItemAvatar, ListItemText } from "@mui/material";
 
 
 const Chatbox = (props: IChatboxProps) => {  
 
   const chat = props.messages.map((m, i) => {
-   return (<ListItem>
+   return (<ListItem key ={i}>
       <ListItemAvatar>
       {m.avatar && <Avatar
           src={m.avatar}
-          sx={{ padding: 1, width: 35, height: 35 }}
+          sx={{ padding: 1, width: 40, height: 40 }}
         />}
       </ListItemAvatar>
       {m.username ? 
@@ -40,14 +40,6 @@ const Chatbox = (props: IChatboxProps) => {
           onChange={(e) => props.setMessage(e.target.value)}
           autoFocus
         />
-        <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-        >
-          Send Message
-        </Button>
       </Box>
     </Box>
   );
