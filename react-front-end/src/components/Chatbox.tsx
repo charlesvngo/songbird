@@ -21,6 +21,7 @@ const Chatbox = (props: IChatboxProps) => {
     
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     props.sendMessage(e)
+    props.setMessage("")
   }
 
 
@@ -32,11 +33,10 @@ const Chatbox = (props: IChatboxProps) => {
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
-          required
           fullWidth
           id="message"
-          label="Message"
           name="message"
+          value={props.message}
           onChange={(e) => props.setMessage(e.target.value)}
           autoFocus
         />
