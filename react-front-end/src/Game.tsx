@@ -21,7 +21,7 @@ const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
   const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState(["Welcome to Songbird!"])
+  const [messages, setMessages] = useState(["Welcome to Songbird!"]);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
@@ -35,7 +35,7 @@ const Game = (props: IGameProps) => {
   useEffect(() => {
     socket.on("chat-messages", (data: string) => {
       // console.log(data);
-      setMessages(prev => [...prev, data])
+      setMessages((prev) => [...prev, data]);
     });
 
     socket.on("update-users", (data: [IUser]) => {
@@ -82,25 +82,21 @@ const Game = (props: IGameProps) => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="center">
+    <Grid container direction="row" justifyContent="center" alignItems="center">
       <Grid item xs={3}>
         <Leaderboard users={users} />
       </Grid>
       <Grid item xs={6}>
-        <GameBoard 
-        roomId={props.user.roomId} 
-        selectGenre={selectGenre} 
-        startGame ={startGame} 
+        <GameBoard
+          roomId={props.user.roomId}
+          selectGenre={selectGenre}
+          startGame={startGame}
         />
       </Grid>
       <Grid item xs={3}>
-        <Chatbox 
+        <Chatbox
           message={message}
-          sendMessage={sendMessage} 
+          sendMessage={sendMessage}
           setMessage={setMessage}
           messages={messages}
         />
