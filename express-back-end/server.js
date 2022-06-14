@@ -74,6 +74,7 @@ io.on("connection", (socket) => {
     io.to(roomId).emit("game-started", `Game has started`);
   });
 
+  // what dis doing?
   socket.on("genre-selected", (genre) => {
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks;

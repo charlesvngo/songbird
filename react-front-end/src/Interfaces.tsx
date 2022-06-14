@@ -7,7 +7,7 @@ export interface IUser {
 
 export interface ISocket {
   emit: (eventName: string, sentData: string) => void;
-  on: (eventName: string, callback: (message: any) => void) => void;
+  on: (eventName: string, callback: (data: any) => void) => void;
   disconnect: () => void;
 }
 
@@ -42,7 +42,7 @@ export interface IGameLobby extends IGameBoard{
 }
 
 export interface ILeaderboardProps {
-  users: [IUser];
+  users: IUser[];
 }
 
 export interface ILeaderboardCardProps {
@@ -56,4 +56,11 @@ export interface IUserFormProps {
  
 export interface IGenreSelector {
   selectGenre: (newGenre: string) => void;
+}
+
+export interface IChatboxProps {
+  message: string;
+  setMessage: (message: string) => void;
+  sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
+  messages: string[];
 }

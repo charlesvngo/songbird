@@ -5,19 +5,23 @@ import { Howl, Howler } from "howler";
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import AudioPlayer from "./components/AudioPlayer";
+import Chatbox from "./components/Chatbox";
+import { Grid } from "@mui/material";
 
 // interfaces
 import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { Preview } from "@mui/icons-material";
 
 // modes
-const ROUND = "ROUND";
+const ROUND: string = "ROUND";
 const LOBBY = "LOBBY";
 const COUNTDOWN = "COUNTDOWN";
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
-  const [guess, setGuess] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState(["Welcome to Songbird!"])
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
@@ -29,31 +33,34 @@ const Game = (props: IGameProps) => {
   }, []);
 
   useEffect(() => {
-    socket.on("chat-messages", (message: string) => {
-      console.log(message);
+    socket.on("chat-messages", (data: string) => {
+      // console.log(data);
+      setMessages(prev => [...prev, data])
     });
-    socket.on("update-users", (message: [IUser]) => {
-      console.log(message);
-      setUsers(message);
+
+    socket.on("update-users", (data: [IUser]) => {
+      console.log(data);
+      setUsers(data);
     });
-    socket.on("game-started", (message: string) => {
-      console.log(message);
+
+    socket.on("game-started", (data: string) => {
+      console.log(data);
       setMode(COUNTDOWN);
       setTimeout(() => {
         setMode(ROUND);
       }, 5000);
     });
 
-    socket.on("new-track", (message: [any]) => {
-      console.log(message);
-      setTrack(message);
+    socket.on("new-track", (data: [any]) => {
+      console.log(data);
+      setTrack(data);
     });
   }, [socket]);
 
-  const sendGuess = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`${props.user.username}: ${guess}`);
-    socket.emit("Guess", guess);
+    console.log(`${props.user.username}: ${message}`);
+    socket.emit("Guess", message);
   };
 
   const nextRound = () => {
@@ -65,36 +72,41 @@ const Game = (props: IGameProps) => {
   };
 
   const startGame = () => {
+    socket.emit("genre-selected", genre);
     socket.emit("start-game", "start");
     nextRound();
   };
 
   const selectGenre = (newGenre: string) => {
     setGenre(newGenre);
-    socket.emit("genre-selected", newGenre);
   };
 
   return (
-    <>
-      <h2> THE GAME </h2>
-      <GameBoard 
-      roomId={props.user.roomId} 
-      selectGenre={selectGenre} 
-      startGame ={startGame} 
-      />
-      <form onSubmit={(e) => sendGuess(e)}>
-        <input
-          type="text"
-          id="guess"
-          placeholder="Enter guess"
-          value={guess}
-          onChange={(e) => setGuess(e.target.value)}
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="center">
+      <Grid item xs={3}>
+        <Leaderboard users={users} />
+      </Grid>
+      <Grid item xs={6}>
+        <GameBoard 
+        roomId={props.user.roomId} 
+        selectGenre={selectGenre} 
+        startGame ={startGame} 
         />
-        <button type="submit">Submit</button>
-      </form>
-      <Leaderboard users={users} />
+      </Grid>
+      <Grid item xs={3}>
+        <Chatbox 
+          message={message}
+          sendMessage={sendMessage} 
+          setMessage={setMessage}
+          messages={messages}
+        />
+      </Grid>
       {mode === ROUND && <AudioPlayer src={track.preview_url} />}
-    </>
+    </Grid>
   );
 };
 
