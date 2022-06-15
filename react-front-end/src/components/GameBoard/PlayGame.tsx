@@ -14,23 +14,22 @@ import { IPlayGameProps } from "../../Interfaces";
 import { PeopleSharp } from "@mui/icons-material";
 
 export const PlayGame = (props: IPlayGameProps) => {
-  
-  useEffect (() => {
-    props.audio.src = props.track.preview_url
+  useEffect(() => {
+    props.audio.src = props.track.preview_url;
     props.audio.volume = 0.2;
-    props.audio.play()
+    props.audio.play();
     props.audio.onended = () => {
-      props.endOfRound()
-    }
-  }, [])
+      props.endOfRound();
+    };
+  }, []);
 
   const songTitle: string = props.track.name;
   const letterSpaces = [...songTitle].map((char, i) => {
     if (char !== " ") {
       return (
         <MinimizeIcon
-        key ={i}  
-        sx={{
+          key={i}
+          sx={{
             width: 40,
             height: 40,
           }}
@@ -76,9 +75,9 @@ export const PlayGame = (props: IPlayGameProps) => {
         src={props.track.album.images[0].url}
       />
 
-      <Stack spacing={0} direction="row">
+      {/* <Stack spacing={0} direction="row">
         {letterSpaces}
-      </Stack>
+      </Stack> */}
 
       <LinearProgress
         variant="determinate"
@@ -98,4 +97,4 @@ export const PlayGame = (props: IPlayGameProps) => {
       </Stack>
     </Box>
   );
-}
+};
