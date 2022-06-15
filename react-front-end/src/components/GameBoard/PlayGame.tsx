@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // material UI
 import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
@@ -10,8 +10,20 @@ import albumArt from "../../assets/albumArt.png";
 
 import wordSpace from "../../assets/wordSpace.png";
 
-export const PlayGame = () => {
-  const songTitle: string = "Hey Jude";
+import { IPlayGameProps } from "../../Interfaces";
+
+export const PlayGame = (props: IPlayGameProps) => {
+  
+  useEffect (() => {
+    props.audio.src = props.track.preview_url
+    props.audio.volume = 0.2;
+    props.audio.play()
+    props.audio.onended = () => {
+      props.endOfRound()
+    }
+  }, [])
+
+  const songTitle: string = props.track.name;
   const letterSpaces = [...songTitle].map((char, i) => {
     if (char !== " ") {
       return (
@@ -84,4 +96,4 @@ export const PlayGame = () => {
       </Stack>
     </Box>
   );
-};
+}

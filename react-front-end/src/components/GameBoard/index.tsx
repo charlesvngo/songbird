@@ -2,6 +2,8 @@ import React from "react";
 import { GameLobby } from "./GameLobby";
 import { Countdown } from "./Countdown";
 import { PlayGame } from "./PlayGame";
+import AudioPlayer from "../AudioPlayer";
+import { EndOfRound } from "./EndOfRound";
 
 // styling
 import { Container, CssBaseline, Box } from "@mui/material";
@@ -34,7 +36,8 @@ const GameBoard = (props: IGameBoard) => {
           />
         )}
         {props.mode === "COUNTDOWN" && <Countdown />}
-        {props.mode === "ROUND" && <PlayGame />}
+        {props.mode === "ROUND" && <PlayGame track = {props.track} endOfRound = {props.endOfRound} audio = {props.audio}/>}
+        {props.mode === "END_OF_ROUND" && <EndOfRound />}
       </Box>
     </Container>
   );

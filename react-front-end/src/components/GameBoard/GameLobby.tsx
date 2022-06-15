@@ -17,6 +17,7 @@ import GenreSelector from "./GenreSelector";
 
 // interfaces
 import { IGameLobby } from "../../Interfaces";
+import { RoundaboutRightSharp } from "@mui/icons-material";
 
 export const GameLobby = (props: IGameLobby) => {
   const [rounds, setRounds] = useState<number>(5);
@@ -90,7 +91,7 @@ export const GameLobby = (props: IGameLobby) => {
           <AlertTitle>Link Copied</AlertTitle>
         </Alert>
       )}
-      <Button variant="contained" size="large" onClick={props.startGame}>
+      <Button variant="contained" size="large" onClick={() => props.startGame(rounds)}>
         Start Game
       </Button>
     </Box>
