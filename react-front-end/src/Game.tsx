@@ -34,17 +34,14 @@ const Game = (props: IGameProps) => {
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
-    // return socket.disconnect()
   }, []);
 
   useEffect(() => {
     socket.on("receive-chat-messages", (data: any) => {
-      // console.log(data);
       setMessages((prev) => [...prev, data]);
     });
 
     socket.on("update-users", (data: [IUser]) => {
-      console.log(data);
       setUsers(data);
     });
 
@@ -61,7 +58,6 @@ const Game = (props: IGameProps) => {
     });
 
     socket.on("next-track", (data: any) => {
-      console.log(data);
       setTrack(data);
     });
   }, [socket]);
@@ -72,10 +68,7 @@ const Game = (props: IGameProps) => {
     console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
       if(message === track.name){
-        // const audio: any = document.getElementById("songTrack")
-        console.log(`duration: ${audio.duration}, Current time: ${audio.currentTime}`)
         const score: number = Math.round(((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))*100)/100
-   
         props.setUser({...user, score});  
         socket.emit("correct-answer", score);
         return 

@@ -64,10 +64,14 @@ io.on("connection", (socket) => {
   socket.on("end-of-round", () => {
     setTimeout(() => {
       io.in(roomId).emit(
-        "end-round",
+        "round-end",
         users.filter((u) => u.roomId === roomId)
       );
-    }, 5000);
+    }, 10000);
+    setTimeout(() => {
+      // After the 5 second countdown, Tell clients to play track and start guessing.
+      io.to(roomId).emit("round-start", "Round is starting!");
+    }, 15000);
   });
 
   socket.on("correct-answer", (score) => {
