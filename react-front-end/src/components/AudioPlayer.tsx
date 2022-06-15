@@ -8,10 +8,9 @@ const AudioPlayer = (props: IAudioProps) => {
   console.log(props.src)
   return (
     <div>
-      <h5>Audio play? </h5>
       <audio autoPlay className="media" id = "songTrack">
         <source src={props.src} type="audio/mpeg" />
-        Your browser does not support MP3
+        Your browser does not support the audio tag.
       </audio>
     </div>
   );

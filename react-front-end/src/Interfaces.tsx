@@ -25,6 +25,7 @@ export interface ITheme {
 export interface IAudioProps {
   src: string;
 }
+
 export interface IGameLobby {
   roomId: string;
   selectGenre: (newGenre: string) => void;
@@ -34,10 +35,14 @@ export interface IGameLobby {
 export interface IGameBoard extends IGameLobby {
   track: any;
   mode: string;
+  endOfRound: () => void;
+  audio: any;
 }
 
 export interface IPlayGameProps {
   track: any;
+  endOfRound: () => void;
+  audio: any;
 }
 
 export interface IGameProps {

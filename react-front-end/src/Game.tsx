@@ -11,8 +11,9 @@ import { IUser, ISocket, IGameProps } from "./Interfaces";
 
 // modes
 const ROUND: string = "ROUND";
-const LOBBY = "LOBBY";
-const COUNTDOWN = "COUNTDOWN";
+const LOBBY: string = "LOBBY";
+const COUNTDOWN: string = "COUNTDOWN";
+const ENDOFROUND: string = "END_OF_ROUND";
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
@@ -29,6 +30,7 @@ const Game = (props: IGameProps) => {
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
+  const [audio, setAudio] = useState<any>(document.getElementById("songTrack"));
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -54,6 +56,10 @@ const Game = (props: IGameProps) => {
       setMode(ROUND);
     });
 
+    socket.on("round-end", (data: string) => {
+      setMode(COUNTDOWN);
+    });
+
     socket.on("next-track", (data: any) => {
       console.log(data);
       setTrack(data);
@@ -66,7 +72,7 @@ const Game = (props: IGameProps) => {
     console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
       if(message === track.name){
-        const audio: any = document.getElementById("songTrack")
+        // const audio: any = document.getElementById("songTrack")
         console.log(`duration: ${audio.duration}, Current time: ${audio.currentTime}`)
         const score: number = Math.round(((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))*100)/100
    
@@ -86,6 +92,11 @@ const Game = (props: IGameProps) => {
     setGenre(newGenre);
   };
 
+  const endOfRound = () => {
+    socket.emit("end-of-round", 'end-of-round');
+    setMode(ENDOFROUND);
+  }
+
   return (
     <Box
       sx={{
@@ -104,6 +115,8 @@ const Game = (props: IGameProps) => {
           startGame={startGame}
           mode={mode}
           track={track}
+          audio = {audio}
+          endOfRound = {endOfRound}
         />
       </Box>
       <Box>

@@ -61,6 +61,15 @@ io.on("connection", (socket) => {
     );
   });
 
+  socket.on("end-of-round", () => {
+    setTimeout(() => {
+      io.in(roomId).emit(
+        "end-round",
+        users.filter((u) => u.roomId === roomId)
+      );
+    }, 5000);
+  });
+
   socket.on("correct-answer", (score) => {
     const userIndex = users.findIndex(({ username }) => username === username);
     users[userIndex] = { ...users[userIndex], score };
