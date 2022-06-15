@@ -65,6 +65,7 @@ const UserForm = (props: IUserFormProps) => {
     username: "",
     roomId: "",
     score: 0,
+    roundScore: 0,
     avatar: birds[birdIndex],
   });
 

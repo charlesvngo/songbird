@@ -38,7 +38,7 @@ const GameBoard = (props: IGameBoard) => {
         )}
         {props.mode === "COUNTDOWN" && <Countdown />}
         {props.mode === "ROUND" && <PlayGame track = {props.track} endOfRound = {props.endOfRound} audio = {props.audio}/>}
-        {props.mode === "END_OF_ROUND" && <EndOfRound users = {props.users}/>}
+        {props.mode === "END_OF_ROUND" && <EndOfRound users = {props.users} track = {props.track} round = {props.round}/>}
       </Box>
     </Container>
   );
