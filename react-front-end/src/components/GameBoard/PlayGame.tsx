@@ -19,7 +19,7 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   // slowly reveals album art as song plays
   useEffect(() => {
-    blur > 0 && setTimeout(() => setBlur(blur - 0.25), 450);
+    blur > 0 && setTimeout(() => setBlur(blur - 0.25), 425);
   }, [blur]);
 
   // updates progress bar as 30 second song plays
