@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-
-// interfaces
 import { IUserFormProps } from "../Interfaces";
 
-// styling
+// material UI
 import {
   Container,
   CssBaseline,
@@ -96,7 +94,7 @@ const UserForm = (props: IUserFormProps) => {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 15,
+          marginTop: 10,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

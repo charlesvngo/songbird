@@ -42,9 +42,10 @@ export const PlayGame = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-evenly",
+        height: "93vh",
       }}
     >
-      <Typography variant="h4" component="h4" sx={{ marginTop: 2 }}>
+      <Typography variant="h4" component="h4">
         GUESS THE SONG - ROUND 1
       </Typography>
 
@@ -56,23 +57,22 @@ export const PlayGame = () => {
           border: 3,
           borderRadius: 2,
           opacity: 0.75,
-          marginTop: 3,
         }}
         alt="The house from the offer."
         src={albumArt}
       />
 
-      <Stack spacing={0} direction="row" sx={{ marginTop: 3 }}>
+      <Stack spacing={0} direction="row">
         {letterSpaces}
       </Stack>
 
       <LinearProgress
         variant="determinate"
         value={50}
-        sx={{ height: 20, width: "45vh", marginTop: 3 }}
+        sx={{ height: 20, width: "45vh" }}
       />
 
-      <Stack spacing={2} direction="row" sx={{ marginTop: 3 }}>
+      <Stack spacing={2} direction="row">
         <VolumeDown />
         <Slider
           defaultValue={50}
