@@ -21,7 +21,7 @@ const Leaderboard = (props: ILeaderboardProps) => {
         borderRadius: 2,
         margin: 1,
         padding: 2,
-        height: "98vh",
+        height: "93vh",
       }}
     >
       <ListItem sx={{ fontWeight: 600 }}>

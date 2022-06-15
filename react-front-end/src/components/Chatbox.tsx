@@ -43,7 +43,7 @@ const Chatbox = (props: IChatboxProps) => {
         borderRadius: 2,
         margin: 1,
         padding: 2,
-        height: "98vh",
+        height: "93vh",
         flexDirection: "column-reverse",
         overflow: "hidden",
         overflowY: "scroll",

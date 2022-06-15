@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 
 // components
 import Game from "./Game";
+import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 
 // interfaces
@@ -57,6 +58,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
       <div className="App">
         {user.username ? (
           <Game user={user} socket={socket} />
