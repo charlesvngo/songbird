@@ -11,8 +11,9 @@ import { IUser, ISocket, IGameProps } from "./Interfaces";
 
 // modes
 const ROUND: string = "ROUND";
-const LOBBY = "LOBBY";
-const COUNTDOWN = "COUNTDOWN";
+const LOBBY: string = "LOBBY";
+const COUNTDOWN: string = "COUNTDOWN";
+const ENDOFROUND: string = "END_OF_ROUND";
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
@@ -29,20 +30,18 @@ const Game = (props: IGameProps) => {
   const [track, setTrack] = useState<any>({});
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
+  const [audio, setAudio] = useState<any>(document.getElementById("songTrack"));
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
-    // return socket.disconnect()
   }, []);
 
   useEffect(() => {
     socket.on("receive-chat-messages", (data: any) => {
-      // console.log(data);
       setMessages((prev) => [...prev, data]);
     });
 
     socket.on("update-users", (data: [IUser]) => {
-      console.log(data);
       setUsers(data);
     });
 
@@ -54,25 +53,42 @@ const Game = (props: IGameProps) => {
       setMode(ROUND);
     });
 
+    socket.on("round-end", (data: string) => {
+      setMode(COUNTDOWN);
+    });
+
     socket.on("next-track", (data: any) => {
-      console.log(data);
       setTrack(data);
     });
   }, [socket]);
 
+
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
+    if (mode === ROUND) {
+      if(message === track.name){
+        const score: number = Math.round(((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))*100)/100
+        props.setUser({...user, score});  
+        socket.emit("correct-answer", score);
+        return 
+      }
+    }
     socket.emit("send-chat-message", message);
   };
 
-  const startGame = () => {
-    socket.emit("start-game", genre);
+  const startGame = (rounds: number) => {
+    socket.emit("start-game", genre, rounds);
   };
 
   const selectGenre = (newGenre: string) => {
     setGenre(newGenre);
   };
+
+  const endOfRound = () => {
+    socket.emit("end-of-round", 'end-of-round');
+    setMode(ENDOFROUND);
+  }
 
   return (
     <Box
@@ -92,6 +108,8 @@ const Game = (props: IGameProps) => {
           startGame={startGame}
           mode={mode}
           track={track}
+          audio = {audio}
+          endOfRound = {endOfRound}
         />
       </Box>
       <Box>

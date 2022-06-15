@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 // interfaces
-import { IUserFormProps } from "../Interfaces";
+import { IUserFormProps, IUser } from "../Interfaces";
 
-// styling
+// material UI
 import {
   Container,
   CssBaseline,
@@ -12,6 +12,7 @@ import {
   Typography,
   TextField,
   Button,
+  Grow,
 } from "@mui/material";
 
 // helper functions
@@ -47,9 +48,9 @@ const UserForm = (props: IUserFormProps) => {
     bird10,
     bird12,
   ];
-  const [birdIndex, setBirdIndex] = useState(0);
-  const [history, setHistory] = useState([0]);
-  const [user, setUser] = useState({
+  const [birdIndex, setBirdIndex] = useState<number>(0);
+  const [history, setHistory] = useState<number[]>([0]);
+  const [user, setUser] = useState<IUser>({
     username: "",
     roomId: "",
     score: 0,
@@ -96,76 +97,83 @@ const UserForm = (props: IUserFormProps) => {
   const roomId = getUrlParams();
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 15,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
+    <Grow in={true} {...{ timeout: 1000 }}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
         <Box
           sx={{
+            marginTop: 15,
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
+            flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar
-            src={prev}
-            onClick={prevAvatar}
-            sx={{ width: 30, height: 30 }}
-          />
-          <Avatar
-            src={birds[birdIndex]}
-            sx={{ padding: 2, width: 150, height: 150 }}
-          />
-          <Avatar
-            src={next}
-            onClick={nextAvatar}
-            sx={{ width: 30, height: 30 }}
-          />
-        </Box>
-        <Typography component="h1" variant="h5">
-          Songbird
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            onChange={(e) => setUser({ ...user, username: e.target.value })}
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            name="room-id"
-            label="Enter Room ID (Optional)"
-            type="room-id"
-            id="room-id"
-            autoComplete="room-id"
-            value={roomId}
-            onChange={(e) => setUser({ ...user, roomId: e.target.value })}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            Start Game
-          </Button>
+            <Avatar
+              src={prev}
+              onClick={prevAvatar}
+              sx={{ width: 30, height: 30 }}
+            />
+            <Avatar
+              src={birds[birdIndex]}
+              sx={{ padding: 2, width: 150, height: 150 }}
+            />
+            <Avatar
+              src={next}
+              onClick={nextAvatar}
+              sx={{ width: 30, height: 30 }}
+            />
+          </Box>
+          <Typography component="h1" variant="h5">
+            Songbird
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              onChange={(e) => setUser({ ...user, username: e.target.value })}
+              autoFocus
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              name="room-id"
+              label="Enter Room ID (Optional)"
+              type="room-id"
+              id="room-id"
+              value={roomId}
+              autoComplete="room-id"
+              onChange={(e) => setUser({ ...user, roomId: e.target.value })}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Start Game
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Grow>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 // styling
-import { ListItem, List, Box, Divider } from "@mui/material";
+import { List, Box, Divider, Typography, Grow } from "@mui/material";
 
 // components
 import LeaderboardCard from "./LeaderboardCard";
@@ -15,21 +15,23 @@ const Leaderboard = (props: ILeaderboardProps) => {
   });
 
   return (
-    <Box
-      sx={{
-        border: 3,
-        borderRadius: 2,
-        margin: 1,
-        padding: 2,
-        height: "93vh",
-      }}
-    >
-      <ListItem sx={{ fontWeight: 600 }}>
-        Room ID: {props.users[0].roomId}
-      </ListItem>
-      <Divider />
-      <List>{users}</List>
-    </Box>
+    <Grow in={true} {...{ timeout: 1000 }}>
+      <Box
+        sx={{
+          border: 3,
+          borderRadius: 2,
+          margin: 1,
+          padding: 2,
+          height: "93vh",
+        }}
+      >
+        <Typography variant="h6" component="h6" align="left">
+          Room ID: {props.users[0].roomId}
+        </Typography>
+        <Divider />
+        <List>{users}</List>
+      </Box>
+    </Grow>
   );
 };
 
