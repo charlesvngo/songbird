@@ -6,7 +6,11 @@ export interface IUser {
 }
 
 export interface ISocket {
-  emit: (eventName: string, sentData: string | number, sentData2?: number) => void;
+  emit: (
+    eventName: string,
+    sentData: string | number,
+    sentData2?: number
+  ) => void;
   on: (eventName: string, callback: (data: any) => void) => void;
   disconnect: () => void;
 }
@@ -79,4 +83,8 @@ export interface IChatboxProps {
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   messages: Imessage[];
+}
+
+export interface IAdvancedSettings {
+  genre: string | null;
 }

@@ -56,6 +56,7 @@ const Chatbox = (props: IChatboxProps) => {
           padding: 2,
           height: "93vh",
           flexDirection: "column-reverse",
+          boxShadow: 5,
           overflow: "hidden",
           overflowY: "scroll",
         }}

@@ -23,6 +23,7 @@ const Leaderboard = (props: ILeaderboardProps) => {
           margin: 1,
           padding: 2,
           height: "93vh",
+          boxShadow: 5,
         }}
       >
         <Typography variant="h6" component="h6" align="left">

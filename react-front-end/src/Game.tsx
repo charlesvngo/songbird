@@ -62,16 +62,20 @@ const Game = (props: IGameProps) => {
     });
   }, [socket]);
 
-
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
-      if(message === track.name){
-        const score: number = Math.round(((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))*100)/100
-        props.setUser({...user, score});  
+      if (message === track.name) {
+        const score: number =
+          Math.round(
+            (((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
+              Number(audio.duration)) *
+              100
+          ) / 100;
+        props.setUser({ ...user, score });
         socket.emit("correct-answer", score);
-        return 
+        return;
       }
     }
     socket.emit("send-chat-message", message);
@@ -82,13 +86,15 @@ const Game = (props: IGameProps) => {
   };
 
   const selectGenre = (newGenre: string) => {
-    setGenre(newGenre);
+    if (newGenre !== "advanced-settings" && newGenre !== null) {
+      setGenre(newGenre);
+    }
   };
 
   const endOfRound = () => {
-    socket.emit("end-of-round", 'end-of-round');
+    socket.emit("end-of-round", "end-of-round");
     setMode(ENDOFROUND);
-  }
+  };
 
   return (
     <Box
@@ -108,8 +114,8 @@ const Game = (props: IGameProps) => {
           startGame={startGame}
           mode={mode}
           track={track}
-          audio = {audio}
-          endOfRound = {endOfRound}
+          audio={audio}
+          endOfRound={endOfRound}
         />
       </Box>
       <Box>

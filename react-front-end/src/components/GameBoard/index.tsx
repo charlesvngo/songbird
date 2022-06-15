@@ -26,6 +26,7 @@ const GameBoard = (props: IGameBoard) => {
             border: 3,
             borderRadius: 2,
             height: "93vh",
+            boxShadow: 5,
           }}
         >
           {props.mode === "LOBBY" && (
