@@ -14,7 +14,13 @@ import { IPlayGameProps } from "../../Interfaces";
 import { PeopleSharp } from "@mui/icons-material";
 
 export const PlayGame = (props: IPlayGameProps) => {
+  const [blur, setBlur] = useState<number>(20);
   const [progress, setProgress] = useState<number>(0);
+
+  // slowly reveals album art as song plays
+  useEffect(() => {
+    blur > 0 && setTimeout(() => setBlur(blur - 0.25), 450);
+  }, [blur]);
 
   // updates progress bar as 30 second song plays
   useEffect(() => {
@@ -46,15 +52,6 @@ export const PlayGame = (props: IPlayGameProps) => {
     return <img key={i} src={wordSpace} width="20" height="20"></img>;
   });
 
-  // slowly reveals album art as song plays
-  const revealImage = () => {};
-
-  // updates progress bar as 30 second song plays
-  const songProgress = () => {};
-
-  // adjusts song volume
-  const adjustVolume = () => {};
-
   return (
     <Box
       sx={{
@@ -76,7 +73,7 @@ export const PlayGame = (props: IPlayGameProps) => {
           width: 300,
           border: 3,
           borderRadius: 2,
-          opacity: 0.75,
+          filter: `blur(${blur}px)`,
         }}
         alt="The house from the offer."
         src={props.track.album.images[0].url}
