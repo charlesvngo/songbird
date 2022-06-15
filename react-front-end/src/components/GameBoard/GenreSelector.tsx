@@ -38,6 +38,7 @@ const GenreSelector = (props: IGenreSelector) => {
         exclusive
         onChange={handleAlignment}
         aria-label="text alignment"
+        sx={{ marginBottom: 2 }}
       >
         <ToggleButton value="pop" aria-label="pop" color="primary">
           Pop
