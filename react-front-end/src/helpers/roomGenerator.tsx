@@ -12,10 +12,15 @@ const generateRoomId = (): string => {
   return password;
 };
 
+export const getUrlParams = (): string => {
+  const windowUrl: string = window.location.search;
+  const roomId: string = windowUrl.substring(1);
+  return roomId;
+};
+
 // retrieves the room ID.
 export const getRoomId = (): string => {
-  const windowUrl: string = window.location.search;
-  let roomId: string = windowUrl.substring(1);
+  let roomId = getUrlParams();
   if (!roomId) {
     roomId = generateRoomId();
   }

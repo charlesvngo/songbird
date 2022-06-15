@@ -14,6 +14,9 @@ import {
   Button,
 } from "@mui/material";
 
+// helper functions
+import { getUrlParams } from "../helpers/roomGenerator";
+
 // assets
 import bird1 from "../assets/bird_1.png";
 import bird2 from "../assets/bird_2.png";
@@ -46,7 +49,6 @@ const UserForm = (props: IUserFormProps) => {
   ];
   const [birdIndex, setBirdIndex] = useState(0);
   const [history, setHistory] = useState([0]);
-
   const [user, setUser] = useState({
     username: "",
     roomId: "",
@@ -90,6 +92,8 @@ const UserForm = (props: IUserFormProps) => {
     }
     props.createSocket(user);
   };
+
+  const roomId = getUrlParams();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -148,6 +152,7 @@ const UserForm = (props: IUserFormProps) => {
             type="room-id"
             id="room-id"
             autoComplete="room-id"
+            value={roomId}
             onChange={(e) => setUser({ ...user, roomId: e.target.value })}
           />
           <Button
