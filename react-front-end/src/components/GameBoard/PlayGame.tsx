@@ -5,36 +5,35 @@ import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
 import MinimizeIcon from "@mui/icons-material/Minimize";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import VolumeDown from "@mui/icons-material/VolumeDown";
-import VolumeOff from "@mui/icons-material/VolumeOff";
 
 import albumArt from "../../assets/albumArt.png";
 
 import wordSpace from "../../assets/wordSpace.png";
 
 export const PlayGame = () => {
-  const [volume, setVolume] = useState([0, 100]);
-
-  // const updateRange = (data: number) => {
-  //   setVal(data);
-  // };
-
   const songTitle: string = "Hey Jude";
   const letterSpaces = [...songTitle].map((char, i) => {
     if (char !== " ") {
       return (
         <MinimizeIcon
           sx={{
-            width: 50,
-            height: 50,
+            width: 40,
+            height: 40,
           }}
         ></MinimizeIcon>
       );
     }
-
-    const handleChange = () => {};
-
-    return <img key={i} src={wordSpace} width="30" height="30"></img>;
+    return <img key={i} src={wordSpace} width="20" height="20"></img>;
   });
+
+  // slowly reveals album art as song plays
+  const revealImage = () => {};
+
+  // updates progress bar as 30 second song plays
+  const songProgress = () => {};
+
+  // adjusts song volume
+  const adjustVolume = () => {};
 
   return (
     <Box
@@ -63,7 +62,7 @@ export const PlayGame = () => {
         src={albumArt}
       />
 
-      <Stack spacing={0} direction="row">
+      <Stack spacing={0} direction="row" sx={{ marginTop: 3 }}>
         {letterSpaces}
       </Stack>
 
