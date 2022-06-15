@@ -9,7 +9,7 @@ import AdvancedSettings from "./AdvancedSettings";
 
 const GenreSelector = (props: IGenreSelector) => {
   const [advancedSettings, setAdvancedSettings] = useState<boolean>(false);
-  const [genre, setGenre] = useState<string | null>("pop");
+  const [alightment, setAlignment] = useState<string | null>(null);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
@@ -18,23 +18,23 @@ const GenreSelector = (props: IGenreSelector) => {
     if (newAlignment !== "advanced-settings") {
       props.selectGenre(newAlignment);
     }
-    setGenre(newAlignment);
+    setAlignment(newAlignment);
   };
 
   useEffect(() => {
-    if (genre === "advanced-settings") {
+    if (alightment === "advanced-settings") {
       setAdvancedSettings(true);
     }
-    if (genre !== "advanced-settings" && advancedSettings === true) {
+    if (alightment !== "advanced-settings" && advancedSettings === false) {
       setAdvancedSettings(false);
     }
     return;
-  }, [genre]);
+  }, [alightment]);
 
   return (
     <>
       <ToggleButtonGroup
-        value={genre}
+        value={alightment}
         exclusive
         onChange={handleAlignment}
         aria-label="text alignment"
@@ -59,9 +59,7 @@ const GenreSelector = (props: IGenreSelector) => {
           Advanced
         </ToggleButton>
       </ToggleButtonGroup>
-      {advancedSettings && (
-        <AdvancedSettings genre={genre} setGenre={setGenre} />
-      )}
+      {advancedSettings && <AdvancedSettings selectGenre={props.selectGenre} />}
     </>
   );
 };

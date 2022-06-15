@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
+
+// interfaces
 import { IAdvancedSettings } from "../../Interfaces";
+
+// styling
 import { Autocomplete, TextField } from "@mui/material";
+
+// helpers
 import { availableGenres } from "../../helpers/availableGenres";
 
 const AdvancedSettings = (props: IAdvancedSettings) => {
@@ -8,7 +14,9 @@ const AdvancedSettings = (props: IAdvancedSettings) => {
   const [inputValue, setInputValue] = React.useState<string>("");
 
   useEffect(() => {
-    console.log(inputValue);
+    if (inputValue) {
+      props.selectGenre(inputValue);
+    }
   }, [inputValue]);
 
   return (

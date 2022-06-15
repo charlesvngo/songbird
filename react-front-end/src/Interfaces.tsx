@@ -66,9 +66,9 @@ export interface ILeaderboardCardProps {
   key: number;
   user: IUser;
 }
-export interface IEndOfRoundProps{
+export interface IEndOfRoundProps {
   users: IUser[];
-  track: any
+  track: any;
   round: number;
 }
 export interface IUserFormProps {
@@ -93,6 +93,5 @@ export interface IChatboxProps {
 }
 
 export interface IAdvancedSettings {
-  genre: string | null;
-  setGenre: (newGenre: string) => void;
+  selectGenre: (message: string) => void;
 }
