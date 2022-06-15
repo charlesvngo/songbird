@@ -8,6 +8,7 @@ import {
   TextField,
   Alert,
   AlertTitle,
+  Grow,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -17,7 +18,6 @@ import GenreSelector from "./GenreSelector";
 
 // interfaces
 import { IGameLobby } from "../../Interfaces";
-import { RoundaboutRightSharp } from "@mui/icons-material";
 
 export const GameLobby = (props: IGameLobby) => {
   const [rounds, setRounds] = useState<number>(5);
@@ -44,56 +44,62 @@ export const GameLobby = (props: IGameLobby) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "93vh",
-      }}
-    >
-      <GenreSelector selectGenre={props.selectGenre} />
-      <Typography component="h3" variant="h5" m={2}>
-        Rounds
-      </Typography>
+    <Grow in={true} {...{ timeout: 1000 }}>
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
+          height: "93vh",
         }}
       >
-        <RemoveIcon fontSize="large" onClick={handleOnSubtract} />
+        <GenreSelector selectGenre={props.selectGenre} />
         <Typography component="h3" variant="h5" m={2}>
-          {rounds}
+          Rounds
         </Typography>
-        <AddIcon fontSize="large" onClick={handleOnAdd} />
-      </Box>
-      <Typography>Share the room code to invite people to join</Typography>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          margin: 2,
-        }}
-      >
-        <TextField id="room-id" label={props.roomId} size="small" disabled />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <RemoveIcon fontSize="large" onClick={handleOnSubtract} />
+          <Typography component="h3" variant="h5" m={2}>
+            {rounds}
+          </Typography>
+          <AddIcon fontSize="large" onClick={handleOnAdd} />
+        </Box>
+        <Typography>Share the room code to invite people to join</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            margin: 2,
+          }}
+        >
+          <TextField id="room-id" label={props.roomId} size="small" disabled />
+          <Button
+            sx={{ marginLeft: 1 }}
+            variant="contained"
+            size="large"
+            onClick={handleCopyClick}
+          >
+            Copy
+          </Button>
+        </Box>
+        {copied && (
+          <Alert severity="success">
+            <AlertTitle>Link Copied</AlertTitle>
+          </Alert>
+        )}
         <Button
-          sx={{ marginLeft: 1 }}
           variant="contained"
           size="large"
-          onClick={handleCopyClick}
+          onClick={() => props.startGame(rounds)}
         >
-          Copy
+          Start Game
         </Button>
       </Box>
-      {copied && (
-        <Alert severity="success">
-          <AlertTitle>Link Copied</AlertTitle>
-        </Alert>
-      )}
-      <Button variant="contained" size="large" onClick={() => props.startGame(rounds)}>
-        Start Game
-      </Button>
-    </Box>
+    </Grow>
   );
 };
