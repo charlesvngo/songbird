@@ -16,6 +16,7 @@ import { PeopleSharp } from "@mui/icons-material";
 export const PlayGame = (props: IPlayGameProps) => {
   const [blur, setBlur] = useState<number>(20);
   const [progress, setProgress] = useState<number>(0);
+  const [volume, setVolume] = useState<number>(70);
 
   // slowly reveals album art as song plays
   useEffect(() => {
@@ -29,28 +30,35 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.2;
+    props.audio.volume = 0.1;
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
     };
   }, []);
 
-  const songTitle: string = props.track.name;
-  const letterSpaces = [...songTitle].map((char, i) => {
-    if (char !== " ") {
-      return (
-        <MinimizeIcon
-          key={i}
-          sx={{
-            width: 40,
-            height: 40,
-          }}
-        ></MinimizeIcon>
-      );
-    }
-    return <img key={i} src={wordSpace} width="20" height="20"></img>;
-  });
+  // const songTitle: string = props.track.name;
+  // const letterSpaces = [...songTitle].map((char, i) => {
+  //   if (char !== " ") {
+  //     return (
+  //       <MinimizeIcon
+  //         key={i}
+  //         sx={{
+  //           width: 40,
+  //           height: 40,
+  //         }}
+  //       ></MinimizeIcon>
+  //     );
+  //   }
+  //   return <img key={i} src={wordSpace} width="20" height="20"></img>;
+  // });
+
+  // const handleVolume = (
+  //   event: React.ChangeEvent<HTMLElement>,
+  //   newVolume: number
+  // ) => {
+  //   setVolume(newVolume);
+  // };
 
   return (
     <Box
@@ -92,9 +100,11 @@ export const PlayGame = (props: IPlayGameProps) => {
       <Stack spacing={2} direction="row">
         <VolumeDown />
         <Slider
-          defaultValue={50}
+          value={volume}
+          max={100}
           aria-label="Default"
           valueLabelDisplay="auto"
+          // onChange={handleVolume}
           sx={{ width: "20vh" }}
         />
         <VolumeUp />
