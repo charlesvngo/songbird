@@ -1,13 +1,7 @@
 import React from "react";
-
-// styling
-import { List, Box, Divider, Typography, Grow } from "@mui/material";
-
-// components
 import LeaderboardCard from "./LeaderboardCard";
-
-// interfaces
 import { IUser, ILeaderboardProps } from "../Interfaces";
+import { List, Box, Divider, Typography, Grow } from "@mui/material";
 
 const Leaderboard = (props: ILeaderboardProps) => {
   const users = props.users.map((user: IUser, i: number) => {

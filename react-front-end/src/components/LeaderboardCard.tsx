@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
-
-// styling
+import { ILeaderboardCardProps } from "../Interfaces";
 import {
   ListItem,
   Divider,
@@ -9,9 +8,6 @@ import {
   Avatar,
   Slide,
 } from "@mui/material";
-
-// interfaces
-import { ILeaderboardCardProps } from "../Interfaces";
 import { Box } from "@mui/system";
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {

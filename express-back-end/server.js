@@ -29,7 +29,6 @@ app.use(express.static("public"));
 // retrieves authentication token from spotify
 getToken().then((res) => {
   token = res.data.access_token;
-  console.log(token);
 });
 
 server.listen(PORT, () => {

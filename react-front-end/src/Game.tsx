@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-
-// components
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
-import { Box } from "@mui/material";
-
-// interfaces
 import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { Box } from "@mui/material";
 
 // modes
 const ROUND: string = "ROUND";

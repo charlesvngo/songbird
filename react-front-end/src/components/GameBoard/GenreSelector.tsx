@@ -1,9 +1,5 @@
 import React from "react";
-
-// interfaces
 import { IGenreSelector } from "../../Interfaces";
-
-// styling
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GenreSelector = (props: IGenreSelector) => {

@@ -11,6 +11,8 @@ import {
   Grow,
   Slide,
 } from "@mui/material";
+
+// logo image
 import bird from "../assets/bird_logo.png";
 
 const Chatbox = (props: IChatboxProps) => {

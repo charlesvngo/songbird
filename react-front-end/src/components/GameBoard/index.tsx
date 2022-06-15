@@ -1,14 +1,11 @@
 import React from "react";
+import AudioPlayer from "../AudioPlayer"; // not needed?
 import { GameLobby } from "./GameLobby";
 import { Countdown } from "./Countdown";
 import { PlayGame } from "./PlayGame";
 import { EndOfRound } from "./EndOfRound";
-
-// styling
-import { Container, CssBaseline, Box, Grow } from "@mui/material";
-
-// interfaces
 import { IGameBoard } from "../../Interfaces";
+import { Container, CssBaseline, Box, Grow } from "@mui/material";
 
 const GameBoard = (props: IGameBoard) => {
   return (
