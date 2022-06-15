@@ -1,7 +1,7 @@
 import React from "react";
 
 // styling
-import { ListItem, List, Box, Divider } from "@mui/material";
+import { ListItem, List, Box, Divider, Typography } from "@mui/material";
 
 // components
 import LeaderboardCard from "./LeaderboardCard";
@@ -24,9 +24,9 @@ const Leaderboard = (props: ILeaderboardProps) => {
         height: "93vh",
       }}
     >
-      <ListItem sx={{ fontWeight: 600 }}>
+      <Typography variant="h6" component="h6" align="left">
         Room ID: {props.users[0].roomId}
-      </ListItem>
+      </Typography>
       <Divider />
       <List>{users}</List>
     </Box>

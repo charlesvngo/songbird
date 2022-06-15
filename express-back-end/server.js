@@ -50,6 +50,7 @@ io.on("connection", (socket) => {
       tracks: [],
       titles: [],
       currentTrack: {},
+      rounds: 0,
     });
   }
 
@@ -58,6 +59,33 @@ io.on("connection", (socket) => {
       "update-users",
       users.filter((u) => u.roomId === roomId)
     );
+  });
+
+  socket.on("end-of-round", () => {
+    setTimeout(() => {
+      io.in(roomId).emit(
+        "round-end",
+        users.filter((u) => u.roomId === roomId)
+      );
+    }, 10000);
+    setTimeout(() => {
+      // After the 5 second countdown, Tell clients to play track and start guessing.
+      io.to(roomId).emit("round-start", "Round is starting!");
+    }, 15000);
+  });
+
+  socket.on("correct-answer", (score) => {
+    const userIndex = users.findIndex(({ username }) => username === username);
+    users[userIndex] = { ...users[userIndex], score };
+    io.in(roomId).emit(
+      "update-users",
+      users.filter((u) => u.roomId === roomId)
+    );
+    io.in(roomId).emit("receive-chat-messages", {
+      username,
+      message: `Correct guess! Scored: ${score}`,
+      avatar,
+    });
   });
 
   socket.on("send-chat-message", (guess) => {
@@ -70,14 +98,14 @@ io.on("connection", (socket) => {
   });
 
   // what dis doing?
-  socket.on("start-game", (genre) => {
+  socket.on("start-game", (genre, rounds) => {
     // Obtain the playlist based on the selected genre passed in from host.
     getPlaylist(token, genre).then((result) => {
-      const tracks = result.data.tracks;
+      const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
       const titles = tracks.map((track) => track.name);
       const index = rooms.findIndex(({ Id }) => Id === roomId);
-      const updateTracks = { ...rooms[index], tracks, titles };
-      rooms[index] = updateTracks;
+      rooms[index] = { ...rooms[index], tracks, titles, rounds };
+      console.log(rooms[index]);
       const nextTrack = getTrack(rooms, roomId);
       io.to(roomId).emit("next-track", nextTrack);
       // Tell all players that the game has started

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // interfaces
 import { IUserFormProps, IUser } from "../Interfaces";
 
-// styling
+// material UI
 import {
   Container,
   CssBaseline,
@@ -92,7 +92,7 @@ const UserForm = (props: IUserFormProps) => {
   };
 
   return (
-    <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+    <Grow in={true} {...{ timeout: 1000 }}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

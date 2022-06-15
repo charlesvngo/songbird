@@ -9,6 +9,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Game from "./Game";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
+import AudioPlayer from "./components/AudioPlayer";
 
 // interfaces
 import { IUser, ISocket } from "./Interfaces";
@@ -60,8 +61,9 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <NavBar />
       <div className="App">
+        <AudioPlayer src ={""} />
         {user.username ? (
-          <Game user={user} socket={socket} />
+          <Game user={user} socket={socket} setUser={setUser}/>
         ) : (
           <UserForm createSocket={createSocket} />
         )}
