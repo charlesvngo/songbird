@@ -11,6 +11,7 @@ import albumArt from "../../assets/albumArt.png";
 import wordSpace from "../../assets/wordSpace.png";
 
 import { IPlayGameProps } from "../../Interfaces";
+import { PeopleSharp } from "@mui/icons-material";
 
 export const PlayGame = (props: IPlayGameProps) => {
   
@@ -28,7 +29,8 @@ export const PlayGame = (props: IPlayGameProps) => {
     if (char !== " ") {
       return (
         <MinimizeIcon
-          sx={{
+        key ={i}  
+        sx={{
             width: 40,
             height: 40,
           }}
@@ -71,7 +73,7 @@ export const PlayGame = (props: IPlayGameProps) => {
           opacity: 0.75,
         }}
         alt="The house from the offer."
-        src={albumArt}
+        src={props.track.album.images[0].url}
       />
 
       <Stack spacing={0} direction="row">
