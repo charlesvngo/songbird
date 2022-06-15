@@ -14,6 +14,13 @@ import { IPlayGameProps } from "../../Interfaces";
 import { PeopleSharp } from "@mui/icons-material";
 
 export const PlayGame = (props: IPlayGameProps) => {
+  const [progress, setProgress] = useState<number>(0);
+
+  // updates progress bar as 30 second song plays
+  useEffect(() => {
+    progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
+  }, [progress]);
+
   useEffect(() => {
     props.audio.src = props.track.preview_url;
     props.audio.volume = 0.2;
@@ -65,8 +72,8 @@ export const PlayGame = (props: IPlayGameProps) => {
       <Box
         component="img"
         sx={{
-          height: 200,
-          width: 200,
+          height: 300,
+          width: 300,
           border: 3,
           borderRadius: 2,
           opacity: 0.75,
@@ -81,7 +88,7 @@ export const PlayGame = (props: IPlayGameProps) => {
 
       <LinearProgress
         variant="determinate"
-        value={50}
+        value={progress}
         sx={{ height: 20, width: "45vh" }}
       />
 

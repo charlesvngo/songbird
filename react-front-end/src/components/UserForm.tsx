@@ -11,6 +11,8 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import ArrowBack from "@mui/icons-material/ArrowBackIos";
+import ArrowForward from "@mui/icons-material/ArrowForwardIos";
 
 // assets
 import bird1 from "../assets/bird_1.png";
@@ -108,20 +110,18 @@ const UserForm = (props: IUserFormProps) => {
             alignItems: "center",
           }}
         >
-          <Avatar
-            src={prev}
+          <ArrowBack
             onClick={prevAvatar}
             sx={{ width: 30, height: 30 }}
-          />
+          ></ArrowBack>
           <Avatar
             src={birds[birdIndex]}
             sx={{ padding: 2, width: 150, height: 150 }}
           />
-          <Avatar
-            src={next}
+          <ArrowForward
             onClick={nextAvatar}
             sx={{ width: 30, height: 30 }}
-          />
+          ></ArrowForward>
         </Box>
         <Typography component="h1" variant="h5">
           Songbird
