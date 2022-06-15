@@ -72,15 +72,19 @@ io.on("connection", (socket) => {
   socket.on("end-of-round", () => {
     console.log("Round end ", roomId);
     const index = rooms.findIndex(({ Id }) => Id === roomId);
+    if (rooms[index].currentRound === rooms[index].rounds) {
+      return io.in(roomId).emit("end-of-game", "End of Game");
+    }
+
     rooms[index].currentRound++;
+
+    const nextTrack = getTrack(rooms, roomId);
+
     setTimeout(() => {
       users.forEach((user) => {
         if ((user.roomID = roomId)) user.roundScore = 0;
       });
-      io.in(roomId).emit(
-        "next-round",
-        users.filter((u) => u.roomId === roomId)
-      );
+      io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing.

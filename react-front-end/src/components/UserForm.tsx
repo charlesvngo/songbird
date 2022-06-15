@@ -26,8 +26,6 @@ import bird9 from "../assets/bird_9.png";
 import bird10 from "../assets/bird_10.png";
 import bird11 from "../assets/bird_11.png";
 import bird12 from "../assets/bird_12.png";
-<<<<<<< HEAD
-=======
 import bird13 from "../assets/bird_13.png";
 import bird14 from "../assets/bird_14.png";
 import bird15 from "../assets/bird_15.png";
@@ -38,7 +36,6 @@ import bird19 from "../assets/bird_19.png";
 import bird20 from "../assets/bird_20.png";
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
->>>>>>> feature/end-of-round
 
 const UserForm = (props: IUserFormProps) => {
   // bird avatar state

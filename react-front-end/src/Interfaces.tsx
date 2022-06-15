@@ -67,6 +67,9 @@ export interface IEndOfRoundProps{
   track: any
   round: number;
 }
+export interface IEndOfGameProps{
+  users: IUser[];
+}
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;
 }

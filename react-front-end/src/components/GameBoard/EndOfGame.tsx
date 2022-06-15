@@ -1,8 +1,8 @@
 import React from "react";
-import { IEndOfRoundProps, IUser } from "../../Interfaces";
+import { IEndOfGameProps, IUser } from "../../Interfaces";
 import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography } from "@mui/material";
 
-export const EndOfRound = (props: IEndOfRoundProps) => {
+export const EndOfGame = (props: IEndOfGameProps) => {
 
   const sortedUsers = props.users.sort((a: IUser,b: IUser) : number => b.roundScore - a.roundScore)
   const users = sortedUsers.map((user, i) => {
@@ -40,9 +40,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
   
   return (
     <>
-      <h1>End of Round {props.round}</h1>
-      <h3>The song title was:</h3>
-      <h3>{props.track.name} </h3>
+      <h1>End of Game</h1>
       {users}
     </>
   );
