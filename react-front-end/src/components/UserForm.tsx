@@ -23,7 +23,16 @@ import bird7 from "../assets/bird_7.png";
 import bird8 from "../assets/bird_8.png";
 import bird9 from "../assets/bird_9.png";
 import bird10 from "../assets/bird_10.png";
+import bird11 from "../assets/bird_11.png";
 import bird12 from "../assets/bird_12.png";
+import bird13 from "../assets/bird_13.png";
+import bird14 from "../assets/bird_14.png";
+import bird15 from "../assets/bird_15.png";
+import bird16 from "../assets/bird_16.png";
+import bird17 from "../assets/bird_17.png";
+import bird18 from "../assets/bird_18.png";
+import bird19 from "../assets/bird_19.png";
+import bird20 from "../assets/bird_20.png";
 import prev from "../assets/prev.png";
 import next from "../assets/next.png";
 
@@ -41,6 +50,13 @@ const UserForm = (props: IUserFormProps) => {
     bird9,
     bird10,
     bird12,
+    bird13,
+    bird14,
+    bird16,
+    bird17,
+    bird18,
+    bird19,
+    bird20,
   ];
   const [birdIndex, setBirdIndex] = useState(0);
   const [history, setHistory] = useState([0]);
@@ -53,9 +69,7 @@ const UserForm = (props: IUserFormProps) => {
   });
 
   const nextAvatar = () => {
-    console.log("next arrow clicked!");
-
-    const currentHistory = [...history];
+     const currentHistory = [...history];
     let newBirdIndex = birdIndex;
     newBirdIndex++;
 
@@ -67,8 +81,6 @@ const UserForm = (props: IUserFormProps) => {
   };
 
   const prevAvatar = () => {
-    console.log("prev arrow clicked!");
-
     const currentHistory = [...history];
 
     if (history.length > 1) {

@@ -110,6 +110,7 @@ const Game = (props: IGameProps) => {
           track={track}
           audio = {audio}
           endOfRound = {endOfRound}
+          users = {users}
         />
       </Box>
       <Box>

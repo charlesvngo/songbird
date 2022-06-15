@@ -37,6 +37,7 @@ export interface IGameBoard extends IGameLobby {
   mode: string;
   endOfRound: () => void;
   audio: any;
+  users: IUser[];
 }
 
 export interface IPlayGameProps {
@@ -59,7 +60,9 @@ export interface ILeaderboardCardProps {
   key: number;
   user: IUser;
 }
-
+export interface IEndOfRoundProps{
+  users: IUser[];
+}
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;
 }
