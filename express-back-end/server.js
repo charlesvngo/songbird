@@ -64,10 +64,9 @@ io.on("connection", (socket) => {
     });
   }
 
-  const usersInRoom = users.filter((u) => u.roomId === roomId);
-
   socket.on("player-joined", () => {
     console.log("player-joined ", roomId);
+    const usersInRoom = users.filter((u) => u.roomId === roomId);
     io.in(roomId).emit("update-users", usersInRoom);
   });
 
