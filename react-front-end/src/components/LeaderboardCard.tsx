@@ -1,6 +1,5 @@
 import React from "react";
-
-// styling
+import { ILeaderboardCardProps } from "../Interfaces";
 import {
   ListItem,
   Divider,
@@ -8,9 +7,6 @@ import {
   ListItemText,
   Avatar,
 } from "@mui/material";
-
-// interfaces
-import { ILeaderboardCardProps } from "../Interfaces";
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
   return (
