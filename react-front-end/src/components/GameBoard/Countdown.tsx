@@ -17,8 +17,6 @@ export const Countdown = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        border: 3,
-        borderRadius: 2,
         height: "93vh",
       }}
     >
