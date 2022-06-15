@@ -8,6 +8,7 @@ import { IGameBoard } from "../../Interfaces";
 import { Container, CssBaseline, Box, Grow } from "@mui/material";
 
 const GameBoard = (props: IGameBoard) => {
+
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
       <Container>
@@ -40,7 +41,7 @@ const GameBoard = (props: IGameBoard) => {
               audio={props.audio}
             />
           )}
-          {props.mode === "END_OF_ROUND" && <EndOfRound />}
+          {props.mode === "END_OF_ROUND" && <EndOfRound users = {props.users} track = {props.track} round = {props.round}/>}
         </Box>
       </Container>
     </Grow>

@@ -26,6 +26,7 @@ const App = () => {
     username: "",
     roomId: roomId,
     score: 0,
+    roundScore: 0,
     avatar: "",
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);

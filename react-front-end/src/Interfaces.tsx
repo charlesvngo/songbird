@@ -2,6 +2,7 @@ export interface IUser {
   username: string;
   roomId: string;
   score: number;
+  roundScore: number;
   avatar: string;
 }
 
@@ -37,6 +38,8 @@ export interface IGameBoard extends IGameLobby {
   mode: string;
   endOfRound: () => void;
   audio: any;
+  users: IUser[];
+  round: number;
 }
 
 export interface IPlayGameProps {
@@ -59,7 +62,11 @@ export interface ILeaderboardCardProps {
   key: number;
   user: IUser;
 }
-
+export interface IEndOfRoundProps{
+  users: IUser[];
+  track: any
+  round: number;
+}
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;
 }
