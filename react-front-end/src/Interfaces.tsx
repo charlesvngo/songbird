@@ -87,4 +87,5 @@ export interface IChatboxProps {
 
 export interface IAdvancedSettings {
   genre: string | null;
+  setGenre: (newGenre: string) => void;
 }
