@@ -28,6 +28,8 @@ const App = () => {
     score: 0,
     roundScore: 0,
     avatar: "",
+    host: false,
+    winning: false
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);
 

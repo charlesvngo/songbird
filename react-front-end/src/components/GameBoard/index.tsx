@@ -40,6 +40,7 @@ const GameBoard = (props: IGameBoard) => {
               track={props.track}
               endOfRound={props.endOfRound}
               audio={props.audio}
+              round = {props.round}
             />
           )}
           {props.mode === "END_OF_ROUND" && <EndOfRound users = {props.users} track = {props.track} round = {props.round}/>}

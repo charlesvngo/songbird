@@ -4,6 +4,8 @@ export interface IUser {
   score: number;
   roundScore: number;
   avatar: string;
+  host: boolean;
+  winning: boolean;
 }
 
 export interface ISocket {
@@ -46,6 +48,7 @@ export interface IPlayGameProps {
   track: any;
   endOfRound: () => void;
   audio: any;
+  round: number;
 }
 
 export interface IGameProps {

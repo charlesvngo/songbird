@@ -53,7 +53,7 @@ export const PlayGame = (props: IPlayGameProps) => {
       }}
     >
       <Typography variant="h4" component="h4">
-        GUESS THE SONG - ROUND 1
+        GUESS THE SONG - ROUND {props.round}
       </Typography>
 
       <Box

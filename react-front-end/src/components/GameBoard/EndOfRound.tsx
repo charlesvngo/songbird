@@ -1,14 +1,16 @@
 import React from "react";
 import { IEndOfRoundProps, IUser } from "../../Interfaces";
-import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography } from "@mui/material";
+import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography, Box } from "@mui/material";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
 
   const sortedUsers = props.users.sort((a: IUser,b: IUser) : number => b.roundScore - a.roundScore)
   const users = sortedUsers.map((user, i) => {
+    const bgc = (i === 0 && user.roundScore !== 0) ? "#3EA4B4" : "inhert"
+    const tc = (i === 0 && user.roundScore !== 0) ? "black" : "green"
     return (
-      <div>
-        <ListItem sx={{ backgroundColor: "inherit" }}>
+      <Box sx={{ backgroundColor: bgc, width:"35vh" }}>
+        <ListItem >
           <ListItemAvatar>
             <Avatar
               src={user.avatar}
@@ -16,8 +18,8 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             />
           </ListItemAvatar>
           {(i === 0 && user.roundScore !== 0) ? <ListItemText
-            sx={{ padding: 1, backgroundColor: "black" }}
-            primary={<Typography variant="h6" style={{ color: "green" }}>
+            sx={{ padding: 1 }}
+            primary={<Typography variant="h6" style={{ color: tc }}>
            {user.username}
           </Typography>}
           />: <ListItemText
@@ -27,13 +29,13 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             <ListItemText
             sx={{ padding: 1 }} 
             // primary={`Score: + ${user.roundScore}`}
-            primary={<Typography variant="h6" style={{ color: "green" }}>
+            primary={<Typography variant="h6" style={{ color: tc }}>
             Score: + {user.roundScore}
           </Typography>}
           />
         </ListItem>
         <Divider />
-      </div>
+      </Box>
     );
   });
 
