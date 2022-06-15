@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-
-// interfaces
 import { IUserFormProps, IUser } from "../Interfaces";
-
-// material UI
 import {
   Container,
   CssBaseline,
@@ -14,11 +10,11 @@ import {
   Button,
   Grow,
 } from "@mui/material";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
-// helper functions
 import { getUrlParams } from "../helpers/roomGenerator";
 
-// assets
+// image assets
 import bird1 from "../assets/bird_1.png";
 import bird2 from "../assets/bird_2.png";
 import bird3 from "../assets/bird_3.png";
@@ -37,8 +33,6 @@ import bird15 from "../assets/bird_15.png";
 import bird16 from "../assets/bird_16.png";
 import bird17 from "../assets/bird_17.png";
 import bird18 from "../assets/bird_18.png";
-import prev from "../assets/prev.png";
-import next from "../assets/next.png";
 
 const UserForm = (props: IUserFormProps) => {
   // bird avatar state
@@ -68,12 +62,11 @@ const UserForm = (props: IUserFormProps) => {
     username: "",
     roomId: "",
     score: 0,
+    roundScore: 0,
     avatar: birds[birdIndex],
   });
 
   const nextAvatar = () => {
-    console.log("next arrow clicked!");
-
     const currentHistory = [...history];
     let newBirdIndex = birdIndex;
     newBirdIndex++;
@@ -86,8 +79,6 @@ const UserForm = (props: IUserFormProps) => {
   };
 
   const prevAvatar = () => {
-    console.log("prev arrow clicked!");
-
     const currentHistory = [...history];
 
     if (history.length > 1) {
@@ -114,77 +105,67 @@ const UserForm = (props: IUserFormProps) => {
     <Grow in={true} {...{ timeout: 1000 }}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+
         <Box
           sx={{
-            marginTop: 15,
+            marginTop: 10,
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+          <ArrowBack
+            onClick={prevAvatar}
+            sx={{ width: 30, height: 30 }}
+          ></ArrowBack>
+
+          <Avatar
+            src={birds[birdIndex]}
+            sx={{ padding: 2, width: 150, height: 150 }}
+          />
+
+          <ArrowForward
+            onClick={nextAvatar}
+            sx={{ width: 30, height: 30 }}
+          ></ArrowForward>
+        </Box>
+
+        <Typography component="h1" variant="h5">
+          Songbird
+        </Typography>
+
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            name="room-id"
+            label="Enter Room ID (Optional)"
+            type="room-id"
+            id="room-id"
+            value={roomId}
+            autoComplete="room-id"
+            onChange={(e) => setUser({ ...user, roomId: e.target.value })}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
           >
-            <Avatar
-              src={prev}
-              onClick={prevAvatar}
-              sx={{ width: 30, height: 30 }}
-            />
-            <Avatar
-              src={birds[birdIndex]}
-              sx={{ padding: 2, width: 150, height: 150 }}
-            />
-            <Avatar
-              src={next}
-              onClick={nextAvatar}
-              sx={{ width: 30, height: 30 }}
-            />
-          </Box>
-          <Typography component="h1" variant="h5">
-            Songbird
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              onChange={(e) => setUser({ ...user, username: e.target.value })}
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="room-id"
-              label="Enter Room ID (Optional)"
-              type="room-id"
-              id="room-id"
-              value={roomId}
-              autoComplete="room-id"
-              onChange={(e) => setUser({ ...user, roomId: e.target.value })}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Start Game
-            </Button>
-          </Box>
+            Start Game
+          </Button>
         </Box>
       </Container>
     </Grow>

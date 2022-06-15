@@ -1,6 +1,4 @@
 import React from "react";
-
-// interfaces
 import { IAudioProps } from "../Interfaces";
 
 const AudioPlayer = (props: IAudioProps) => {

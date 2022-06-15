@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-
-// styling
 import "./App.css";
-import { theme } from "./helpers/theme";
-import { ThemeProvider } from "@mui/material/styles";
-
-// components
 import Game from "./Game";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
-
-// interfaces
 import { IUser, ISocket } from "./Interfaces";
+import { theme } from "./helpers/theme";
+import { ThemeProvider } from "@mui/material/styles";
 
 // generates random room id
 import { getRoomId } from "./helpers/roomGenerator";
@@ -32,6 +26,7 @@ const App = () => {
     username: "",
     roomId: roomId,
     score: 0,
+    roundScore: 0,
     avatar: "",
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);

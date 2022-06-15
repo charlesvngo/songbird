@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-
-// components
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
-import { Box } from "@mui/material";
-
-// interfaces
 import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { Box } from "@mui/material";
 
 // modes
 const ROUND: string = "ROUND";
@@ -31,6 +27,7 @@ const Game = (props: IGameProps) => {
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [audio, setAudio] = useState<any>(document.getElementById("songTrack"));
+  const [round, setRound] = useState<number>(0);
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -45,15 +42,16 @@ const Game = (props: IGameProps) => {
       setUsers(data);
     });
 
-    socket.on("game-started", (data: string) => {
+    socket.on("game-started", (data: number) => {
       setMode(COUNTDOWN);
     });
 
-    socket.on("round-start", (data: string) => {
+    socket.on("round-start", (data: number) => {
       setMode(ROUND);
+      setRound(data);
     });
 
-    socket.on("round-end", (data: string) => {
+    socket.on("next-round", (data: string) => {
       setMode(COUNTDOWN);
     });
 
@@ -67,14 +65,12 @@ const Game = (props: IGameProps) => {
     console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
       if (message === track.name) {
-        const score: number =
-          Math.round(
-            (((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
-              Number(audio.duration)) *
-              100
-          ) / 100;
-        props.setUser({ ...user, score });
-        socket.emit("correct-answer", score);
+        let roundScore: number =
+          ((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
+          Number(audio.duration);
+        roundScore = Math.round(roundScore * 100) / 100;
+        props.setUser({ ...user, score: roundScore });
+        socket.emit("correct-answer", roundScore);
         return;
       }
     }
@@ -116,6 +112,8 @@ const Game = (props: IGameProps) => {
           track={track}
           audio={audio}
           endOfRound={endOfRound}
+          users={users}
+          round={round}
         />
       </Box>
       <Box>

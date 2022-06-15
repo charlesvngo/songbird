@@ -1,16 +1,14 @@
 import React from "react";
+import AudioPlayer from "../AudioPlayer"; // not needed?
 import { GameLobby } from "./GameLobby";
 import { Countdown } from "./Countdown";
 import { PlayGame } from "./PlayGame";
 import { EndOfRound } from "./EndOfRound";
-
-// styling
+import { IGameBoard } from "../../Interfaces";
 import { Container, CssBaseline, Box, Grow } from "@mui/material";
 
-// interfaces
-import { IGameBoard } from "../../Interfaces";
-
 const GameBoard = (props: IGameBoard) => {
+
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
       <Container>
@@ -44,7 +42,7 @@ const GameBoard = (props: IGameBoard) => {
               audio={props.audio}
             />
           )}
-          {props.mode === "END_OF_ROUND" && <EndOfRound />}
+          {props.mode === "END_OF_ROUND" && <EndOfRound users = {props.users} track = {props.track} round = {props.round}/>}
         </Box>
       </Container>
     </Grow>

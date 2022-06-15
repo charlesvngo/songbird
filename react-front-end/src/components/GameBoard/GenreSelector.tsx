@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 // interfaces
 import { IGenreSelector } from "../../Interfaces";
-
-// styling
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 // components

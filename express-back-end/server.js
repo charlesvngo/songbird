@@ -29,7 +29,6 @@ app.use(express.static("public"));
 // retrieves authentication token from spotify
 getToken().then((res) => {
   token = res.data.access_token;
-  console.log(token);
 });
 
 server.listen(PORT, () => {
@@ -42,7 +41,14 @@ io.on("connection", (socket) => {
   console.log("User has connected:", username);
   socket.join(roomId);
 
-  users.push({ id: socket.id, username, roomId, avatar, score: 0 });
+  users.push({
+    id: socket.id,
+    username,
+    roomId,
+    avatar,
+    score: 0,
+    roundScore: 0,
+  });
 
   if ((index = rooms.findIndex(({ Id }) => Id === roomId)) === -1) {
     rooms.push({
@@ -51,10 +57,12 @@ io.on("connection", (socket) => {
       titles: [],
       currentTrack: {},
       rounds: 0,
+      currentRound: 1,
     });
   }
 
   socket.on("player-joined", () => {
+    console.log("player-joined ", roomId);
     io.in(roomId).emit(
       "update-users",
       users.filter((u) => u.roomId === roomId)
@@ -62,26 +70,37 @@ io.on("connection", (socket) => {
   });
 
   socket.on("end-of-round", () => {
+    console.log("Round end ", roomId);
+    const index = rooms.findIndex(({ Id }) => Id === roomId);
+    rooms[index].currentRound++;
     setTimeout(() => {
+      users.forEach((user) => {
+        if ((user.roomID = roomId)) user.roundScore = 0;
+      });
       io.in(roomId).emit(
-        "round-end",
+        "next-round",
         users.filter((u) => u.roomId === roomId)
       );
     }, 10000);
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing.
-      io.to(roomId).emit("round-start", "Round is starting!");
+      io.to(roomId).emit("round-start", rooms[index].currentRound);
     }, 15000);
   });
 
   socket.on("correct-answer", (score) => {
-    const userIndex = users.findIndex(({ username }) => username === username);
-    users[userIndex] = { ...users[userIndex], score };
-    io.in(roomId).emit(
+    const userIndex = users.findIndex(({ id }) => id === socket.id);
+    const newScore = users[userIndex].score + score;
+    users[userIndex] = {
+      ...users[userIndex],
+      roundScore: score,
+      score: newScore,
+    };
+    io.in(users[userIndex].roomId).emit(
       "update-users",
-      users.filter((u) => u.roomId === roomId)
+      users.filter((u) => u.roomId === users[userIndex].roomId)
     );
-    io.in(roomId).emit("receive-chat-messages", {
+    io.in(users[userIndex].roomId).emit("receive-chat-messages", {
       username,
       message: `Correct guess! Scored: ${score}`,
       avatar,
@@ -89,7 +108,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-chat-message", (guess) => {
-    // io.in(roomId).emit("chat-messages", `${username}: ${guess}`);
+    console.log("send-chat-message ", roomId);
     io.in(roomId).emit("receive-chat-messages", {
       username,
       message: guess,
@@ -99,20 +118,20 @@ io.on("connection", (socket) => {
 
   // what dis doing?
   socket.on("start-game", (genre, rounds) => {
+    console.log("start-game ", roomId);
     // Obtain the playlist based on the selected genre passed in from host.
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
       const titles = tracks.map((track) => track.name);
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       rooms[index] = { ...rooms[index], tracks, titles, rounds };
-      console.log(rooms[index]);
       const nextTrack = getTrack(rooms, roomId);
       io.to(roomId).emit("next-track", nextTrack);
       // Tell all players that the game has started
-      io.to(roomId).emit("game-started", `Game has started`);
+      io.to(roomId).emit("game-started", rooms[index].roomId);
       setTimeout(() => {
         // After the 5 second countdown, Tell clients to play track and start guessing.
-        io.to(roomId).emit("round-start", "Round is starting!");
+        io.to(roomId).emit("round-start", rooms[index].currentRound);
       }, 5000);
     });
   });
