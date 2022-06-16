@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 8080;
 // helper functions
 const { getToken, getPlaylist } = require("./helpers/spotify");
 const getTrack = require("./helpers/game");
+const sampleSonglist = require("./helpers/autocompleteSongs");
 
 // socket IO
 const socketio = require("socket.io");
@@ -126,8 +127,17 @@ io.on("connection", (socket) => {
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       rooms[index] = { ...rooms[index], tracks, titles, rounds };
       const nextTrack = getTrack(rooms, roomId);
+
+      // Create an list of red-herring songs.
+      const autocomplete = sampleSonglist.map((song) => song.name);
+      for (const song of titles) {
+        if (!autocomplete.includes(song)) {
+          autocomplete.push(song);
+        }
+      }
+
       io.to(roomId).emit("next-track", nextTrack);
-      io.to(roomId).emit("track-list", titles);
+      io.to(roomId).emit("track-list", autocomplete);
       // Tell all players that the game has started
       io.to(roomId).emit("game-started", rooms[index].roomId);
       setTimeout(() => {
