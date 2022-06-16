@@ -69,6 +69,9 @@ const Game = (props: IGameProps) => {
     socket.on("end-of-game", (data: string) => {
       setMode(EOG);
     });
+    socket.on("start-new-game", (data: string) => {
+      setMode(LOBBY);
+    });
 
     socket.on("track-list", (data: string[]) => {
       setTracklist(data);
@@ -104,6 +107,10 @@ const Game = (props: IGameProps) => {
     setMode(ENDOFROUND);
   };
 
+  const newGame = () => {
+    socket.emit("new-game", "new-game");
+  };
+
   const selectGenre = (newGenre: string) => {
     if (newGenre !== "advanced-settings" && newGenre !== null) {
       setGenre(newGenre);
@@ -133,6 +140,7 @@ const Game = (props: IGameProps) => {
           users={users}
           round={round}
           host={user.host}
+          newGame = {newGame}
         />
       </Box>
       <Box>
