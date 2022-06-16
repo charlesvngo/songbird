@@ -3,7 +3,6 @@ import { IAudioProps } from "../Interfaces";
 
 const AudioPlayer = (props: IAudioProps) => {
 
-  console.log(props.src)
   return (
     <div>
       <audio autoPlay className="media" id = "songTrack">
