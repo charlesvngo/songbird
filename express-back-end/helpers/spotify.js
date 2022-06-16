@@ -34,4 +34,23 @@ const getPlaylist = (token, genre) => {
   return axios.get(api_playlist_url, { headers: header });
 };
 
-module.exports = { getToken, getPlaylist };
+const filterTitles = (tracks) => {
+  return tracks.map((track) => {
+    return {
+      artist: track.artists.map((artist) => artist.name).join(", "),
+      name: track.name,
+    };
+  });
+};
+
+const createAutocomplete = (sampleSonglist, titles) => {
+  const autocomplete = [...sampleSonglist, ...titles];
+
+  const output = [...new Set(autocomplete.map((e) => JSON.stringify(e)))].map(
+    (e) => JSON.parse(e)
+  );
+
+  return output;
+};
+
+module.exports = { getToken, getPlaylist, filterTitles, createAutocomplete };
