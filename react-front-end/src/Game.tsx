@@ -10,6 +10,7 @@ const ROUND: string = "ROUND";
 const LOBBY: string = "LOBBY";
 const COUNTDOWN: string = "COUNTDOWN";
 const ENDOFROUND: string = "END_OF_ROUND";
+const EOG: string = "END_OF_GAME";
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
@@ -52,12 +53,17 @@ const Game = (props: IGameProps) => {
       setRound(data);
     });
 
-    socket.on("next-round", (data: string) => {
+    socket.on("next-round", (data: any) => {
+      setTrack(data);
       setMode(COUNTDOWN);
     });
 
     socket.on("next-track", (data: any) => {
       setTrack(data);
+    });
+
+    socket.on("end-of-game", (data: string) => {
+      setMode(EOG);
     });
 
     socket.on("track-list", (data: string[]) => {
@@ -69,12 +75,10 @@ const Game = (props: IGameProps) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
-      if (message === track.name) {
-        let roundScore: number =
-          ((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
-          Number(audio.duration);
-        roundScore = Math.round(roundScore * 100) / 100;
-        props.setUser({ ...user, score: roundScore });
+      if(message === track.name){
+        let roundScore: number = ((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))
+        roundScore = Math.round(roundScore);
+        props.setUser({...user, score: roundScore});  
         socket.emit("correct-answer", roundScore);
         return;
       }
@@ -86,15 +90,15 @@ const Game = (props: IGameProps) => {
     socket.emit("start-game", genre, rounds);
   };
 
+  const endOfRound = () => {
+    socket.emit("end-of-round", "end-of-round");
+    setMode(ENDOFROUND);
+  };
+  
   const selectGenre = (newGenre: string) => {
     if (newGenre !== "advanced-settings" && newGenre !== null) {
       setGenre(newGenre);
     }
-  };
-
-  const endOfRound = () => {
-    socket.emit("end-of-round", "end-of-round");
-    setMode(ENDOFROUND);
   };
 
   return (
