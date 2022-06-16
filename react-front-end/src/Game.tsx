@@ -4,6 +4,7 @@ import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
 import { IUser, ISocket, IGameProps } from "./Interfaces";
 import { Box } from "@mui/material";
+import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography} from "@mui/material";
 
 // modes
 const ROUND: string = "ROUND";
@@ -94,7 +95,7 @@ const Game = (props: IGameProps) => {
     socket.emit("end-of-round", "end-of-round");
     setMode(ENDOFROUND);
   };
-  
+
   const selectGenre = (newGenre: string) => {
     if (newGenre !== "advanced-settings" && newGenre !== null) {
       setGenre(newGenre);
@@ -135,7 +136,33 @@ const Game = (props: IGameProps) => {
           mode={mode}
         />
       </Box>
+
+
+
+
+      <ListItem >
+        <Box sx={{ backgroundColor: 'red',
+          width:"35vh", 
+          display: 'flex',
+          flexDirection: 'row', 
+          justifyContent: 'space-around',
+          alignItems: 'center'}}>
+          <ListItemAvatar>
+            <Avatar src={user.avatar} sx={{ padding: 1, width: 80, height: 80 }}/>
+          </ListItemAvatar>
+          <ListItemText sx={{ padding: 1 }} primary={user.username}/>
+          <ListItemText sx={{ padding: 1 }} primary={`Score: + ${user.roundScore}`}/>
+          <Divider />
+        </Box>
+      </ListItem>
+
+
+
     </Box>
+
+
+
+
   );
 };
 

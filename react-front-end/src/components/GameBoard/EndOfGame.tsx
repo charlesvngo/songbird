@@ -21,11 +21,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
             />
           </ListItemAvatar>
            <ListItemText
-            sx={{ padding: 1}}
+            sx={{ padding: 1, width: '15vh' }}
             primary={user.username}
             />
             <ListItemText
-            sx={{ padding: 1 }} 
+            sx={{ padding: 1, width: '15vh'  }} 
             primary={`Score: ${user.roundScore}`}
           />
         </ListItem>
