@@ -75,6 +75,7 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
+    if(message === "") return
     if (mode === ROUND) {
       if(message === track.name){
         let roundScore: number = ((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))
@@ -136,33 +137,7 @@ const Game = (props: IGameProps) => {
           mode={mode}
         />
       </Box>
-
-
-
-
-      <ListItem >
-        <Box sx={{ backgroundColor: 'red',
-          width:"35vh", 
-          display: 'flex',
-          flexDirection: 'row', 
-          justifyContent: 'space-around',
-          alignItems: 'center'}}>
-          <ListItemAvatar>
-            <Avatar src={user.avatar} sx={{ padding: 1, width: 80, height: 80 }}/>
-          </ListItemAvatar>
-          <ListItemText sx={{ padding: 1 }} primary={user.username}/>
-          <ListItemText sx={{ padding: 1 }} primary={`Score: + ${user.roundScore}`}/>
-          <Divider />
-        </Box>
-      </ListItem>
-
-
-
     </Box>
-
-
-
-
   );
 };
 
