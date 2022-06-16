@@ -18,7 +18,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
   const users = sortedUsers.map((user, i) => {
     let bgc = "inhert";
     if (i === 2) bgc = "#a6e4ed";
-    if (i === 1) bgc = "#7bcedb"; 
+    if (i === 1) bgc = "#7bcedb";
     if (i === 0) bgc = "#3EA4B4";
 
     return (
@@ -28,7 +28,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           backgroundColor: bgc,
           width: "35vw",
           borderRadius: 2,
-          color: "white",
+          color: "black",
         }}
       >
         <ListItem>

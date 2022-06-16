@@ -16,7 +16,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
   );
   const users = sortedUsers.map((user, i) => {
     const bgc = i === 0 && user.roundScore !== 0 ? "#3EA4B4" : "#F4F4FF";
-    const tc = i === 0 && user.roundScore !== 0 ? "white" : "green";
+    const tc = i === 0 && user.roundScore !== 0 ? "black" : "green";
     return (
       <Box
         sx={{ backgroundColor: bgc, width: "35vw", borderRadius: 2 }}
