@@ -61,11 +61,11 @@ export const GameLobby = (props: IGameLobby) => {
             alignItems: "center",
           }}
         >
-          <RemoveIcon fontSize="large" onClick={handleOnSubtract} />
+          {props.host && <RemoveIcon fontSize="large" onClick={handleOnSubtract} />}
           <Typography component="h3" variant="h5" m={2}>
             {rounds}
           </Typography>
-          <AddIcon fontSize="large" onClick={handleOnAdd} />
+          {props.host && <AddIcon fontSize="large" onClick={handleOnAdd} />}
         </Box>
         <Typography>Share the room code to invite people to join</Typography>
         <Box

@@ -10,7 +10,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
     const bgc = (i === 0 && user.roundScore !== 0) ? "#3EA4B4" : "inhert"
     const tc = (i === 0 && user.roundScore !== 0) ? "black" : "green"
     return (
-      <Box sx={{ backgroundColor: bgc, width:"35vh", borderRadius: 2 }} key = {i}>
+      <Box sx={{ backgroundColor: bgc, width:"35vw", borderRadius: 2 }} key = {i}>
         <ListItem >
           <ListItemAvatar>
             <Avatar
@@ -20,13 +20,13 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
           </ListItemAvatar>
           {(i === 0 && user.roundScore !== 0) ? 
           <ListItemText
-            sx={{ padding: 1, width: '15vh' }}
+            sx={{ padding: 1, width: '10vw' }}
             primary={<Typography variant="h6" style={{ color: tc }}>
                       {user.username}
                       </Typography>}
           />: 
           <ListItemText
-            sx={{ padding: 1, width: '15vh' }}
+            sx={{ padding: 1, width: '10vw' }}
             primary={user.username}
           />}
           <ListItemText
