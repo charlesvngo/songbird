@@ -73,7 +73,7 @@ const NavBar = () => {
                 About Us
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                We made this awesome app!
+                We made this awesome app! 
               </Typography>
             </Box>
           </Modal>

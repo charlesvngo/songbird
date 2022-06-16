@@ -1,29 +1,30 @@
 import React, { useState, useEffect } from "react";
+import AudioVisualizer from "./AudioVisualizer.jsx";
 import { IPlayGameProps } from "../../Interfaces";
 import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 
 export const PlayGame = (props: IPlayGameProps) => {
-  const [blur, setBlur] = useState<number>(20);
+  const [blur, setBlur] = useState<number>(10);
   const [progress, setProgress] = useState<number>(0);
-  const [volume, setVolume] = useState<number | string | Array<number | string>>(
-    30,
-  );
+  const [volume, setVolume] = useState<
+    number | string | Array<number | string>
+  >(20);
 
-  // reveals album art 
+  // reveals album art
   useEffect(() => {
-    blur > 0 && setTimeout(() => setBlur(blur - 0.25), 430);
+    blur > 0 && setTimeout(() => setBlur(blur - 0.1), 450);
   }, [blur]);
 
-  // updates progress bar 
+  // updates progress bar
   useEffect(() => {
     progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
   }, [progress]);
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.30; // default volume 
+    props.audio.volume = 0.2; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
@@ -35,10 +36,10 @@ export const PlayGame = (props: IPlayGameProps) => {
     setVolume(newValue);
     const volumeConversion = Number(newValue) / 100;
 
-    if (volumeConversion === 0.00) {
+    if (volumeConversion === 0.0) {
       props.audio.volume = 0;
     }
-    
+
     props.audio.volume = volumeConversion;
   };
 
@@ -52,22 +53,43 @@ export const PlayGame = (props: IPlayGameProps) => {
         height: "93vh",
       }}
     >
-      <Typography variant="h4" component="h4">
+      <Typography
+        variant="h4"
+        component="h4"
+        sx={{
+          mr: 2,
+          fontWeight: 700,
+          letterSpacing: ".3rem",
+          color: "inherit",
+          textDecoration: "none",
+        }}
+      >
         GUESS THE SONG - ROUND 1
       </Typography>
 
       <Box
-        component="img"
         sx={{
-          height: 300,
-          width: 300,
-          border: 3,
-          borderRadius: 2,
-          filter: `blur(${blur}px)`,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
         }}
-        alt="The house from the offer."
-        src={props.track.album.images[0].url}
-      />
+      >
+        <Box
+          component="img"
+          sx={{
+            marginRight: 4,
+            height: 200,
+            width: 200,
+            border: 3,
+            borderRadius: 2,
+            filter: `blur(${blur}px)`,
+          }}
+          alt="The house from the offer."
+          src={props.track.album.images[0].url}
+        />
+
+        <AudioVisualizer />
+      </Box>
 
       <LinearProgress
         variant="determinate"

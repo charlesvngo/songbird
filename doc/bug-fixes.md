@@ -1,4 +1,4 @@
-# Bug Fixes
+# Bug Fixes & Improvements
 
 Check off when fixed and deployed:
 
@@ -12,6 +12,6 @@ Check off when fixed and deployed:
 
    - Fix RnB and Suprise Me
 
-5. Music played isn't as mainstream or guessable as we'd like
+5. Keyboard pause button stops audio
 
 6. Shouldn't be able to send a blank message
