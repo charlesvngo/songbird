@@ -32,16 +32,42 @@
 
 - As a user I should be able to listen to the same song as everyone else in the room because I want to compete against them. ✅
 
-- As a user I should win the game if I have the most points because I guessed songs faster than everyone else.
+- As a user I should win the game if I have the most points because I guessed songs faster than everyone else. ✅
 
 - As a room host I should be able to select a genre per game because I want more variety in every game. ✅
 
-- As a user I should be able to play a game by myself or with up to 8 players because I may not always have people with to play with.
+- As a user I should be able to play a game by myself or with up to 8 players because I may not always have people with to play with. ✅
 
 ## Stretch
 
 - As a user I should be able to pick an avatar because I want to uniquely identify myself in the room ✅
 
-- As a user I should be able to view a sick equalizer because it’s mega dope and we gotta do it.
+- As a user I should be able to view a sick equalizer because it’s mega dope and we gotta do it. ✅
+
+- As a user I should see the equalizer sync to music since it'd be nice to see.
 
 - As a user I should be able to view the page in light, dark, and party mode because it’s mega dope and we gotta do it.
+
+- As a user I should be able to become the host if the host drops out of the game because I shouldnt need to make a new room.
+
+- As a user I should be able to select dark mode because sometimes I play games in the dark.
+
+- As a user I should be able to select party mode because I want to have a great time.
+
+- As a user I should be able to see backgrounds on the leaderboard to indicate who is the leader.
+
+- As a user I should be able to read the about page to see who made this game
+
+- As a user I should be able to see an instruction page to learn how to play
+
+- As a user I should be able to see more animations in everything because I want to have a smooth user experience.
+
+- As a website owner, I should have additional spotify access keys incase issues arise.
+
+- As a user I want to be able to select the artists that will play when I select advanced options, because I might only want to listen to Taylor Swift
+
+- As a user I want to be able to view the website on mobile view.
+
+- As a user I want to be able to visit a real website
+
+- As a user I want to see a footer at the bottom with a copyright and an about page.

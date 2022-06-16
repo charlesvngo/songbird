@@ -116,7 +116,11 @@ const Chatbox = (props: IChatboxProps) => {
               )}
               ListboxProps={{
                 style: {
-                  maxHeight: "4em",
+                  maxHeight: "3em",
+                  flexWrap: "nowrap",
+                  overflowX: "hidden",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
                 },
               }}
             />

@@ -66,9 +66,9 @@ const UserForm = (props: IUserFormProps) => {
     roundScore: 0,
     avatar: birds[birdIndex],
     host: false,
-    winning: false
+    winning: false,
   });
-  const [roomId, setRoomId] = useState<string>(getUrlParams())
+  const [roomId, setRoomId] = useState<string>(getUrlParams());
 
   const nextAvatar = () => {
     const currentHistory = [...history];
@@ -159,25 +159,18 @@ const UserForm = (props: IUserFormProps) => {
             value={roomId}
             autoComplete="room-id"
             onChange={(e) => {
-              setUser({ ...user, roomId: e.target.value })
-              setRoomId(e.target.value)
+              setUser({ ...user, roomId: e.target.value });
+              setRoomId(e.target.value);
             }}
           />
-          {roomId && <Button
+          <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Join
-          </Button> || <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Start Game
-          </Button>}
+            {roomId ? "Join" : "Start Game"}
+          </Button>
         </Box>
       </Container>
     </Grow>

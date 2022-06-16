@@ -8,7 +8,7 @@ import {
   ListItemText,
   Typography,
   Box,
-} from "@mui/material";
+} from "@mui/material"; 
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
   const sortedUsers = props.users.sort(
