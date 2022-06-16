@@ -9,7 +9,6 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { flexbox } from "@mui/system";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
   const sortedUsers = props.users.sort(
@@ -53,7 +52,6 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
               </Typography>
             }
           />
-          <Divider />
         </ListItem>
       </Box>
     );

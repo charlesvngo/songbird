@@ -28,7 +28,7 @@ const Game = (props: IGameProps) => {
   const [tracklist, setTracklist] = useState<string[]>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
-  const [audio, setAudio] = useState<any>(document.getElementById("songTrack"));
+  const [audio] = useState<any>(document.getElementById("songTrack"));
   const [round, setRound] = useState<number>(0);
 
   useEffect(() => {
@@ -72,6 +72,8 @@ const Game = (props: IGameProps) => {
     socket.on("track-list", (data: string[]) => {
       setTracklist(data);
     });
+
+    return () => socket.disconnect();
   }, [socket]);
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
@@ -79,10 +81,12 @@ const Game = (props: IGameProps) => {
     console.log(`${props.user.username}: ${message}`);
     if(message === "") return
     if (mode === ROUND) {
-      if(message === track.name){
-        let roundScore: number = ((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))
+      if (message === track.name) {
+        let roundScore: number =
+          ((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
+          Number(audio.duration);
         roundScore = Math.round(roundScore);
-        props.setUser({...user, score: roundScore});  
+        props.setUser({ ...user, score: roundScore });
         socket.emit("correct-answer", roundScore);
         return;
       }

@@ -28,7 +28,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         <ListItem>
           <ListItemText
             sx={{ padding: 1, width: "2vh", fontSize: 38 }}
-            primary={i + 1}
+            primary={`#${i + 1}`}
           />
           <ListItemAvatar>
             <Avatar
@@ -37,15 +37,14 @@ export const EndOfGame = (props: IEndOfGameProps) => {
             />
           </ListItemAvatar>
           <ListItemText
-            sx={{ padding: 1, width: "15vh" }}
+            sx={{ padding: 1, width: "10vh" }}
             primary={user.username}
           />
           <ListItemText
-            sx={{ padding: 1, width: "15vh" }}
+            sx={{ padding: 1, width: "10vh" }}
             primary={`Score: ${user.score}`}
           />
         </ListItem>
-        <Divider />
       </Box>
     );
   });
