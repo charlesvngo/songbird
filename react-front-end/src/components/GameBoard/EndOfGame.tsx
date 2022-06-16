@@ -17,7 +17,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
   const users = sortedUsers.map((user, i) => {
-    let bgc = "inhert";
+    let bgc = "#F4F4FF";
     if (i === 2) bgc = "#a6e4ed";
     if (i === 1) bgc = "#7bcedb"; 
     if (i === 0) bgc = "#3EA4B4";
