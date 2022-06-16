@@ -41,6 +41,8 @@ io.on("connection", (socket) => {
   console.log("User has connected:", username);
   socket.join(roomId);
 
+  const host = rooms.find(({ Id }) => Id === roomId) ? false : true;
+  console.log("Host?: ", host);
   users.push({
     id: socket.id,
     username,
@@ -48,6 +50,7 @@ io.on("connection", (socket) => {
     avatar,
     score: 0,
     roundScore: 0,
+    host,
   });
 
   if ((index = rooms.findIndex(({ Id }) => Id === roomId)) === -1) {
@@ -63,27 +66,35 @@ io.on("connection", (socket) => {
 
   socket.on("player-joined", () => {
     console.log("player-joined ", roomId);
-    io.in(roomId).emit(
-      "update-users",
-      users.filter((u) => u.roomId === roomId)
-    );
+    const usersInRoom = users.filter((u) => u.roomId === roomId);
+    io.in(roomId).emit("update-users", usersInRoom);
   });
 
   socket.on("end-of-round", () => {
     console.log("Round end ", roomId);
+    const userIndex = users.findIndex(({ id }) => id === socket.id);
+    console.log("Round end user", users[userIndex]);
+    if (!users[userIndex].host) return;
+    console.log("Host is in control");
     const index = rooms.findIndex(({ Id }) => Id === roomId);
     rooms[index].currentRound++;
+    const nextTrack = getTrack(rooms, roomId);
+
+    if (rooms[index].currentRound === rooms[index].rounds + 1) {
+      return setTimeout(() => {
+        io.in(roomId).emit("end-of-game", "End of Game");
+      }, 10000);
+    }
+
     setTimeout(() => {
       users.forEach((user) => {
         if ((user.roomID = roomId)) user.roundScore = 0;
       });
-      io.in(roomId).emit(
-        "next-round",
-        users.filter((u) => u.roomId === roomId)
-      );
+      io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
+
     setTimeout(() => {
-      // After the 5 second countdown, Tell clients to play track and start guessing.
+      // After the 5 second countdown, Tell clients to play track and start guessing
       io.to(roomId).emit("round-start", rooms[index].currentRound);
     }, 15000);
   });
@@ -137,23 +148,9 @@ io.on("connection", (socket) => {
     });
   });
 
-  // socket.on("next-round", () => {
-  //   console.log("next-round");
-
-  //   const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
-  //   const rnmTrackNum = Math.floor(
-  //     Math.random() * rooms[currentRoom].tracks.length
-  //   );
-  //   const newTrack = rooms[currentRoom].tracks[rnmTrackNum];
-
-  //   rooms[currentRoom] = { ...rooms[currentRoom], currentTrack: newTrack };
-  //   rooms[currentRoom].tracks.splice(rnmTrackNum, 1);
-
-  //   io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
-  // });
-
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
+    console.log("User Disconnected ", username);
     users = users.filter((u) => u.id !== socket.id);
     io.in(roomId).emit(
       "update-users",

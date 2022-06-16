@@ -64,7 +64,7 @@ export const PlayGame = (props: IPlayGameProps) => {
           textDecoration: "none",
         }}
       >
-        GUESS THE SONG - ROUND 1
+        GUESS THE SONG - ROUND {props.round}
       </Typography>
 
       <Box
