@@ -49,6 +49,10 @@ const Chatbox = (props: IChatboxProps) => {
     props.setMessage(inputValue);
   }, [inputValue]);
 
+  useEffect(() => {
+    setInputValue(props.message);
+  }, [props.mode]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     props.sendMessage(e);
     // Clear text boxes after sending
@@ -68,8 +72,6 @@ const Chatbox = (props: IChatboxProps) => {
           height: "93vh",
           flexDirection: "column-reverse",
           boxShadow: 5,
-          overflow: "hidden",
-          overflowY: "scroll",
         }}
       >
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -119,7 +121,16 @@ const Chatbox = (props: IChatboxProps) => {
             />
           )}
         </Box>
-        <List>{chat}</List>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column-reverse",
+            overflow: "hidden",
+            overflowY: "scroll",
+          }}
+        >
+          <List id={"chatbox"}>{chat}</List>
+        </Box>
       </Box>
     </Grow>
   );
