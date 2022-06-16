@@ -29,7 +29,7 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.2; // default volume
+    props.audio.volume = 0.03; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
@@ -45,7 +45,7 @@ export const PlayGame = (props: IPlayGameProps) => {
       props.audio.volume = 0;
     }
 
-    props.audio.volume = volumeConversion;
+    props.audio.volume = volumeConversion / 10;
   };
 
   return (
