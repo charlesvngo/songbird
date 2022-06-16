@@ -46,7 +46,12 @@ const Chatbox = (props: IChatboxProps) => {
   });
 
   useEffect(() => {
-    props.setMessage(inputValue.slice(0, inputValue.indexOf("by:")).trimEnd());
+    let message = inputValue;
+    if (inputValue.includes("by:")) {
+      message = message.slice(0, message.indexOf(" by:"));
+    }
+
+    props.setMessage(message);
   }, [inputValue]);
 
   useEffect(() => {
