@@ -4,7 +4,6 @@ import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
 import { IUser, ISocket, IGameProps } from "./Interfaces";
 import { Box } from "@mui/material";
-import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography} from "@mui/material";
 
 // modes
 const ROUND: string = "ROUND";
@@ -43,6 +42,9 @@ const Game = (props: IGameProps) => {
 
     socket.on("update-users", (data: [IUser]) => {
       setUsers(data);
+      data.forEach(u => {
+        if(u.username === user.username) props.setUser(u)
+      });
     });
 
     socket.on("game-started", (data: number) => {
@@ -125,6 +127,7 @@ const Game = (props: IGameProps) => {
           endOfRound={endOfRound}
           users={users}
           round={round}
+          host={user.host}
         />
       </Box>
       <Box>

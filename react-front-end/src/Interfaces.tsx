@@ -1,12 +1,14 @@
 export interface IUser {
+  id: number;
   username: string;
   roomId: string;
+  avatar: string;
   score: number;
   roundScore: number;
-  avatar: string;
   host: boolean;
   winning: boolean;
 }
+
 
 export interface ISocket {
   emit: (
@@ -37,6 +39,7 @@ export interface IGameLobby {
   roomId: string;
   selectGenre: (newGenre: string) => void;
   startGame: (rounds: number) => void;
+  host: boolean;
 }
 
 export interface IGameBoard extends IGameLobby {
@@ -46,6 +49,7 @@ export interface IGameBoard extends IGameLobby {
   audio: any;
   users: IUser[];
   round: number;
+
 }
 
 export interface IPlayGameProps {

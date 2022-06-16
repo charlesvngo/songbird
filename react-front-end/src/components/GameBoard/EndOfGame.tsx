@@ -1,6 +1,6 @@
 import React from "react";
 import { IEndOfGameProps, IUser } from "../../Interfaces";
-import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Box, Typography } from "@mui/material";
+import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Box } from "@mui/material";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
 
@@ -12,8 +12,12 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     if(i === 0) bgc =  "#3EA4B4"
    
     return (
-      <Box sx={{ backgroundColor: bgc, width:"35vh" }}>
+      <Box sx={{ backgroundColor: bgc, width:"35vh", borderRadius: 6 }}>
         <ListItem sx={{ backgroundColor: "inherit" }}>
+        <ListItemText
+            sx={{ padding: 1, width: '2vh', fontSize: 38 }}
+            primary={i+1}
+            />
           <ListItemAvatar>
             <Avatar
               src={user.avatar}
@@ -26,7 +30,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
             />
             <ListItemText
             sx={{ padding: 1, width: '15vh'  }} 
-            primary={`Score: ${user.roundScore}`}
+            primary={`Score: ${user.score}`}
           />
         </ListItem>
         <Divider />
@@ -37,7 +41,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
   
   return (
     <>
-      <h1>End of Game</h1>
+      <h1>Game Over</h1>
       {users}
     </>
   );

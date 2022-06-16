@@ -15,3 +15,5 @@ Check off when fixed and deployed:
 5. Keyboard pause button stops audio
 
 6. Shouldn't be able to send a blank message ✅
+
+7. UserForm should be passed the user state and not re-create it
