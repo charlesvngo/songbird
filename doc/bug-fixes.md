@@ -1,4 +1,4 @@
-# Bug Fixes
+# Bug Fixes & Improvements
 
 Check off when fixed and deployed:
 
@@ -11,5 +11,5 @@ Check off when fixed and deployed:
   
 4. Not all genres are working
    - Fix RnB and Suprise Me
-
-5. Music played isn't as mainstream or guessable as we'd like
+  
+5. Keyboard pause button stops audio

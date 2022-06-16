@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AudioVisualizer from "./AudioVisualizer";
+import AudioVisualizer from "./AudioVisualizer.jsx";
 import { IPlayGameProps } from "../../Interfaces";
 import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
@@ -10,7 +10,7 @@ export const PlayGame = (props: IPlayGameProps) => {
   const [progress, setProgress] = useState<number>(0);
   const [volume, setVolume] = useState<
     number | string | Array<number | string>
-  >(30);
+  >(20);
 
   // reveals album art
   useEffect(() => {
@@ -19,12 +19,12 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   // updates progress bar
   useEffect(() => {
-    progress < 100 && setTimeout(() => setProgress(progress + 1), 289);
+    progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
   }, [progress]);
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.3; // default volume
+    props.audio.volume = 0.2; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
