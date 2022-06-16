@@ -9,7 +9,6 @@ export interface IUser {
   winning: boolean;
 }
 
-
 export interface ISocket {
   emit: (
     eventName: string,
@@ -78,7 +77,7 @@ export interface IEndOfRoundProps {
   track: any;
   round: number;
 }
-export interface IEndOfGameProps{
+export interface IEndOfGameProps {
   users: IUser[];
   newGame: () => void;
   host: boolean;
@@ -97,8 +96,13 @@ export interface Imessage {
   avatar: string;
 }
 
+export interface ITracklist {
+  name: string;
+  artist: string;
+}
+
 export interface IChatboxProps {
-  tracklist: string[];
+  tracklist: ITracklist[];
   message: string;
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;

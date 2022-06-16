@@ -7,7 +7,12 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
 // helper functions
-const { getToken, getPlaylist } = require("./helpers/spotify");
+const {
+  getToken,
+  getPlaylist,
+  filterTitles,
+  createAutocomplete,
+} = require("./helpers/spotify");
 const getTrack = require("./helpers/game");
 const sampleSonglist = require("./helpers/autocompleteSongs");
 
@@ -159,18 +164,14 @@ io.on("connection", (socket) => {
     // Obtain the playlist based on the selected genre passed in from host.
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
-      const titles = tracks.map((track) => track.name);
+      const titles = filterTitles(tracks);
+
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       rooms[index] = { ...rooms[index], tracks, titles, rounds };
       const nextTrack = getTrack(rooms, roomId);
 
       // Create an list of red-herring songs.
-      const autocomplete = sampleSonglist.map((song) => song.name);
-      for (const song of titles) {
-        if (!autocomplete.includes(song)) {
-          autocomplete.push(song);
-        }
-      }
+      const autocomplete = createAutocomplete(sampleSonglist, titles);
 
       io.to(roomId).emit("next-track", nextTrack);
       io.to(roomId).emit("track-list", autocomplete);

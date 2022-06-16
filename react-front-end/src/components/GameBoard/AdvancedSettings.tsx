@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // interfaces
 import { IAdvancedSettings } from "../../Interfaces";
@@ -10,8 +10,8 @@ import { Autocomplete, TextField } from "@mui/material";
 import { availableGenres } from "../../helpers/availableGenres";
 
 const AdvancedSettings = (props: IAdvancedSettings) => {
-  const [value, setValue] = React.useState<string | null>(null);
-  const [inputValue, setInputValue] = React.useState<string>("");
+  const [value, setValue] = useState<string | null>(null);
+  const [inputValue, setInputValue] = useState<string>("");
 
   useEffect(() => {
     if (inputValue) {
@@ -24,10 +24,16 @@ const AdvancedSettings = (props: IAdvancedSettings) => {
       id="advanced-genre-select"
       options={availableGenres}
       value={value}
-      onChange={(event: any, newValue: string | null) => {
+      onChange={(
+        event: React.SyntheticEvent<Element, Event>,
+        newValue: string | null
+      ) => {
         setValue(newValue);
       }}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(
+        event: React.SyntheticEvent<Element, Event>,
+        newInputValue: string
+      ) => {
         setInputValue(newInputValue);
       }}
       inputValue={inputValue}
