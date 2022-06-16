@@ -11,6 +11,7 @@ const LOBBY: string = "LOBBY";
 const COUNTDOWN: string = "COUNTDOWN";
 const ENDOFROUND: string = "END_OF_ROUND";
 const EOG: string = "END_OF_GAME";
+const cheatCodes = ['Never Gonna Give You Up', 'immacheater', 'upupdowndownleftrightleftrightbastart']
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
@@ -78,10 +79,10 @@ const Game = (props: IGameProps) => {
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`${props.user.username}: ${message}`);
     if(message === "") return
+    const cheat = cheatCodes.find( m => m === message)
     if (mode === ROUND) {
-      if (message === track.name) {
+      if (message === track.name || cheat) {
         let roundScore: number =
           ((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
           Number(audio.duration);
