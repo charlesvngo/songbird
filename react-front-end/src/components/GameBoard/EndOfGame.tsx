@@ -8,6 +8,7 @@ import {
   ListItemText,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
@@ -79,6 +80,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         GAME OVER
       </Typography>
       {users}
+      <Button
+        variant="contained"
+        size="large"
+        disabled={!props.host}   
+        onClick={props.newGame}>New Game</Button>
     </Box>
   );
 };

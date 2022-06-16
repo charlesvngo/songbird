@@ -48,6 +48,10 @@ export interface IGameBoard extends IGameLobby {
   audio: any;
   users: IUser[];
   round: number;
+<<<<<<< HEAD
+=======
+  newGame: () => void;
+>>>>>>> 7c01ee855130b73ead00cd5f99e08b6204e50baf
 }
 
 export interface IPlayGameProps {
@@ -78,6 +82,8 @@ export interface IEndOfRoundProps {
 }
 export interface IEndOfGameProps {
   users: IUser[];
+  newGame: () => void;
+  host: boolean;
 }
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;

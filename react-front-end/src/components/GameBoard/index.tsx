@@ -50,7 +50,11 @@ const GameBoard = (props: IGameBoard) => {
               round={props.round}
             />
           )}
-          {props.mode === "END_OF_GAME" && <EndOfGame users={props.users} />}
+          {props.mode === "END_OF_GAME" && 
+            <EndOfGame
+              users={props.users}
+              newGame = {props.newGame} 
+              host={props.host}/>}
         </Box>
       </Container>
     </Grow>
