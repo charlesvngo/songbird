@@ -19,7 +19,9 @@ Check off when fixed and deployed:
 6. Shouldn't be able to send a blank message in chatbox
 
 7. Progess bar lags after the first round
-   
 8. Shouldn't be able to send a blank message ✅
 
-9.  UserForm should be passed the user state and not re-create it
+9. UserForm should be passed the user state and not re-create it
+
+10. Client sockets will randomly disconnect/reconnect if left idol or several players in room
+    - this also seems to cause the Host boolean to be set to false and then none of the players can start the game
