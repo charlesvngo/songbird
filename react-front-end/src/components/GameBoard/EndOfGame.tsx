@@ -20,6 +20,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     if (i === 2) bgc = "#a6e4ed";
     if (i === 1) bgc = "#7bcedb";
     if (i === 0) bgc = "#3EA4B4";
+    const tc = i > 2 ? 'black' : 'white'
 
     return (
       <Box
@@ -28,7 +29,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           backgroundColor: bgc,
           width: "35vw",
           borderRadius: 2,
-          color: "white",
+          color: tc,
         }}
       >
         <ListItem>
