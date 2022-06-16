@@ -72,7 +72,7 @@ export const GameLobby = (props: IGameLobby) => {
           )}
           {!props.host && (
             <Typography component="h3" variant="h5" m={2}>
-              Waiting for host to begin game...
+              Waiting for the host to begin game...
             </Typography>
           )}
           {props.host && <AddIcon fontSize="large" onClick={handleOnAdd} />}

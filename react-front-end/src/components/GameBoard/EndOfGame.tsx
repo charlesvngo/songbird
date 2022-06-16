@@ -9,6 +9,7 @@ import {
   Box,
   Typography,
 } from "@mui/material";
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
   const sortedUsers = props.users.sort(
@@ -23,12 +24,17 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     return (
       <Box
         key={i}
-        sx={{ backgroundColor: bgc, width: "35vw", borderRadius: 2 }}
+        sx={{
+          backgroundColor: bgc,
+          width: "35vw",
+          borderRadius: 2,
+          color: "white",
+        }}
       >
         <ListItem>
           <ListItemText
             sx={{ padding: 1, width: "2vh", fontSize: 38 }}
-            primary={`#${i + 1}`}
+            primary={<Typography variant="h6">#{i + 1}</Typography>}
           />
           <ListItemAvatar>
             <Avatar
@@ -38,11 +44,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           </ListItemAvatar>
           <ListItemText
             sx={{ padding: 1, width: "10vh" }}
-            primary={user.username}
+            primary={<Typography variant="h6">{user.username}</Typography>}
           />
           <ListItemText
             sx={{ padding: 1, width: "10vh" }}
-            primary={`Score: ${user.score}`}
+            primary={<Typography variant="h6">Score: {user.score}</Typography>}
           />
         </ListItem>
       </Box>
