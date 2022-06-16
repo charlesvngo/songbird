@@ -12,11 +12,6 @@ export const PlayGame = (props: IPlayGameProps) => {
     number | string | Array<number | string>
   >(20);
 
-  // reveals album art
-  // useEffect(() => {
-  //   blur > 0 && setTimeout(() => setBlur(blur - 0.1), 450);
-  // }, [blur]);
-
   // updates progress bar
   useEffect(() => {
     // progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
