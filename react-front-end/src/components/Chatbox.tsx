@@ -81,6 +81,7 @@ const Chatbox = (props: IChatboxProps) => {
               name="message"
               autoComplete="off"
               type="text"
+              placeholder="Your Guess"
               value={props.message}
               onChange={(e) => props.setMessage(e.target.value)}
               autoFocus

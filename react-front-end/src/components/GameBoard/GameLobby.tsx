@@ -15,8 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export const GameLobby = (props: IGameLobby) => {
-
-  console.log(props)
+  console.log(props);
   const [rounds, setRounds] = useState<number>(5);
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -52,19 +51,30 @@ export const GameLobby = (props: IGameLobby) => {
         }}
       >
         {props.host && <GenreSelector selectGenre={props.selectGenre} />}
-        <Typography component="h3" variant="h5" m={2}>
-          Rounds
-        </Typography>
+        {props.host && (
+          <Typography component="h3" variant="h5" m={2}>
+            Rounds
+          </Typography>
+        )}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
           }}
         >
-          {props.host && <RemoveIcon fontSize="large" onClick={handleOnSubtract} />}
-          <Typography component="h3" variant="h5" m={2}>
-            {rounds}
-          </Typography>
+          {props.host && (
+            <RemoveIcon fontSize="large" onClick={handleOnSubtract} />
+          )}
+          {props.host && (
+            <Typography component="h3" variant="h5" m={2}>
+              {rounds}
+            </Typography>
+          )}
+          {!props.host && (
+            <Typography component="h3" variant="h5" m={2}>
+              Waiting for host to begin game...
+            </Typography>
+          )}
           {props.host && <AddIcon fontSize="large" onClick={handleOnAdd} />}
         </Box>
         <Typography>Share the room code to invite people to join</Typography>
@@ -94,7 +104,7 @@ export const GameLobby = (props: IGameLobby) => {
           variant="contained"
           size="large"
           onClick={() => props.startGame(rounds)}
-          disabled = {!props.host}
+          disabled={!props.host}
         >
           Start Game
         </Button>

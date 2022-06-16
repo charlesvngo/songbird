@@ -34,7 +34,7 @@ const AdvancedSettings = (props: IAdvancedSettings) => {
       renderInput={(params) => (
         <TextField {...params} label="Select a genre" placeholder="Genres" />
       )}
-      sx={{ width: "500px" }}
+      sx={{ width: "331px" }}
     />
   );
 };

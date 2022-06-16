@@ -161,14 +161,21 @@ const UserForm = (props: IUserFormProps) => {
             autoComplete="room-id"
             onChange={(e) => setUser({ ...user, roomId: e.target.value })}
           />
-          <Button
+          {roomId && <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Join
+          </Button> || <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Start Game
-          </Button>
+          </Button>}
         </Box>
       </Container>
     </Grow>
