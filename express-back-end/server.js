@@ -127,6 +127,7 @@ io.on("connection", (socket) => {
       rooms[index] = { ...rooms[index], tracks, titles, rounds };
       const nextTrack = getTrack(rooms, roomId);
       io.to(roomId).emit("next-track", nextTrack);
+      io.to(roomId).emit("track-list", titles);
       // Tell all players that the game has started
       io.to(roomId).emit("game-started", rooms[index].roomId);
       setTimeout(() => {

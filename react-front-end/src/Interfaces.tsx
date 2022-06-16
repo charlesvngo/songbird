@@ -86,10 +86,12 @@ export interface Imessage {
 }
 
 export interface IChatboxProps {
+  tracklist: string[];
   message: string;
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   messages: Imessage[];
+  mode: string;
 }
 
 export interface IAdvancedSettings {

@@ -24,6 +24,7 @@ const Game = (props: IGameProps) => {
   ]);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
+  const [tracklist, setTracklist] = useState<string[]>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [audio, setAudio] = useState<any>(document.getElementById("songTrack"));
@@ -57,6 +58,10 @@ const Game = (props: IGameProps) => {
 
     socket.on("next-track", (data: any) => {
       setTrack(data);
+    });
+
+    socket.on("track-list", (data: string[]) => {
+      setTracklist(data);
     });
   }, [socket]);
 
@@ -118,10 +123,12 @@ const Game = (props: IGameProps) => {
       </Box>
       <Box>
         <Chatbox
+          tracklist={tracklist}
           message={message}
           sendMessage={sendMessage}
           setMessage={setMessage}
           messages={messages}
+          mode={mode}
         />
       </Box>
     </Box>

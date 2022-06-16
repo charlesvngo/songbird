@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { IChatboxProps } from "../Interfaces";
 import {
   Box,
@@ -10,12 +10,15 @@ import {
   ListItemText,
   Grow,
   Slide,
+  Autocomplete,
 } from "@mui/material";
 
 // logo image
 import bird from "../assets/bird_logo.png";
 
 const Chatbox = (props: IChatboxProps) => {
+  const [value, setValue] = React.useState<string | null>(null);
+  const [inputValue, setInputValue] = React.useState<string>("");
   const containerRef = useRef(null);
   const chat = props.messages.map((m, i) => {
     return (
@@ -42,9 +45,15 @@ const Chatbox = (props: IChatboxProps) => {
     );
   });
 
+  useEffect(() => {
+    props.setMessage(inputValue);
+  }, [inputValue]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     props.sendMessage(e);
+    // Clear text boxes after sending
     props.setMessage("");
+    setInputValue("");
   };
 
   return (
@@ -64,17 +73,51 @@ const Chatbox = (props: IChatboxProps) => {
         }}
       >
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            fullWidth
-            id="message"
-            name="message"
-            autoComplete="off"
-            type="text"
-            value={props.message}
-            onChange={(e) => props.setMessage(e.target.value)}
-            autoFocus
-          />
+          {props.mode !== "ROUND" && (
+            <TextField
+              margin="normal"
+              fullWidth
+              id="message"
+              name="message"
+              autoComplete="off"
+              type="text"
+              value={props.message}
+              onChange={(e) => props.setMessage(e.target.value)}
+              autoFocus
+            />
+          )}
+          {props.mode === "ROUND" && (
+            <Autocomplete
+              fullWidth
+              id="autocomplete-songlist"
+              freeSolo
+              value={value}
+              onChange={(e: any, newValue) => setValue(newValue)}
+              inputValue={inputValue}
+              onInputChange={(e: any, newInputValue) =>
+                setInputValue(newInputValue)
+              }
+              options={props.tracklist}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  margin="normal"
+                  name="message"
+                  type="text"
+                  autoFocus
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+              ListboxProps={{
+                style: {
+                  maxHeight: "4em",
+                },
+              }}
+            />
+          )}
         </Box>
         <List>{chat}</List>
       </Box>
