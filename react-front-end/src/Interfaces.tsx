@@ -19,7 +19,7 @@ export interface ISocket {
   disconnect: () => void;
 }
 
-export interface IThemeLight {
+export interface ITheme {
   palette: {
     primary: {
       main: string;
@@ -30,28 +30,9 @@ export interface IThemeLight {
   };
 }
 
-export interface IThemeDark {
-  palette: {
-    primary: {
-      main: string;
-    };
-    secondary: {
-      main: string;
-    };
-  };
+export interface INavProps {
+  changeTheme: () => void;
 }
-
-export interface IThemeParty {
-  palette: {
-    primary: {
-      main: string;
-    };
-    secondary: {
-      main: string;
-    };
-  };
-}
-
 export interface IAudioProps {
   src: string;
 }

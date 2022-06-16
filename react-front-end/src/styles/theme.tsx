@@ -1,7 +1,7 @@
-import { IThemeLight, IThemeDark, IThemeParty } from "../Interfaces";
+import { ITheme } from "../Interfaces";
 import { createTheme } from "@mui/material";
 
-export const lightTheme: IThemeLight = createTheme({
+export const lightTheme: ITheme = createTheme({
   palette: {
     primary: {
       main: "#11AD94", // Blue Green
@@ -15,7 +15,7 @@ export const lightTheme: IThemeLight = createTheme({
   },
 });
 
-export const darkTheme: IThemeDark = createTheme({
+export const darkTheme: ITheme = createTheme({
   palette: {
     primary: {
       main: "#11AD94", // Blue Green
@@ -24,12 +24,12 @@ export const darkTheme: IThemeDark = createTheme({
       main: "#3EA4B4", // Pacific Blue
     },
     background: {
-      default: "#F4F4FF",
+      default: "#121212",
     },
   },
 });
 
-export const partyTheme: IThemeParty = createTheme({
+export const partyTheme: ITheme = createTheme({
   palette: {
     primary: {
       main: "#11AD94", // Blue Green

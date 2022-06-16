@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { INavProps } from "../Interfaces";
 import logo from "../assets/bird_logo_white.png";
+
 import {
   AppBar,
   Container,
@@ -12,11 +14,13 @@ import {
 import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import PartyModeIcon from "@mui/icons-material/Celebration";
+import { TramOutlined } from "@mui/icons-material";
 
-const NavBar = () => {
+const NavBar = (props: INavProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
+  const handleTheme = () => props.changeTheme();
 
   return (
     <AppBar position="static">
@@ -51,8 +55,14 @@ const NavBar = () => {
           component="a"
           sx={{ display: "flex", color: "inherit", alignItems: "center" }}
         >
-          <DarkModeIcon sx={{ marginRight: 2, color: "white" }} />
-          <PartyModeIcon sx={{ marginRight: 2, color: "white" }} />
+          <DarkModeIcon
+            onClick={handleTheme}
+            sx={{ marginRight: 2, color: "white" }}
+          />
+          <PartyModeIcon
+            onClick={handleTheme}
+            sx={{ marginRight: 2, color: "white" }}
+          />
           <InfoIcon onClick={handleOpen} sx={{ color: "white" }} />
           <Modal
             open={open}
