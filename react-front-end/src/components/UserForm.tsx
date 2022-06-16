@@ -68,6 +68,7 @@ const UserForm = (props: IUserFormProps) => {
     host: false,
     winning: false
   });
+  const [roomId, setRoomId] = useState<string>(getUrlParams())
 
   const nextAvatar = () => {
     const currentHistory = [...history];
@@ -101,8 +102,6 @@ const UserForm = (props: IUserFormProps) => {
     }
     props.createSocket(user);
   };
-
-  const roomId = getUrlParams();
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
@@ -159,7 +158,10 @@ const UserForm = (props: IUserFormProps) => {
             id="room-id"
             value={roomId}
             autoComplete="room-id"
-            onChange={(e) => setUser({ ...user, roomId: e.target.value })}
+            onChange={(e) => {
+              setUser({ ...user, roomId: e.target.value })
+              setRoomId(e.target.value)
+            }}
           />
           {roomId && <Button
             type="submit"
