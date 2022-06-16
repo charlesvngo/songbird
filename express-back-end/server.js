@@ -147,23 +147,9 @@ io.on("connection", (socket) => {
     });
   });
 
-  // socket.on("next-round", () => {
-  //   console.log("next-round");
-
-  //   const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
-  //   const rnmTrackNum = Math.floor(
-  //     Math.random() * rooms[currentRoom].tracks.length
-  //   );
-  //   const newTrack = rooms[currentRoom].tracks[rnmTrackNum];
-
-  //   rooms[currentRoom] = { ...rooms[currentRoom], currentTrack: newTrack };
-  //   rooms[currentRoom].tracks.splice(rnmTrackNum, 1);
-
-  //   io.to(roomId).emit("new-track", rooms[currentRoom].currentTrack);
-  // });
-
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
+    console.log("User Disconnected ", username);
     users = users.filter((u) => u.id !== socket.id);
     io.in(roomId).emit(
       "update-users",

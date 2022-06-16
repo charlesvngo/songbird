@@ -26,7 +26,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
             />
             <ListItemText
             sx={{ padding: 1 }} 
-            primary={`Score: + ${user.roundScore}`}
+            primary={`Score: ${user.roundScore}`}
           />
         </ListItem>
         <Divider />
