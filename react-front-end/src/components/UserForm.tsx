@@ -59,12 +59,16 @@ const UserForm = (props: IUserFormProps) => {
   const [birdIndex, setBirdIndex] = useState<number>(0);
   const [history, setHistory] = useState<number[]>([0]);
   const [user, setUser] = useState<IUser>({
+    id: 0,
     username: "",
     roomId: "",
     score: 0,
     roundScore: 0,
     avatar: birds[birdIndex],
+    host: false,
+    winning: false
   });
+  const [roomId, setRoomId] = useState<string>(getUrlParams())
 
   const nextAvatar = () => {
     const currentHistory = [...history];
@@ -98,8 +102,6 @@ const UserForm = (props: IUserFormProps) => {
     }
     props.createSocket(user);
   };
-
-  const roomId = getUrlParams();
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
@@ -156,16 +158,26 @@ const UserForm = (props: IUserFormProps) => {
             id="room-id"
             value={roomId}
             autoComplete="room-id"
-            onChange={(e) => setUser({ ...user, roomId: e.target.value })}
+            onChange={(e) => {
+              setUser({ ...user, roomId: e.target.value })
+              setRoomId(e.target.value)
+            }}
           />
-          <Button
+          {roomId && <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Join
+          </Button> || <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
             Start Game
-          </Button>
+          </Button>}
         </Box>
       </Container>
     </Grow>
