@@ -12,8 +12,8 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     if(i === 0) bgc =  "#3EA4B4"
    
     return (
-      <Box sx={{ backgroundColor: bgc, width:"35vh", borderRadius: 6 }}>
-        <ListItem sx={{ backgroundColor: "inherit" }}>
+      <Box sx={{ backgroundColor: bgc, width:"35vh", borderRadius: 2 }} key={i}>
+        <ListItem>
         <ListItemText
             sx={{ padding: 1, width: '2vh', fontSize: 38 }}
             primary={i+1}
@@ -25,15 +25,14 @@ export const EndOfGame = (props: IEndOfGameProps) => {
             />
           </ListItemAvatar>
            <ListItemText
-            sx={{ padding: 1, width: '15vh' }}
+            sx={{ padding: 1, width: '10vh' }}
             primary={user.username}
             />
             <ListItemText
-            sx={{ padding: 1, width: '15vh'  }} 
+            sx={{ padding: 1, width: '10vh'  }} 
             primary={`Score: ${user.score}`}
           />
         </ListItem>
-        <Divider />
       </Box>
     );
   });

@@ -1,7 +1,6 @@
 import React from "react";
 import { IEndOfRoundProps, IUser } from "../../Interfaces";
 import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography, Box } from "@mui/material";
-import { flexbox } from "@mui/system";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
 
@@ -35,7 +34,6 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
                       Score: + {user.roundScore}
                     </Typography>}
           />
-          <Divider />
         </ListItem>
       </Box>
     );
