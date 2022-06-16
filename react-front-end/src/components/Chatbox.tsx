@@ -67,11 +67,13 @@ const Chatbox = (props: IChatboxProps) => {
           display: "flex",
           border: 3,
           borderRadius: 2,
+          borderColor: "white",
           margin: 1,
           padding: 2,
           height: "93vh",
           flexDirection: "column-reverse",
           boxShadow: 5,
+          backgroundColor: "white",
         }}
       >
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

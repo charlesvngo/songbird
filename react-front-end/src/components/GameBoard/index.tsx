@@ -17,13 +17,15 @@ const GameBoard = (props: IGameBoard) => {
             marginTop: 1,
             marginBottom: 1,
             padding: 2,
+            height: "93vh",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             border: 3,
             borderRadius: 2,
-            height: "93vh",
+            borderColor: "white",
             boxShadow: 5,
+            backgroundColor: "white",
           }}
         >
           {props.mode === "LOBBY" && (

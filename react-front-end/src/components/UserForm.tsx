@@ -110,7 +110,7 @@ const UserForm = (props: IUserFormProps) => {
 
         <Box
           sx={{
-            marginTop: 10,
+            marginTop: 15,
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
@@ -167,7 +167,7 @@ const UserForm = (props: IUserFormProps) => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, color: "white" }}
           >
             {roomId ? "Join" : "Start Game"}
           </Button>

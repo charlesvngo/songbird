@@ -12,8 +12,10 @@ const Leaderboard = (props: ILeaderboardProps) => {
     <Grow in={true} {...{ timeout: 1000 }}>
       <Box
         sx={{
+          backgroundColor: "white",
           border: 3,
           borderRadius: 2,
+          borderColor: "white",
           margin: 1,
           padding: 2,
           height: "93vh",
@@ -23,8 +25,10 @@ const Leaderboard = (props: ILeaderboardProps) => {
         <Typography variant="h6" component="h6" align="left">
           Room ID: {props.users[0].roomId}
         </Typography>
-        <Divider />
-        <List>{users}</List>
+        <List>
+          <Divider />
+          {users}
+        </List>
       </Box>
     </Grow>
   );

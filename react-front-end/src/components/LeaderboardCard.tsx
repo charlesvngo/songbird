@@ -13,10 +13,10 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
   const containerRef = useRef(null);
-  const bgc = props.user.host ? "#F4F4FF" : "inhert"
+  const bgc = props.user.host ? "#FAFAFA" : "inhert";
   return (
     <Slide direction="right" in={true} container={containerRef.current}>
-      <Box sx={{ backgroundColor: bgc}}>
+      <Box sx={{ backgroundColor: bgc }}>
         <ListItem>
           <ListItemAvatar>
             <Avatar

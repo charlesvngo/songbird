@@ -5,7 +5,7 @@ import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
 import { IUser, ISocket } from "./Interfaces";
-import { theme } from "./helpers/theme";
+import { lightTheme, darkTheme, partyTheme } from "./styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
 // generates random room id
@@ -30,7 +30,7 @@ const App = () => {
     score: 0,
     roundScore: 0,
     host: false,
-    winning: false
+    winning: false,
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);
 
@@ -56,12 +56,12 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={lightTheme}>
       <NavBar />
       <div className="App">
-        <AudioPlayer src ={""} />
+        <AudioPlayer src={""} />
         {user.username ? (
-          <Game user={user} socket={socket} setUser={setUser}/>
+          <Game user={user} socket={socket} setUser={setUser} />
         ) : (
           <UserForm createSocket={createSocket} />
         )}

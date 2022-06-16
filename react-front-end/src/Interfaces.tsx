@@ -9,7 +9,6 @@ export interface IUser {
   winning: boolean;
 }
 
-
 export interface ISocket {
   emit: (
     eventName: string,
@@ -20,7 +19,29 @@ export interface ISocket {
   disconnect: () => void;
 }
 
-export interface ITheme {
+export interface IThemeLight {
+  palette: {
+    primary: {
+      main: string;
+    };
+    secondary: {
+      main: string;
+    };
+  };
+}
+
+export interface IThemeDark {
+  palette: {
+    primary: {
+      main: string;
+    };
+    secondary: {
+      main: string;
+    };
+  };
+}
+
+export interface IThemeParty {
   palette: {
     primary: {
       main: string;
@@ -49,7 +70,6 @@ export interface IGameBoard extends IGameLobby {
   audio: any;
   users: IUser[];
   round: number;
-
 }
 
 export interface IPlayGameProps {
@@ -78,7 +98,7 @@ export interface IEndOfRoundProps {
   track: any;
   round: number;
 }
-export interface IEndOfGameProps{
+export interface IEndOfGameProps {
   users: IUser[];
 }
 export interface IUserFormProps {
