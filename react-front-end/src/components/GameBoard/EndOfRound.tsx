@@ -1,6 +1,7 @@
 import React from "react";
 import { IEndOfRoundProps, IUser } from "../../Interfaces";
 import { ListItem, ListItemAvatar, Avatar, Divider, ListItemText, Typography, Box } from "@mui/material";
+import { flexbox } from "@mui/system";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
 
@@ -9,7 +10,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
     const bgc = (i === 0 && user.roundScore !== 0) ? "#3EA4B4" : "inhert"
     const tc = (i === 0 && user.roundScore !== 0) ? "black" : "green"
     return (
-      <Box sx={{ backgroundColor: bgc, width:"35vh" }}>
+      <Box sx={{ backgroundColor: bgc, width:"35vw", borderRadius: 2 }} key = {i}>
         <ListItem >
           <ListItemAvatar>
             <Avatar
@@ -17,24 +18,25 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
               sx={{ padding: 1, width: 80, height: 80 }}
             />
           </ListItemAvatar>
-          {(i === 0 && user.roundScore !== 0) ? <ListItemText
-            sx={{ padding: 1 }}
+          {(i === 0 && user.roundScore !== 0) ? 
+          <ListItemText
+            sx={{ padding: 1, width: '10vw' }}
             primary={<Typography variant="h6" style={{ color: tc }}>
-           {user.username}
-          </Typography>}
-          />: <ListItemText
-          sx={{ padding: 1 }}
-          primary={user.username}
-        />}
-            <ListItemText
+                      {user.username}
+                      </Typography>}
+          />: 
+          <ListItemText
+            sx={{ padding: 1, width: '10vw' }}
+            primary={user.username}
+          />}
+          <ListItemText
             sx={{ padding: 1 }} 
-            // primary={`Score: + ${user.roundScore}`}
             primary={<Typography variant="h6" style={{ color: tc }}>
-            Score: + {user.roundScore}
-          </Typography>}
+                      Score: + {user.roundScore}
+                    </Typography>}
           />
+          <Divider />
         </ListItem>
-        <Divider />
       </Box>
     );
   });

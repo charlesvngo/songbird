@@ -19,3 +19,7 @@ Check off when fixed and deployed:
 6. Shouldn't be able to send a blank message in chatbox
 
 7. Progess bar lags after the first round
+   
+8. Shouldn't be able to send a blank message ✅
+
+9.  UserForm should be passed the user state and not re-create it

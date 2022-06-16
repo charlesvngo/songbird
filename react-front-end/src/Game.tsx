@@ -42,6 +42,9 @@ const Game = (props: IGameProps) => {
 
     socket.on("update-users", (data: [IUser]) => {
       setUsers(data);
+      data.forEach(u => {
+        if(u.username === user.username) props.setUser(u)
+      });
     });
 
     socket.on("game-started", (data: number) => {
@@ -74,6 +77,7 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
+    if(message === "") return
     if (mode === ROUND) {
       if(message === track.name){
         let roundScore: number = ((Number(audio.duration) -  Number(audio.currentTime)) * 2000/Number(audio.duration))
@@ -94,7 +98,7 @@ const Game = (props: IGameProps) => {
     socket.emit("end-of-round", "end-of-round");
     setMode(ENDOFROUND);
   };
-  
+
   const selectGenre = (newGenre: string) => {
     if (newGenre !== "advanced-settings" && newGenre !== null) {
       setGenre(newGenre);
@@ -123,6 +127,7 @@ const Game = (props: IGameProps) => {
           endOfRound={endOfRound}
           users={users}
           round={round}
+          host={user.host}
         />
       </Box>
       <Box>

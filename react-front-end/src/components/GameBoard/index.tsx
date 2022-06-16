@@ -33,6 +33,7 @@ const GameBoard = (props: IGameBoard) => {
               roomId={props.roomId}
               selectGenre={props.selectGenre}
               startGame={props.startGame}
+              host={props.host}
             />
           )}
           {props.mode === "COUNTDOWN" && <Countdown />}

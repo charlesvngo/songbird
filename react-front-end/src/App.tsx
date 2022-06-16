@@ -23,11 +23,12 @@ const App = () => {
 
   // create a colour palette for the App
   const [user, setUser] = useState<IUser>({
+    id: 0,
     username: "",
     roomId: roomId,
+    avatar: "",
     score: 0,
     roundScore: 0,
-    avatar: "",
     host: false,
     winning: false
   });
