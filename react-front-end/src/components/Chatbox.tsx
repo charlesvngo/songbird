@@ -46,7 +46,7 @@ const Chatbox = (props: IChatboxProps) => {
   });
 
   useEffect(() => {
-    props.setMessage(inputValue);
+    props.setMessage(inputValue.slice(0, inputValue.indexOf("by:")).trimEnd());
   }, [inputValue]);
 
   useEffect(() => {
@@ -100,7 +100,9 @@ const Chatbox = (props: IChatboxProps) => {
               onInputChange={(e: any, newInputValue) =>
                 setInputValue(newInputValue)
               }
-              options={props.tracklist}
+              options={props.tracklist.map(
+                (track) => `${track.name} by: ${track.artist}`
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -116,7 +118,7 @@ const Chatbox = (props: IChatboxProps) => {
               )}
               ListboxProps={{
                 style: {
-                  maxHeight: "3em",
+                  maxHeight: "10vh",
                   flexWrap: "nowrap",
                   overflowX: "hidden",
                   overflow: "hidden",

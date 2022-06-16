@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
-import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { IUser, ISocket, IGameProps, ITracklist } from "./Interfaces";
 import { Box } from "@mui/material";
 
 // modes
@@ -25,7 +25,7 @@ const Game = (props: IGameProps) => {
   ]);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
-  const [tracklist, setTracklist] = useState<string[]>([]);
+  const [tracklist, setTracklist] = useState<[ITracklist] | []>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [audio] = useState<any>(document.getElementById("songTrack"));
@@ -42,8 +42,8 @@ const Game = (props: IGameProps) => {
 
     socket.on("update-users", (data: [IUser]) => {
       setUsers(data);
-      data.forEach(u => {
-        if(u.username === user.username) props.setUser(u)
+      data.forEach((u) => {
+        if (u.username === user.username) props.setUser(u);
       });
     });
 
@@ -69,7 +69,7 @@ const Game = (props: IGameProps) => {
       setMode(EOG);
     });
 
-    socket.on("track-list", (data: string[]) => {
+    socket.on("track-list", (data: ITracklist | any) => {
       setTracklist(data);
     });
 
@@ -79,7 +79,7 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
-    if(message === "") return
+    if (message === "") return;
     if (mode === ROUND) {
       if (message === track.name) {
         let roundScore: number =
