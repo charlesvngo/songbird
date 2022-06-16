@@ -1,6 +1,5 @@
 import React from "react";
 import "../../styles/visualizer.css";
-import { IAudioProps } from "../../Interfaces";
 import { Box } from "@mui/material";
 
 const AudioVisualizer = () => {

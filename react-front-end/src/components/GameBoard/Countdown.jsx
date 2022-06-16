@@ -19,21 +19,27 @@ const trackingOutExpandFwdBottom = keyframes`
 }
 `;
 
-const Count = styled(Typography)({
-  variant: 'h1',
-  // animation: trackOut && `${trackingOutExpandFwdBottom} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
-}) as typeof Typography;
+const Count = styled(Typography)(({anim}) => ({
+  fontSize: 88,
+  animation: anim && `${trackingOutExpandFwdBottom} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
+})) 
 
 export const Countdown = () => {
-  const [counter, setCounter] = useState<number>(5);
-  const [trackOut, setTrackOut] = useState<any>(false)
+  const [counter, setCounter] = useState(5);
+  const [trackOut, setTrackOut] = useState(false)
   const containerRef = useRef(null);
+  console.log("TrackOut value", trackOut)
+  console.log("TrackOut type:", typeof(trackOut))
   useEffect(() => {
+    setTrackOut(false)
     counter > 1 &&
       setTimeout(() => {
         setCounter(counter - 1);
       }, 1000);
-      setTrackOut(true);
+      setTimeout(() => {
+        setTrackOut(true);
+      }, 200);
+  
   }, [counter]);
 
 
@@ -54,7 +60,7 @@ export const Countdown = () => {
       >
         <Typography variant="h2">Song starts in: </Typography>
         <Grow in={true} {...{ timeout: 500 }}>
-          <Count>{counter}</Count>
+          <Count anim = {trackOut}>{counter}</Count>
         </Grow>
       </Box>
     </Slide>
