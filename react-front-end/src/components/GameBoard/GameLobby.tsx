@@ -15,6 +15,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export const GameLobby = (props: IGameLobby) => {
+
+  console.log(props)
   const [rounds, setRounds] = useState<number>(5);
   const [copied, setCopied] = useState<boolean>(false);
 
@@ -49,7 +51,7 @@ export const GameLobby = (props: IGameLobby) => {
           height: "93vh",
         }}
       >
-        <GenreSelector selectGenre={props.selectGenre} />
+        {props.host && <GenreSelector selectGenre={props.selectGenre} />}
         <Typography component="h3" variant="h5" m={2}>
           Rounds
         </Typography>
@@ -92,6 +94,7 @@ export const GameLobby = (props: IGameLobby) => {
           variant="contained"
           size="large"
           onClick={() => props.startGame(rounds)}
+          disabled = {!props.host}
         >
           Start Game
         </Button>

@@ -9,6 +9,7 @@ import {
   Slide,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
   const containerRef = useRef(null);
@@ -27,6 +28,7 @@ const LeaderboardCard = (props: ILeaderboardCardProps) => {
             primary={props.user.username}
             secondary={`Score: ${props.user.score}`}
           />
+          {props.user.winning && <EmojiEventsIcon fontSize = 'large' sx ={{color: " #FFD700"}}/>}
         </ListItem>
         <Divider />
       </Box>

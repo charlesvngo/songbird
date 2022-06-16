@@ -51,6 +51,7 @@ io.on("connection", (socket) => {
     score: 0,
     roundScore: 0,
     host,
+    winning: false,
   });
 
   if ((index = rooms.findIndex(({ Id }) => Id === roomId)) === -1) {
@@ -64,11 +65,12 @@ io.on("connection", (socket) => {
     });
   }
 
-  socket.on("player-joined", () => {
-    console.log("player-joined ", roomId);
-    const usersInRoom = users.filter((u) => u.roomId === roomId);
-    io.in(roomId).emit("update-users", usersInRoom);
-  });
+  const usersInRoom = users.filter((u) => u.roomId === roomId);
+  io.in(roomId).emit("update-users", usersInRoom);
+
+  // socket.on("player-joined", () => {
+  //   console.log("player-joined ", roomId);
+  // });
 
   socket.on("end-of-round", () => {
     console.log("Round end ", roomId);
@@ -107,6 +109,19 @@ io.on("connection", (socket) => {
       roundScore: score,
       score: newScore,
     };
+
+    users.sort((a, b) => b.score - a.score);
+    users[0].winning = true;
+    if (users.length > 1) {
+      console.log("True looping");
+      for (let i = 1; i < users.length; i++) {
+        console.log(`Within the loop user ${i} `);
+        console.log(users[i]);
+        users[i].winning = false;
+      }
+      //console.log(users);
+    }
+
     io.in(users[userIndex].roomId).emit(
       "update-users",
       users.filter((u) => u.roomId === users[userIndex].roomId)

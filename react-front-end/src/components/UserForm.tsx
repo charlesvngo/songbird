@@ -59,6 +59,7 @@ const UserForm = (props: IUserFormProps) => {
   const [birdIndex, setBirdIndex] = useState<number>(0);
   const [history, setHistory] = useState<number[]>([0]);
   const [user, setUser] = useState<IUser>({
+    id: 0,
     username: "",
     roomId: "",
     score: 0,
