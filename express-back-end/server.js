@@ -166,7 +166,18 @@ io.on("connection", (socket) => {
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
     console.log("User Disconnected ", username);
+    disUser = users.find((u) => u.id === socket.id);
     users = users.filter((u) => u.id !== socket.id);
+    console.log("The disconnected user: ", disUser);
+    console.log("The users after filter: ", users);
+    if (disUser.host) {
+      console.log("Yes the host disconnected");
+      newHostIndex = users.findIndex((u) => u.roomId === disUser.roomId);
+      console.log("The index of the new host ", newHostIndex);
+      if (newHostIndex !== -1) {
+        users[newHostIndex].host = true;
+      }
+    }
     io.in(roomId).emit(
       "update-users",
       users.filter((u) => u.roomId === roomId)
