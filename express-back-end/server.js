@@ -33,7 +33,6 @@ server.listen(PORT, () => {
 
 // global variables
 let token = "";
-let users = [];
 let rooms = [];
 
 // retrieves authentication token from spotify
@@ -51,11 +50,10 @@ getToken().then((res) => {
  * @return - <message>: 'update-users' - Send a socket emit to the room, updating the clients with the user information
  */
 io.on("connection", (socket) => {
-  const { username, roomId, avatar } = socket.handshake.query;
+  let { username, roomId, avatar } = socket.handshake.query;
   socket.join(roomId);
 
   let roomIndex = findRoomIndex(rooms, roomId);
-  console.log("Room Id: ", roomId);
 
   if (roomIndex === -1) {
     rooms.push({
@@ -91,7 +89,6 @@ io.on("connection", (socket) => {
       winning: false,
     });
   }
-  const userIndex = findUserIndex(rooms, socket.id);
 
   io.in(roomId).emit("update-users", rooms[roomIndex].users);
 
@@ -104,13 +101,14 @@ io.on("connection", (socket) => {
    * @return - <message>: 'start-new-game' - Instruct all users to transition to the LOBBY mode
    */
   socket.on("new-game", () => {
-    rooms[roomIndex].currentRound = 1;
-    rooms[roomIndex].users.forEach((u) => {
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
+    rooms[roomI].currentRound = 1;
+    rooms[roomI].users.forEach((u) => {
       u.score = 0;
       u.roundScore = 0;
     });
-    io.in(roomId).emit("update-users", rooms[roomIndex].users);
-    io.in(roomId).emit("start-new-game", "new-game");
+    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
+    io.in(rooms[roomI].id).emit("start-new-game", "new-game");
   });
 
   /* START GAME message sent to the sever.
@@ -128,11 +126,12 @@ io.on("connection", (socket) => {
    * @return - 5 second delay - <message>: 'round-start' - Instruct all users to transition to the ROUND mode to start the round
    */
   socket.on("start-game", (genre, rounds) => {
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
       const titles = filterTitles(tracks);
 
-      rooms[roomIndex] = { ...rooms[roomIndex], tracks, titles, rounds };
+      rooms[roomI] = { ...rooms[roomI], tracks, titles, rounds };
 
       const nextTrack = getTrack(rooms, roomId);
       const autocomplete = createAutocomplete(sampleSonglist, titles);
@@ -142,7 +141,7 @@ io.on("connection", (socket) => {
 
       io.to(roomId).emit("game-started", roomId);
       setTimeout(() => {
-        io.to(roomId).emit("round-start", rooms[roomIndex].currentRound);
+        io.to(rooms[roomI].id).emit("round-start", rooms[roomI].currentRound);
       }, 5000);
     });
   });
@@ -163,26 +162,27 @@ io.on("connection", (socket) => {
    *          - Update the client with the current round and direct them to start the round
    */
   socket.on("end-of-round", () => {
-    if (!rooms[roomIndex].users[userIndex].host) return;
-    rooms[roomIndex].currentRound++;
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
+    if (!rooms[roomI].users[userI].host) return;
+    rooms[roomI].currentRound++;
 
-    if (rooms[roomIndex].currentRound === rooms[roomIndex].rounds + 1) {
+    if (rooms[roomI].currentRound === rooms[roomI].rounds + 1) {
       return setTimeout(() => {
-        io.in(roomId).emit("end-of-game", "End of Game");
+        io.in(rooms[roomI].id).emit("end-of-game", "End of Game");
       }, 10000);
     }
 
-    const nextTrack = getTrack(rooms, roomId);
+    const nextTrack = getTrack(rooms, rooms[roomI].id);
     setTimeout(() => {
-      rooms[roomIndex].users.forEach((user) => {
+      rooms[roomI].users.forEach((user) => {
         user.roundScore = 0;
       });
-      io.in(roomId).emit("next-round", nextTrack);
+      io.in(rooms[roomI].id).emit("next-round", nextTrack);
     }, 10000);
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
-      io.to(roomId).emit("round-start", rooms[roomIndex].currentRound);
+      io.to(rooms[roomI].id).emit("round-start", rooms[roomI].currentRound);
     }, 15000);
   });
 
@@ -194,21 +194,27 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
    */
   socket.on("correct-answer", (score) => {
-    const newScore = rooms[roomIndex].users[userIndex].score + score;
-    rooms[roomIndex].users[userIndex].score = newScore;
-    rooms[roomIndex].users[userIndex].roundScore = score;
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
+    if (rooms[roomI].users[userI].roundScore) return;
+    console.log(
+      "The correct answer was by: ",
+      rooms[roomI].users[userI].username
+    );
 
-    rooms[roomIndex].users.sort((a, b) => b.score - a.score);
-    rooms[roomIndex].users[0].winning = true;
-    if (rooms[roomIndex].users.length > 1) {
-      for (let i = 1; i < rooms[roomIndex].users.length; i++) {
-        rooms[roomIndex].users[i].winning = false;
+    rooms[roomI].users[userI].score += score;
+    rooms[roomI].users[userI].roundScore = score;
+
+    rooms[roomI].users.sort((a, b) => b.score - a.score);
+    rooms[roomI].users[0].winning = true;
+    if (rooms[roomI].users.length > 1) {
+      for (let i = 1; i < rooms[roomI].users.length; i++) {
+        rooms[roomI].users[i].winning = false;
       }
     }
 
-    io.in(roomId).emit("update-users", rooms[roomIndex].users);
+    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
 
-    io.in(roomId).emit("receive-chat-messages", {
+    io.in(rooms[roomI].id).emit("receive-chat-messages", {
       username,
       message: `Correct guess! Scored: ${score}`,
       avatar,
@@ -222,7 +228,8 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
    */
   socket.on("send-chat-message", (message) => {
-    io.in(roomId).emit("receive-chat-messages", {
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
+    io.in(rooms[roomI].id).emit("receive-chat-messages", {
       username,
       message,
       avatar,
@@ -241,20 +248,23 @@ io.on("connection", (socket) => {
    */
 
   socket.on("disconnect", () => {
-    console.log("diccsonection: ", rooms[roomIndex].users[userIndex]);
-    rooms[roomIndex].users = rooms[roomIndex].users.filter(
+    const { userI, roomI } = findUserIndex(rooms, socket.id);
+    console.log("diccsonection: ", rooms[roomI].users[userI]);
+    disUser = rooms[roomI].users[userI];
+    rooms[roomI].users = rooms[roomI].users.filter(
       ({ id }) => id !== socket.id
     );
 
-    if (rooms[roomIndex].users[userIndex].host) {
-      if (rooms[roomIndex].users.length !== 0) {
-        rooms[roomIndex].users[0].host = true;
-        console.log("New host: ", rooms[roomIndex].users[0]);
-        io.in(roomId).emit("update-users", rooms[roomIndex].users);
+    if (disUser.host) {
+      if (rooms[roomI].users.length !== 0) {
+        rooms[roomI].users[0].host = true;
+        console.log("New host: ", rooms[roomI].users[0]);
       } else {
-        rooms.splice(roomIndex, 1);
+        rooms.splice(roomI, 1);
         console.log("Room deleted ", rooms);
+        return;
       }
     }
+    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
   });
 });
