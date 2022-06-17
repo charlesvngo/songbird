@@ -47,7 +47,6 @@ export const darkTheme: ITheme = createTheme({
   },
 });
 
-// #121212 for component boxes
 export const gameBoardDark: ITheme = createTheme({
   palette: {
     mode: "dark",

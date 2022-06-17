@@ -10,7 +10,7 @@ export const PlayGame = (props: IPlayGameProps) => {
   const [progress, setProgress] = useState<number>(0);
   const [volume, setVolume] = useState<
     number | string | Array<number | string>
-  >(20);
+  >(50);
 
   // updates progress bar
   useEffect(() => {
@@ -24,7 +24,7 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.03; // default volume
+    props.audio.volume = 0.05; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();

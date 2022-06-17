@@ -6,19 +6,22 @@ import { gameBoardLight } from "../styles/theme";
 
 const Leaderboard = (props: ILeaderboardProps) => {
   const users = props.users.map((user: IUser, i: number) => {
-    return <LeaderboardCard key={i} user={user} />;
+    return (
+      <LeaderboardCard
+        key={i}
+        user={user}
+        gameboardTheme={props.gameboardTheme}
+      />
+    );
   });
 
   const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
-  console.log("🦋 ~ props.gameboardTheme ", props.gameboardTheme);
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
       <Box
         sx={{
-          borderColor: bgc,
           backgroundColor: bgc,
-          border: 3,
           borderRadius: 2,
           margin: 1,
           padding: 2,

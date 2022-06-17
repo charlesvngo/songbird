@@ -67,9 +67,7 @@ const Chatbox = (props: IChatboxProps) => {
       <Box
         sx={{
           display: "flex",
-          border: 3,
           borderRadius: 2,
-          borderColor: bgc,
           backgroundColor: bgc,
           margin: 1,
           padding: 2,

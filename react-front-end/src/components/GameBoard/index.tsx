@@ -24,10 +24,8 @@ const GameBoard = (props: IGameBoard) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            border: 3,
             borderRadius: 2,
             boxShadow: 5,
-            borderColor: bgc,
             backgroundColor: bgc,
           }}
         >

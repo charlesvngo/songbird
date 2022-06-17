@@ -32,6 +32,7 @@ export interface ITheme {
 
 export interface INavProps {
   changeTheme: () => void;
+  theme: ITheme;
 }
 export interface IAudioProps {
   src: string;
@@ -76,6 +77,7 @@ export interface ILeaderboardProps {
 export interface ILeaderboardCardProps {
   key: number;
   user: IUser;
+  gameboardTheme: ITheme;
 }
 export interface IEndOfRoundProps {
   users: IUser[];

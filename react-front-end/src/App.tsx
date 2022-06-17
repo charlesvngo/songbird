@@ -78,7 +78,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <ThemeProvider theme={navTheme}>
-        <NavBar changeTheme={changeTheme} />
+        <NavBar changeTheme={changeTheme} theme={theme} />
       </ThemeProvider>
       <div className="App">
         <AudioPlayer src={""} />

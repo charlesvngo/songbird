@@ -10,10 +10,16 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import { gameBoardLight, gameBoardDark } from "../styles/theme";
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
   const containerRef = useRef(null);
-  const bgc = props.user.host ? "#FAFAFA" : "inhert";
+  let bgc = "";
+  if (props.user.host && props.gameboardTheme === gameBoardLight)
+    bgc = "#FAFAFA";
+  if (props.user.host && props.gameboardTheme === gameBoardDark)
+    bgc = "#171717";
+
   return (
     <Slide direction="right" in={true} container={containerRef.current}>
       <Box sx={{ backgroundColor: bgc }}>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { INavProps } from "../Interfaces";
-import logo from "../assets/bird_logo_white.png";
+
+import logoLight from "../assets/bird_logo_white.png";
+import logoDark from "../assets/bird_logo_dark.png";
 
 import {
   AppBar,
@@ -15,12 +17,17 @@ import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import PartyModeIcon from "@mui/icons-material/Celebration";
 import { TramOutlined } from "@mui/icons-material";
+import { lightTheme } from "../styles/theme";
 
 const NavBar = (props: INavProps) => {
   const [open, setOpen] = useState<boolean>(false);
+
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
   const handleTheme = () => props.changeTheme();
+
+  const themeColor = props.theme === lightTheme ? "white" : "#121212";
+  const logo = props.theme === lightTheme ? logoLight : logoDark;
 
   return (
     <AppBar position="static">
@@ -44,7 +51,7 @@ const NavBar = (props: INavProps) => {
               display: { xs: "none", md: "flex" },
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "white",
+              color: themeColor,
               textDecoration: "none",
             }}
           >
@@ -57,10 +64,10 @@ const NavBar = (props: INavProps) => {
         >
           <DarkModeIcon
             onClick={handleTheme}
-            sx={{ marginRight: 2, color: "white" }}
+            sx={{ marginRight: 2, color: themeColor }}
           />
-          <PartyModeIcon sx={{ marginRight: 2, color: "white" }} />
-          <InfoIcon onClick={handleOpen} sx={{ color: "white" }} />
+          <PartyModeIcon sx={{ marginRight: 2, color: themeColor }} />
+          <InfoIcon onClick={handleOpen} sx={{ color: themeColor }} />
           <Modal
             open={open}
             onClose={handleClose}
@@ -74,8 +81,8 @@ const NavBar = (props: INavProps) => {
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 width: 500,
-                bgcolor: "background.paper",
-                border: "3px solid #000",
+                bgcolor: themeColor,
+                border: 3,
                 borderRadius: 2,
                 boxShadow: 24,
                 p: 4,
@@ -92,7 +99,6 @@ const NavBar = (props: INavProps) => {
                   mr: 2,
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "black",
                   textDecoration: "none",
                   marginBottom: 1,
                 }}
