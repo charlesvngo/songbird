@@ -12,6 +12,7 @@ const {
   getPlaylist,
   filterTitles,
   createAutocomplete,
+  queryArtist,
 } = require("./helpers/spotify");
 const getTrack = require("./helpers/game");
 const sampleSonglist = require("./helpers/autocompleteSongs");
@@ -160,9 +161,9 @@ io.on("connection", (socket) => {
   });
 
   // what dis doing?
-  socket.on("start-game", (genre, rounds) => {
+  socket.on("start-game", (genre, rounds, artist) => {
     // Obtain the playlist based on the selected genre passed in from host.
-    getPlaylist(token, genre).then((result) => {
+    getPlaylist(token, genre, artist).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
       const titles = filterTitles(tracks);
 
@@ -181,6 +182,17 @@ io.on("connection", (socket) => {
         // After the 5 second countdown, Tell clients to play track and start guessing.
         io.to(roomId).emit("round-start", rooms[index].currentRound);
       }, 5000);
+    });
+  });
+
+  socket.on("search-artist", (searchParam) => {
+    queryArtist(token, searchParam).then((result) => {
+      io.to(roomId).emit(
+        "artist-list",
+        result.data.artists.items.map((artist) => {
+          return { artist: artist.name, id: artist.id };
+        })
+      );
     });
   });
 

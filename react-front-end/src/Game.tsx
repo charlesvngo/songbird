@@ -49,10 +49,8 @@ const Game = (props: IGameProps) => {
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [round, setRound] = useState<number>(0);
-  const [artist, setArtist] = useState<string>("");
-  const [artistList, setArtistList] = useState<any[]>([
-    { artist: "Migos", id: "test" },
-  ]);
+  const [artist, setArtist] = useState<string | null>("");
+  const [artistList, setArtistList] = useState<any[]>([]);
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -126,7 +124,8 @@ const Game = (props: IGameProps) => {
   };
 
   const startGame = (rounds: number) => {
-    socket.emit("start-game", genre, rounds);
+    let artistId = artist ? artist : "";
+    socket.emit("start-game", genre, rounds, artistId);
   };
 
   const endOfRound = () => {

@@ -8,7 +8,7 @@ import { IArtist, IArtistContext } from "../../Interfaces";
 const AdvancedArtist = () => {
   const context = useContext<IArtistContext>(ArtistContext);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<IArtist | null | undefined>(null);
+  const [value, setValue] = useState<any>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const loading = open && context.artistList.length === 0;
 
@@ -24,6 +24,12 @@ const AdvancedArtist = () => {
     }, 500);
     return () => clearTimeout(timeOut);
   }, [inputValue]);
+
+  useEffect(() => {
+    if (value) {
+      context.setArtist(value.id);
+    }
+  }, [value]);
 
   return (
     <Autocomplete
@@ -44,7 +50,7 @@ const AdvancedArtist = () => {
       value={value}
       onChange={(
         event: React.SyntheticEvent<Element, Event>,
-        newValue: IArtist | null | undefined
+        newValue: IArtist | null
       ) => {
         setValue(newValue);
       }}

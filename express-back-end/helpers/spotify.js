@@ -23,9 +23,15 @@ const getToken = () => {
 };
 
 // queries spotify for a playlist
-const getPlaylist = (token, genre) => {
+const getPlaylist = (token, genre, artist) => {
   const limit = 50; // needs to be set as a function argument, number of rounds?
-  const api_playlist_url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=CA&seed_genres=${genre}`;
+  let api_playlist_url = "https://api.spotify.com/v1/recommendations?market=CA";
+  api_playlist_url += `&limit=${limit}`;
+  api_playlist_url += `&seed_genres=${genre}`;
+  if (artist !== "") {
+    api_playlist_url = `https://api.spotify.com/v1/artists/${artist}/top-tracks?market=CA`;
+  }
+
   const header = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -45,12 +51,26 @@ const filterTitles = (tracks) => {
 
 const createAutocomplete = (sampleSonglist, titles) => {
   const autocomplete = [...sampleSonglist, ...titles];
-
   const output = [...new Set(autocomplete.map((e) => JSON.stringify(e)))].map(
     (e) => JSON.parse(e)
   );
-
   return output;
 };
 
-module.exports = { getToken, getPlaylist, filterTitles, createAutocomplete };
+const queryArtist = (token, searchParam) => {
+  const api_artist_url = `https://api.spotify.com/v1/search?q=${searchParam}&type=artist&market=CA&limit=5`;
+  const header = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+  return axios.get(api_artist_url, { headers: header });
+};
+
+module.exports = {
+  getToken,
+  getPlaylist,
+  filterTitles,
+  createAutocomplete,
+  queryArtist,
+};

@@ -20,7 +20,8 @@ export interface ISocket {
   emit: (
     eventName: string,
     sentData: string | number,
-    sentData2?: number
+    sentData2?: number,
+    sentData3?: string | null
   ) => void;
   on: (eventName: string, callback: (data: any) => void) => void;
   disconnect: () => void;
@@ -135,8 +136,8 @@ export interface StyledBoxProps extends BoxProps {
 }
 
 export interface IArtistContext {
-  artist: string;
-  setArtist: (artist: string) => void;
+  artist: string | null;
+  setArtist: (artist: string | null) => void;
   artistList: IArtist[];
   setArtistList: (artistList: IArtist[]) => void;
   queryArtist: (searchParams: string) => void;
