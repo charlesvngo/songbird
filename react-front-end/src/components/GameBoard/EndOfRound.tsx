@@ -8,7 +8,7 @@ import {
   ListItemText,
   Typography,
   Box,
-} from "@mui/material"; 
+} from "@mui/material";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
   const sortedUsers = props.users.sort(
@@ -40,7 +40,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             />
           ) : (
             <ListItemText
-              sx={{ padding: 1, width: "10vw" }}
+              sx={{ padding: 1, width: "10vw", color: "black" }}
               primary={user.username}
             />
           )}

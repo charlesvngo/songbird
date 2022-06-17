@@ -88,6 +88,7 @@ const Game = (props: IGameProps) => {
     e.preventDefault();
     if (message === "") return;
     const cheat = cheatCodes.find((m) => m === message);
+    console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
       if (message === track.name || cheat) {
         let roundScore: number =
@@ -130,8 +131,9 @@ const Game = (props: IGameProps) => {
       }}
     >
       <Box>
-        <Leaderboard users={users} />
+        <Leaderboard users={users} gameboardTheme={props.gameboardTheme} />
       </Box>
+
       <Box sx={{ gridColumn: "span 2" }}>
         <GameBoard
           roomId={props.user.roomId}
@@ -145,6 +147,7 @@ const Game = (props: IGameProps) => {
           round={round}
           host={user.host}
           newGame={newGame}
+          gameboardTheme={props.gameboardTheme}
         />
       </Box>
       <Box>
@@ -155,6 +158,7 @@ const Game = (props: IGameProps) => {
           setMessage={setMessage}
           messages={messages}
           mode={mode}
+          gameboardTheme={props.gameboardTheme}
         />
       </Box>
     </Box>

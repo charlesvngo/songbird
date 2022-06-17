@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../styles/loading.css";
 import GenreSelector from "./GenreSelector";
 import { IGameLobby } from "../../Interfaces";
 import { RoundaboutRightSharp } from "@mui/icons-material";
@@ -52,7 +53,7 @@ export const GameLobby = (props: IGameLobby) => {
       >
         {props.host && <GenreSelector selectGenre={props.selectGenre} />}
         {props.host && (
-          <Typography component="h3" variant="h5" m={2}>
+          <Typography component="h3" variant="h5" m={1}>
             Rounds
           </Typography>
         )}
@@ -66,17 +67,28 @@ export const GameLobby = (props: IGameLobby) => {
             <RemoveIcon fontSize="large" onClick={handleOnSubtract} />
           )}
           {props.host && (
-            <Typography component="h3" variant="h5" m={2}>
+            <Typography component="h3" variant="h5" m={1}>
               {rounds}
             </Typography>
           )}
           {!props.host && (
             <Typography component="h3" variant="h5" m={2}>
-              Waiting for the host to begin game...
+              Waiting for the host to begin the game.
             </Typography>
           )}
+
           {props.host && <AddIcon fontSize="large" onClick={handleOnAdd} />}
         </Box>
+
+        {!props.host && (
+          <Box sx={{ marginBottom: 4 }}>
+            <div className="load">
+              <div className="load-one"></div>
+              <div className="load-two"></div>
+              <div className="load-three"></div>
+            </div>
+          </Box>
+        )}
         <Typography>Share the room code to invite people to join</Typography>
         <Box
           sx={{
@@ -87,7 +99,7 @@ export const GameLobby = (props: IGameLobby) => {
         >
           <TextField id="room-id" label={props.roomId} size="small" disabled />
           <Button
-            sx={{ marginLeft: 1 }}
+            sx={{ marginLeft: 1, color: "white" }}
             variant="contained"
             size="large"
             onClick={handleCopyClick}
@@ -105,6 +117,7 @@ export const GameLobby = (props: IGameLobby) => {
           size="large"
           onClick={() => props.startGame(rounds)}
           disabled={!props.host}
+          sx={{ color: "white" }}
         >
           Start Game
         </Button>

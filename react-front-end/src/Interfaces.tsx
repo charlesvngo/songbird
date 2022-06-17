@@ -30,6 +30,10 @@ export interface ITheme {
   };
 }
 
+export interface INavProps {
+  changeTheme: () => void;
+  theme: ITheme;
+}
 export interface IAudioProps {
   src: string;
 }
@@ -49,6 +53,7 @@ export interface IGameBoard extends IGameLobby {
   users: IUser[];
   round: number;
   newGame: () => void;
+  gameboardTheme: ITheme;
 }
 
 export interface IPlayGameProps {
@@ -62,15 +67,18 @@ export interface IGameProps {
   user: IUser;
   socket: any;
   setUser: (user: IUser) => void;
+  gameboardTheme: ITheme;
 }
 
 export interface ILeaderboardProps {
   users: IUser[];
+  gameboardTheme: ITheme;
 }
 
 export interface ILeaderboardCardProps {
   key: number;
   user: IUser;
+  gameboardTheme: ITheme;
 }
 export interface IEndOfRoundProps {
   users: IUser[];
@@ -108,6 +116,7 @@ export interface IChatboxProps {
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
   messages: Imessage[];
   mode: string;
+  gameboardTheme: ITheme;
 }
 
 export interface IAdvancedSettings {
