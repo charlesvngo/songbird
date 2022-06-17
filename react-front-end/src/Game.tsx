@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Leaderboard from "./components/LeaderBoard";
-import GameBoard from "./components/GameBoard";
+import GameBoard from "./components/game-board";
 import Chatbox from "./components/Chatbox";
 import { IUser, ISocket, IGameProps, ITracklist } from "./Interfaces";
 import { Box } from "@mui/material";

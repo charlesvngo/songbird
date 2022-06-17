@@ -1,3 +1,5 @@
+import { BoxProps, } from "@mui/material";
+
 export interface IUser {
   id: number;
   username: string;
@@ -121,4 +123,8 @@ export interface IChatboxProps {
 
 export interface IAdvancedSettings {
   selectGenre: (message: string) => void;
+}
+
+export interface StyledBoxProps extends BoxProps {
+  animate?: boolean
 }

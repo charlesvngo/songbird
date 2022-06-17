@@ -1,33 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import { styled } from "@mui/material/styles"
 import { Typography, Box, Slide, Grow, keyframes, TypographyProps } from "@mui/material";
+import TrackOutFwdBot from "../animations/tracking-out";
+
 
 interface StyledTypoProps extends TypographyProps {
   animate?: boolean
 }
 
-const trackingOutExpandFwdBottom = keyframes`
-0% {
-  -webkit-transform: translateZ(0) translateY(0);
-          transform: translateZ(0) translateY(0);
-  opacity: 1;
-}
-60% {
-  opacity: 0.8;
-}
-100% {
-  letter-spacing: 1em;
-  -webkit-transform: translateZ(300px) translateY(200px);
-          transform: translateZ(300px) translateY(200px);
-  opacity: 0;
-}
-`;
-
 const Count = styled(Typography, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledTypoProps>(({animate}) => ({
   fontSize: 88,
   ...(animate &&
     {
-  animation: animate && `${trackingOutExpandFwdBottom} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
+  animation: animate && `${TrackOutFwdBot()} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
     }),
 })) 
 
