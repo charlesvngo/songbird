@@ -233,6 +233,12 @@ io.on("connection", (socket) => {
     });
   });
 
+  /* SEARCH ARTIST message sent to the sever.
+   * @parmas - <message>: 'search-artist'
+   * @parmas - {searchParam}: search query to send to Spotify's API
+   *
+   * @return - <message>: 'artist-list' {artist, id} - An array of artist and that artist corrisponding Spotify id
+   */
   socket.on("search-artist", (searchParam) => {
     queryArtist(token, searchParam).then((result) => {
       io.to(roomId).emit(
