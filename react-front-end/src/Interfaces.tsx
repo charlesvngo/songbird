@@ -1,4 +1,4 @@
-import { BoxProps, } from "@mui/material";
+import { BoxProps,TypographyProps, } from "@mui/material";
 
 export interface IUser {
   id: number;
@@ -126,5 +126,9 @@ export interface IAdvancedSettings {
 }
 
 export interface StyledBoxProps extends BoxProps {
+  animate?: boolean
+}
+
+export interface StyledTypoProps extends TypographyProps {
   animate?: boolean
 }
