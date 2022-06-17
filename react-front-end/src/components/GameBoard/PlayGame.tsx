@@ -15,7 +15,7 @@ export const PlayGame = (props: IPlayGameProps) => {
   // updates progress bar
   useEffect(() => {
     // progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
-    const timer = setTimeout(() => {
+    const timer: NodeJS.Timeout = setTimeout(() => {
       setProgress((props.audio.currentTime / props.audio.duration) * 100);
       setBlur(10 - (props.audio.currentTime / props.audio.duration) * 10);
     }, 300);

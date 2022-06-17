@@ -8,6 +8,7 @@ import {
   ListItemText,
   Box,
   Typography,
+  Button,
 } from "@mui/material";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
@@ -16,10 +17,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
   const users = sortedUsers.map((user, i) => {
-    let bgc = "inhert";
+    let bgc = "#F4F4FF";
     if (i === 2) bgc = "#a6e4ed";
     if (i === 1) bgc = "#7bcedb";
     if (i === 0) bgc = "#3EA4B4";
+    const tc = i > 2 ? "black" : "white";
 
     return (
       <Box
@@ -28,7 +30,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           backgroundColor: bgc,
           width: "35vw",
           borderRadius: 2,
-          color: "black",
+          color: tc,
         }}
       >
         <ListItem>
@@ -79,6 +81,14 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         GAME OVER
       </Typography>
       {users}
+      <Button
+        variant="contained"
+        size="large"
+        disabled={!props.host}
+        onClick={props.newGame}
+      >
+        New Game
+      </Button>
     </Box>
   );
 };

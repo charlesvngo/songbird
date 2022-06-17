@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/GameBoard";
 import Chatbox from "./components/Chatbox";
-import { IUser, ISocket, IGameProps } from "./Interfaces";
+import { IUser, ISocket, IGameProps, ITracklist } from "./Interfaces";
 import { Box } from "@mui/material";
 
 // modes
@@ -11,6 +11,11 @@ const LOBBY: string = "LOBBY";
 const COUNTDOWN: string = "COUNTDOWN";
 const ENDOFROUND: string = "END_OF_ROUND";
 const EOG: string = "END_OF_GAME";
+const cheatCodes = [
+  "Never Gonna Give You Up",
+  "immacheater",
+  "upupdowndownleftrightleftrightbastart",
+];
 
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
@@ -25,7 +30,7 @@ const Game = (props: IGameProps) => {
   ]);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
-  const [tracklist, setTracklist] = useState<string[]>([]);
+  const [tracklist, setTracklist] = useState<[ITracklist] | []>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [audio] = useState<any>(document.getElementById("songTrack"));
@@ -42,8 +47,8 @@ const Game = (props: IGameProps) => {
 
     socket.on("update-users", (data: [IUser]) => {
       setUsers(data);
-      data.forEach(u => {
-        if(u.username === user.username) props.setUser(u)
+      data.forEach((u) => {
+        if (u.username === user.username) props.setUser(u);
       });
     });
 
@@ -68,8 +73,11 @@ const Game = (props: IGameProps) => {
     socket.on("end-of-game", (data: string) => {
       setMode(EOG);
     });
+    socket.on("start-new-game", (data: string) => {
+      setMode(LOBBY);
+    });
 
-    socket.on("track-list", (data: string[]) => {
+    socket.on("track-list", (data: ITracklist | any) => {
       setTracklist(data);
     });
 
@@ -78,10 +86,10 @@ const Game = (props: IGameProps) => {
 
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(`${props.user.username}: ${message}`);
-    if(message === "") return
+    if (message === "") return;
+    const cheat = cheatCodes.find((m) => m === message);
     if (mode === ROUND) {
-      if (message === track.name) {
+      if (message === track.name || cheat) {
         let roundScore: number =
           ((Number(audio.duration) - Number(audio.currentTime)) * 2000) /
           Number(audio.duration);
@@ -101,6 +109,10 @@ const Game = (props: IGameProps) => {
   const endOfRound = () => {
     socket.emit("end-of-round", "end-of-round");
     setMode(ENDOFROUND);
+  };
+
+  const newGame = () => {
+    socket.emit("new-game", "new-game");
   };
 
   const selectGenre = (newGenre: string) => {
@@ -132,6 +144,7 @@ const Game = (props: IGameProps) => {
           users={users}
           round={round}
           host={user.host}
+          newGame={newGame}
         />
       </Box>
       <Box>

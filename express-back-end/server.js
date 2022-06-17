@@ -7,7 +7,12 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 
 // helper functions
-const { getToken, getPlaylist } = require("./helpers/spotify");
+const {
+  getToken,
+  getPlaylist,
+  filterTitles,
+  createAutocomplete,
+} = require("./helpers/spotify");
 const getTrack = require("./helpers/game");
 const sampleSonglist = require("./helpers/autocompleteSongs");
 
@@ -74,11 +79,10 @@ io.on("connection", (socket) => {
   // });
 
   socket.on("end-of-round", () => {
-    console.log("Round end ", roomId);
     const userIndex = users.findIndex(({ id }) => id === socket.id);
-    console.log("Round end user", users[userIndex]);
+
     if (!users[userIndex].host) return;
-    console.log("Host is in control");
+
     const index = rooms.findIndex(({ Id }) => Id === roomId);
     rooms[index].currentRound++;
     const nextTrack = getTrack(rooms, roomId);
@@ -114,13 +118,9 @@ io.on("connection", (socket) => {
     users.sort((a, b) => b.score - a.score);
     users[0].winning = true;
     if (users.length > 1) {
-      console.log("True looping");
       for (let i = 1; i < users.length; i++) {
-        console.log(`Within the loop user ${i} `);
-        console.log(users[i]);
         users[i].winning = false;
       }
-      //console.log(users);
     }
 
     io.in(users[userIndex].roomId).emit(
@@ -135,7 +135,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-chat-message", (guess) => {
-    console.log("send-chat-message ", roomId);
     io.in(roomId).emit("receive-chat-messages", {
       username,
       message: guess,
@@ -143,24 +142,36 @@ io.on("connection", (socket) => {
     });
   });
 
+  socket.on("new-game", () => {
+    const roomIndex = rooms.findIndex(({ Id }) => Id === roomId);
+
+    rooms[roomIndex].currentRound = 1;
+    users.forEach((u) => {
+      if (u.roomId === roomId) {
+        u.score = 0;
+        u.roundScore = 0;
+      }
+    });
+    io.in(roomId).emit(
+      "update-users",
+      users.filter((u) => u.roomId === roomId)
+    );
+    io.in(roomId).emit("start-new-game", "new-game");
+  });
+
   // what dis doing?
   socket.on("start-game", (genre, rounds) => {
-    console.log("start-game ", roomId);
     // Obtain the playlist based on the selected genre passed in from host.
     getPlaylist(token, genre).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
-      const titles = tracks.map((track) => track.name);
+      const titles = filterTitles(tracks);
+
       const index = rooms.findIndex(({ Id }) => Id === roomId);
       rooms[index] = { ...rooms[index], tracks, titles, rounds };
       const nextTrack = getTrack(rooms, roomId);
 
       // Create an list of red-herring songs.
-      const autocomplete = sampleSonglist.map((song) => song.name);
-      for (const song of titles) {
-        if (!autocomplete.includes(song)) {
-          autocomplete.push(song);
-        }
-      }
+      const autocomplete = createAutocomplete(sampleSonglist, titles);
 
       io.to(roomId).emit("next-track", nextTrack);
       io.to(roomId).emit("track-list", autocomplete);
@@ -175,15 +186,11 @@ io.on("connection", (socket) => {
 
   // disconnects user and removes them from users array
   socket.on("disconnect", () => {
-    console.log("User Disconnected ", username);
     disUser = users.find((u) => u.id === socket.id);
     users = users.filter((u) => u.id !== socket.id);
-    console.log("The disconnected user: ", disUser);
-    console.log("The users after filter: ", users);
+
     if (disUser.host) {
-      console.log("Yes the host disconnected");
       newHostIndex = users.findIndex((u) => u.roomId === disUser.roomId);
-      console.log("The index of the new host ", newHostIndex);
       if (newHostIndex !== -1) {
         users[newHostIndex].host = true;
       }
