@@ -1,6 +1,6 @@
 // Track selector function. Removes from array if selected.
 const getTrack = (rooms, roomId) => {
-  const currentRoom = rooms.findIndex(({ Id }) => Id === roomId);
+  const currentRoom = rooms.findIndex(({ id }) => id === roomId);
   const rnmTrackNum = Math.floor(
     Math.random() * rooms[currentRoom].tracks.length
   );
@@ -12,4 +12,16 @@ const getTrack = (rooms, roomId) => {
   return rooms[currentRoom].currentTrack;
 };
 
-module.exports = getTrack;
+const findRoomIndex = (rooms, roomId) => {
+  return rooms.findIndex(({ id }) => id === roomId);
+};
+
+const findUserIndex = (rooms, idToFind) => {
+  let retIndex = -1;
+  rooms.forEach((r) => {
+    retIndex = r.users.findIndex(({ id }) => id === idToFind);
+  });
+  return retIndex;
+};
+
+module.exports = { getTrack, findRoomIndex, findUserIndex };

@@ -16,8 +16,7 @@ export const Countdown = () => {
   const [counter, setCounter] = useState(5);
   const [trackOut, setTrackOut] = useState(false)
   const containerRef = useRef(null);
-  console.log("TrackOut value", trackOut)
-  console.log("TrackOut type:", typeof(trackOut))
+
   useEffect(() => {
     setTrackOut(false)
     counter > 1 &&

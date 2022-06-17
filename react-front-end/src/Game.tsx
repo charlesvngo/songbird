@@ -90,7 +90,6 @@ const Game = (props: IGameProps) => {
     e.preventDefault();
     if (message === "") return;
     const cheat = cheatCodes.find((m) => m === message);
-    console.log(`${props.user.username}: ${message}`);
     if (mode === ROUND) {
       if (message === track.name || cheat) {
         let roundScore: number =
