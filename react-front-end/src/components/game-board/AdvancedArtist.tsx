@@ -65,7 +65,7 @@ const AdvancedArtist = () => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search for an Artist"
+          label="Search for an artist"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
