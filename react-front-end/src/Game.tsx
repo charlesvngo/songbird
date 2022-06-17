@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/game-board";
 import Chatbox from "./components/Chatbox";
-import { IUser, ISocket, IGameProps, ITracklist } from "./Interfaces";
+import {
+  IUser,
+  ISocket,
+  IGameProps,
+  ITracklist,
+  IArtist,
+  IArtistContext,
+} from "./Interfaces";
 import { Box } from "@mui/material";
 
 // modes
@@ -17,6 +24,11 @@ const cheatCodes = [
   "upupdowndownleftrightleftrightbastart",
 ];
 
+// Context for artist searching
+export const ArtistContext = createContext<IArtistContext>(
+  {} as IArtistContext
+);
+
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
@@ -29,7 +41,7 @@ const Game = (props: IGameProps) => {
     },
   ]);
 
-  const element = document.getElementById("songTrack")!
+  const element = document.getElementById("songTrack")!;
   const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
@@ -37,6 +49,10 @@ const Game = (props: IGameProps) => {
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [round, setRound] = useState<number>(0);
+  const [artist, setArtist] = useState<string>("");
+  const [artistList, setArtistList] = useState<any[]>([
+    { artist: "Migos", id: "test" },
+  ]);
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -83,6 +99,10 @@ const Game = (props: IGameProps) => {
       setTracklist(data);
     });
 
+    socket.on("artist-list", (data: any) => {
+      setArtistList(data);
+    });
+
     return () => socket.disconnect();
   }, [socket]);
 
@@ -124,6 +144,22 @@ const Game = (props: IGameProps) => {
     }
   };
 
+  const queryArtist = (searchParams: string): void => {
+    if (searchParams.length === 0) {
+      return;
+    }
+    socket.emit("search-artist", encodeURIComponent(searchParams));
+    return;
+  };
+
+  const context: IArtistContext = {
+    artist,
+    setArtist,
+    artistList,
+    setArtistList,
+    queryArtist,
+  };
+
   return (
     <Box
       sx={{
@@ -137,20 +173,22 @@ const Game = (props: IGameProps) => {
       </Box>
 
       <Box sx={{ gridColumn: "span 2" }}>
-        <GameBoard
-          roomId={props.user.roomId}
-          selectGenre={selectGenre}
-          startGame={startGame}
-          mode={mode}
-          track={track}
-          audio={audio}
-          endOfRound={endOfRound}
-          users={users}
-          round={round}
-          host={user.host}
-          newGame={newGame}
-          gameboardTheme={props.gameboardTheme}
-        />
+        <ArtistContext.Provider value={context}>
+          <GameBoard
+            roomId={props.user.roomId}
+            selectGenre={selectGenre}
+            startGame={startGame}
+            mode={mode}
+            track={track}
+            audio={audio}
+            endOfRound={endOfRound}
+            users={users}
+            round={round}
+            host={user.host}
+            newGame={newGame}
+            gameboardTheme={props.gameboardTheme}
+          />
+        </ArtistContext.Provider>
       </Box>
       <Box>
         <Chatbox

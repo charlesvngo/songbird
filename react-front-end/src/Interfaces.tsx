@@ -1,4 +1,4 @@
-import { BoxProps, } from "@mui/material";
+import { BoxProps } from "@mui/material";
 
 export interface IUser {
   id: number;
@@ -9,6 +9,11 @@ export interface IUser {
   roundScore: number;
   host: boolean;
   winning: boolean;
+}
+
+export interface IArtist {
+  artist: string;
+  id: string;
 }
 
 export interface ISocket {
@@ -126,5 +131,13 @@ export interface IAdvancedSettings {
 }
 
 export interface StyledBoxProps extends BoxProps {
-  animate?: boolean
+  animate?: boolean;
+}
+
+export interface IArtistContext {
+  artist: string;
+  setArtist: (artist: string) => void;
+  artistList: IArtist[];
+  setArtistList: (artistList: IArtist[]) => void;
+  queryArtist: (searchParams: string) => void;
 }
