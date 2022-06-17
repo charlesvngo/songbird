@@ -23,12 +23,14 @@ const Game = (props: IGameProps) => {
       avatar: "",
     },
   ]);
+
+  const element = document.getElementById("songTrack")!
+  const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
   const [tracklist, setTracklist] = useState<string[]>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
-  const [audio] = useState<any>(document.getElementById("songTrack"));
   const [round, setRound] = useState<number>(0);
 
   useEffect(() => {

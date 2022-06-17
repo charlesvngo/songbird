@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { styled } from "@mui/material/styles"
-import { Typography, Box, Slide, Grow, keyframes } from "@mui/material";
+import { Typography, Box, Slide, Grow, keyframes, TypographyProps } from "@mui/material";
+
+interface StyledTypoProps extends TypographyProps {
+  animate?: boolean
+}
 
 const trackingOutExpandFwdBottom = keyframes`
 0% {
@@ -19,9 +23,12 @@ const trackingOutExpandFwdBottom = keyframes`
 }
 `;
 
-const Count = styled(Typography)(({anim}) => ({
+const Count = styled(Typography, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledTypoProps>(({animate}) => ({
   fontSize: 88,
-  animation: anim && `${trackingOutExpandFwdBottom} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
+  ...(animate &&
+    {
+  animation: animate && `${trackingOutExpandFwdBottom} 0.8s cubic-bezier(0.550, 0.085, 0.680, 0.530) both`
+    }),
 })) 
 
 export const Countdown = () => {
@@ -60,7 +67,7 @@ export const Countdown = () => {
       >
         <Typography variant="h2">Song starts in: </Typography>
         <Grow in={true} {...{ timeout: 500 }}>
-          <Count anim = {trackOut}>{counter}</Count>
+          <Count animate = {trackOut}>{counter}</Count>
         </Grow>
       </Box>
     </Slide>
