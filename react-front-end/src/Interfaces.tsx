@@ -1,4 +1,4 @@
-import { BoxProps } from "@mui/material";
+import { BoxProps, TypographyProps } from "@mui/material";
 
 export interface IUser {
   id: number;
@@ -141,4 +141,8 @@ export interface IArtistContext {
   artistList: IArtist[];
   setArtistList: (artistList: IArtist[]) => void;
   queryArtist: (searchParams: string) => void;
+}
+
+export interface StyledTypoProps extends TypographyProps {
+  animate?: boolean;
 }

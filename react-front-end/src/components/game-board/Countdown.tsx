@@ -2,11 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { styled } from "@mui/material/styles"
 import { Typography, Box, Slide, Grow, keyframes, TypographyProps } from "@mui/material";
 import TrackOutFwdBot from "../animations/tracking-out";
-
-
-interface StyledTypoProps extends TypographyProps {
-  animate?: boolean
-}
+import { StyledTypoProps } from "../../Interfaces"
 
 const Count = styled(Typography, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledTypoProps>(({animate}) => ({
   fontSize: 88,

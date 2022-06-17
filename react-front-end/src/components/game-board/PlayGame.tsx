@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from "react";
 import AudioVisualizer from "./AudioVisualizer.jsx";
 import { IPlayGameProps } from "../../Interfaces";
-import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
+import { Box, Slider, Stack, Typography, LinearProgress, styled } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import VolumeDown from "@mui/icons-material/VolumeDown";
+import AnimationTextPopUpBottom from "../animations/text-pop-up-bottom"
+import { StyledTypoProps } from "../../Interfaces"
+
+const TextPop = styled(Typography, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledTypoProps>(({animate}) => ({
+  fontSize: '2rem',
+  position: 'absolute',
+  ...(animate &&
+    {
+      animation: animate && `${AnimationTextPopUpBottom()} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`
+    }),
+})) 
 
 export const PlayGame = (props: IPlayGameProps) => {
   const [blur, setBlur] = useState<number>(10);
@@ -11,6 +22,7 @@ export const PlayGame = (props: IPlayGameProps) => {
   const [volume, setVolume] = useState<
     number | string | Array<number | string>
   >(50);
+  const [popRound, setPopRound] = useState<boolean>(false)
 
   // updates progress bar
   useEffect(() => {
@@ -23,12 +35,14 @@ export const PlayGame = (props: IPlayGameProps) => {
   }, [progress]);
 
   useEffect(() => {
+
     props.audio.src = props.track.preview_url;
     props.audio.volume = 0.05; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
     };
+    setPopRound(true);
   }, []);
 
   // volume adjustments
@@ -53,19 +67,19 @@ export const PlayGame = (props: IPlayGameProps) => {
         height: "93vh",
       }}
     >
-      <Typography
-        variant="h4"
-        component="h4"
-        sx={{
-          mr: 2,
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        GUESS THE SONG - ROUND {props.round}
-      </Typography>
+
+        <TextPop
+          animate = {popRound}
+          sx={{
+            top: 55,
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "inherit",
+            textDecoration: "none",
+          }}
+        >
+          GUESS THE SONG -  ROUND {props.round}
+        </TextPop>
 
       <Box
         sx={{
