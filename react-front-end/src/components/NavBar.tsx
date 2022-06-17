@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import PartyModeIcon from "@mui/icons-material/Celebration";
 import { TramOutlined } from "@mui/icons-material";
 import { lightTheme } from "../styles/theme";
 
@@ -66,7 +65,6 @@ const NavBar = (props: INavProps) => {
             onClick={handleTheme}
             sx={{ marginRight: 2, color: themeColor }}
           />
-          <PartyModeIcon sx={{ marginRight: 2, color: themeColor }} />
           <InfoIcon onClick={handleOpen} sx={{ color: themeColor }} />
           <Modal
             open={open}

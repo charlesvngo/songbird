@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-
-// interfaces
 import { IAdvancedSettings } from "../../Interfaces";
-
-// styling
-import { Autocomplete, TextField, Box } from "@mui/material";
+import AdvancedArtist from "./AdvancedArtist";
 
 // helpers
 import { availableGenres } from "../../helpers/availableGenres";
-import AdvancedArtist from "./AdvancedArtist";
+
+// material UI
+import { Autocomplete, TextField, Box } from "@mui/material";
 
 const AdvancedSettings = (props: IAdvancedSettings) => {
   const [value, setValue] = useState<string | null>(null);

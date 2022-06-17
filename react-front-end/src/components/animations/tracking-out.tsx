@@ -1,7 +1,8 @@
 import { keyframes } from "@emotion/react";
 
+// countdown animation
 const TrackOutFwdBot = () => {
-  return (keyframes`
+  return keyframes`
 0% {
   -webkit-transform: translateZ(0) translateY(0);
           transform: translateZ(0) translateY(0);
@@ -11,11 +12,11 @@ const TrackOutFwdBot = () => {
   opacity: 0.8;
 }
 100% {
-  letter-spacing: 1em;
   -webkit-transform: translateZ(300px) translateY(200px);
           transform: translateZ(300px) translateY(200px);
   opacity: 0;
 }
-`)}
+`;
+};
 
-export default TrackOutFwdBot
+export default TrackOutFwdBot;

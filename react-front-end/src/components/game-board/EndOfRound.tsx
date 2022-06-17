@@ -1,10 +1,11 @@
 import React from "react";
 import { IEndOfRoundProps, IUser } from "../../Interfaces";
+
+// material UI
 import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  Divider,
   ListItemText,
   Typography,
   Box,
@@ -14,6 +15,8 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
   const sortedUsers = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
+
+  // displays per round scoreboard
   const users = sortedUsers.map((user, i) => {
     const bgc = i === 0 && user.roundScore !== 0 ? "#3EA4B4" : "#F4F4FF";
     const tc = i === 0 && user.roundScore !== 0 ? "white" : "green";
@@ -89,14 +92,6 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
           alignItems: "center",
         }}
       >
-        {/* <Typography variant="h6" component="h6">
-          The song title was:
-        </Typography>
-
-        <Typography variant="h5" component="h5">
-          {props.track.name}
-        </Typography> */}
-
         <Box
           component="img"
           sx={{

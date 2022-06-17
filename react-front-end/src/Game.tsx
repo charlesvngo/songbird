@@ -2,29 +2,31 @@ import React, { useState, useEffect, createContext } from "react";
 import Leaderboard from "./components/LeaderBoard";
 import GameBoard from "./components/game-board";
 import Chatbox from "./components/Chatbox";
+
+// material UI
 import {
   IUser,
   ISocket,
   IGameProps,
   ITracklist,
-  IArtist,
   IArtistContext,
 } from "./Interfaces";
 import { Box } from "@mui/material";
 
-// modes
+// game modes
 const ROUND: string = "ROUND";
 const LOBBY: string = "LOBBY";
 const COUNTDOWN: string = "COUNTDOWN";
 const ENDOFROUND: string = "END_OF_ROUND";
 const EOG: string = "END_OF_GAME";
+
 const cheatCodes = [
   "Never Gonna Give You Up",
   "immacheater",
   "upupdowndownleftrightleftrightbastart",
 ];
 
-// Context for artist searching
+// context for artist searching
 export const ArtistContext = createContext<IArtistContext>(
   {} as IArtistContext
 );
@@ -32,16 +34,9 @@ export const ArtistContext = createContext<IArtistContext>(
 const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
-  const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState([
-    {
-      message: "Welcome to Songbird!",
-      username: "",
-      avatar: "",
-    },
-  ]);
-
   const element = document.getElementById("songTrack")!;
+
+  // game state
   const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
   const [users, setUsers] = useState<[IUser]>([user]);
   const [track, setTrack] = useState<any>({});
@@ -51,6 +46,14 @@ const Game = (props: IGameProps) => {
   const [round, setRound] = useState<number>(0);
   const [artist, setArtist] = useState<string | null>("");
   const [artistList, setArtistList] = useState<any[]>([]);
+  const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState([
+    {
+      message: "Welcome to Songbird!",
+      username: "",
+      avatar: "",
+    },
+  ]);
 
   useEffect(() => {
     socket.emit("player-joined", "hi");
@@ -107,8 +110,10 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message === "") return;
+
     const cheat = cheatCodes.find((m) => m === message);
     console.log(`${props.user.username}: ${message}`);
+
     if (mode === ROUND) {
       if (message === track.name || cheat) {
         let roundScore: number =
@@ -170,7 +175,6 @@ const Game = (props: IGameProps) => {
       <Box>
         <Leaderboard users={users} gameboardTheme={props.gameboardTheme} />
       </Box>
-
       <Box sx={{ gridColumn: "span 2" }}>
         <ArtistContext.Provider value={context}>
           <GameBoard

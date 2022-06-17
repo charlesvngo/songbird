@@ -1,21 +1,23 @@
 import React from "react";
 import { IEndOfGameProps, IUser } from "../../Interfaces";
+
+// material UI
 import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  Divider,
   ListItemText,
   Box,
   Typography,
   Button,
 } from "@mui/material";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
   const sortedUsers = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
+
+  // displays final scoreboard
   const users = sortedUsers.map((user, i) => {
     let bgc = "#F4F4FF";
     if (i === 2) bgc = "#a6e4ed";

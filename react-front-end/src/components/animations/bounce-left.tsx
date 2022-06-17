@@ -1,8 +1,8 @@
-import { keyframes} from "@mui/material";
- const AnimationBounceLeft = () => {
+import { keyframes } from "@mui/material";
 
-return(
-keyframes`0% {
+// new user animation
+const AnimationBounceLeft = () => {
+  return keyframes`0% {
   -webkit-transform: translateX(-48px);
           transform: translateX(-48px);
   -webkit-animation-timing-function: ease-in;
@@ -52,6 +52,7 @@ keyframes`0% {
   -webkit-animation-timing-function: ease-out;
           animation-timing-function: ease-out;
   opacity: 1;
-}`)};
+}`;
+};
 
-export default AnimationBounceLeft 
+export default AnimationBounceLeft;

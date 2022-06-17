@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import "./App.css";
+import { IUser, ISocket, ITheme } from "./Interfaces";
 import Game from "./Game";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
-import { IUser, ISocket, ITheme } from "./Interfaces";
+import "./App.css";
+
+// material UI
+import { ThemeProvider } from "@mui/material/styles";
 import {
   lightTheme,
   darkTheme,
@@ -12,20 +15,16 @@ import {
   gameBoardDark,
   navTheme,
 } from "./styles/theme";
-import { ThemeProvider } from "@mui/material/styles";
 
-// generates random room id
+// generate a room id
 import { getRoomId } from "./helpers/roomGenerator";
-import { dark } from "@mui/material/styles/createPalette";
 
 // socket io client
-// import socketIOClient from "socket.io-client";
 const socketIOClient = require("socket.io-client");
 const ENDPOINT = "/";
 
 const App = () => {
-  // grab the window URL and set the Room ID to that url.
-  // URL should be formatted as localhost:3000/?[:roomId]
+  // grab the window URL and set the Room ID to that url. URL should be formatted as localhost:3000/?[:roomId]
   const roomId: string = getRoomId();
 
   // create a colour palette for the App
@@ -64,7 +63,7 @@ const App = () => {
     );
   };
 
-  // changes the app's theme
+  // switches between light and dark mode
   const changeTheme = (): void => {
     if (theme === lightTheme) {
       setTheme(darkTheme);

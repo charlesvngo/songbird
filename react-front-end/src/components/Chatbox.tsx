@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { IChatboxProps } from "../Interfaces";
+
+// material UI
 import {
   Box,
   List,
@@ -14,14 +16,17 @@ import {
 } from "@mui/material";
 import { gameBoardLight } from "../styles/theme";
 
-// logo image
-import bird from "../assets/bird_logo.png";
+// assets
+import logo from "../assets/bird_logo.png";
 
 const Chatbox = (props: IChatboxProps) => {
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState<string>("");
+
   const containerRef = useRef(null);
   const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+
+  // displays all chat messages
   const chat = props.messages.map((m, i) => {
     return (
       <Slide
@@ -33,7 +38,7 @@ const Chatbox = (props: IChatboxProps) => {
         <ListItem key={i}>
           <ListItemAvatar>
             <Avatar
-              src={m.avatar ? m.avatar : bird}
+              src={m.avatar ? m.avatar : logo}
               sx={{ padding: 1, width: 40, height: 40 }}
             />
           </ListItemAvatar>
@@ -52,7 +57,6 @@ const Chatbox = (props: IChatboxProps) => {
     if (inputValue.includes("by:")) {
       message = message.slice(0, message.indexOf(" by:"));
     }
-
     props.setMessage(message);
   }, [inputValue]);
 
@@ -62,7 +66,7 @@ const Chatbox = (props: IChatboxProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     props.sendMessage(e);
-    // Clear text boxes after sending
+    // clear text boxes after sending
     props.setMessage("");
     setInputValue("");
   };
