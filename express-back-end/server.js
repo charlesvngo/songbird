@@ -19,7 +19,6 @@ const sampleSonglist = require("./helpers/autocompleteSongs");
 // Server set up
 const socketio = require("socket.io");
 const http = require("http");
-const { Console } = require("console");
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -102,14 +101,13 @@ io.on("connection", (socket) => {
    * @return - <message>: 'start-new-game' - Instruct all users to transition to the LOBBY mode
    */
   socket.on("new-game", () => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
-    rooms[roomI].currentRound = 1;
-    rooms[roomI].users.forEach((u) => {
+    rooms[roomIndex].currentRound = 1;
+    rooms[roomIndex].users.forEach((u) => {
       u.score = 0;
       u.roundScore = 0;
     });
-    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
-    io.in(rooms[roomI].id).emit("start-new-game", "new-game");
+    io.in(rooms[roomIndex].id).emit("update-users", rooms[roomIndex].users);
+    io.in(rooms[roomIndex].id).emit("start-new-game", "new-game");
   });
 
   /* START GAME message sent to the sever.
@@ -127,12 +125,11 @@ io.on("connection", (socket) => {
    * @return - 5 second delay - <message>: 'round-start' - Instruct all users to transition to the ROUND mode to start the round
    */
   socket.on("start-game", (genre, rounds, artist) => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
     getPlaylist(token, genre, artist).then((result) => {
       const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
       const titles = filterTitles(tracks);
 
-      rooms[roomI] = { ...rooms[roomI], tracks, titles, rounds };
+      rooms[roomIndex] = { ...rooms[roomIndex], tracks, titles, rounds };
 
       const nextTrack = getTrack(rooms, roomId);
       const autocomplete = createAutocomplete(sampleSonglist, titles);
@@ -142,7 +139,10 @@ io.on("connection", (socket) => {
 
       io.to(roomId).emit("game-started", roomId);
       setTimeout(() => {
-        io.to(rooms[roomI].id).emit("round-start", rooms[roomI].currentRound);
+        io.to(rooms[roomIndex].id).emit(
+          "round-start",
+          rooms[roomIndex].currentRound
+        );
       }, 5000);
     });
   });
@@ -163,27 +163,27 @@ io.on("connection", (socket) => {
    *          - Update the client with the current round and direct them to start the round
    */
   socket.on("end-of-round", () => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
-    if (!rooms[roomI].users[userI].host) return;
-    rooms[roomI].currentRound++;
+    const userIndex = findUserIndex(rooms, socket.id);
+    if (!rooms[roomIndex].users[userIndex].host) return;
+    rooms[roomIndex].currentRound++;
 
-    if (rooms[roomI].currentRound === rooms[roomI].rounds + 1) {
+    if (rooms[roomIndex].currentRound === rooms[roomIndex].rounds + 1) {
       return setTimeout(() => {
-        io.in(rooms[roomI].id).emit("end-of-game", "End of Game");
+        io.in(roomId).emit("end-of-game", "End of Game");
       }, 10000);
     }
 
-    const nextTrack = getTrack(rooms, rooms[roomI].id);
+    const nextTrack = getTrack(rooms, roomId);
     setTimeout(() => {
-      rooms[roomI].users.forEach((user) => {
+      rooms[roomIndex].users.forEach((user) => {
         user.roundScore = 0;
       });
-      io.in(rooms[roomI].id).emit("next-round", nextTrack);
+      io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
-      io.to(rooms[roomI].id).emit("round-start", rooms[roomI].currentRound);
+      io.to(roomId).emit("round-start", rooms[roomIndex].currentRound);
     }, 15000);
   });
 
@@ -195,27 +195,24 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
    */
   socket.on("correct-answer", (score) => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
-    if (rooms[roomI].users[userI].roundScore) return;
-    console.log(
-      "The correct answer was by: ",
-      rooms[roomI].users[userI].username
-    );
+    const userIndex = findUserIndex(rooms, socket.id);
 
-    rooms[roomI].users[userI].score += score;
-    rooms[roomI].users[userI].roundScore = score;
+    if (rooms[roomIndex].users[userIndex].roundScore) return;
 
-    rooms[roomI].users.sort((a, b) => b.score - a.score);
-    rooms[roomI].users[0].winning = true;
-    if (rooms[roomI].users.length > 1) {
-      for (let i = 1; i < rooms[roomI].users.length; i++) {
-        rooms[roomI].users[i].winning = false;
+    rooms[roomIndex].users[userIndex].score += score;
+    rooms[roomIndex].users[userIndex].roundScore = score;
+
+    rooms[roomIndex].users.sort((a, b) => b.score - a.score);
+    rooms[roomIndex].users[0].winning = true;
+    if (rooms[roomIndex].users.length > 1) {
+      for (let i = 1; i < rooms[roomIndex].users.length; i++) {
+        rooms[roomIndex].users[i].winning = false;
       }
     }
 
-    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
+    io.in(roomId).emit("update-users", rooms[roomIndex].users);
 
-    io.in(rooms[roomI].id).emit("receive-chat-messages", {
+    io.in(roomId).emit("receive-chat-messages", {
       username,
       message: `Correct guess! Scored: ${score}`,
       avatar,
@@ -229,8 +226,7 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
    */
   socket.on("send-chat-message", (message) => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
-    io.in(rooms[roomI].id).emit("receive-chat-messages", {
+    io.in(rooms[roomIndex].id).emit("receive-chat-messages", {
       username,
       message,
       avatar,
@@ -261,23 +257,17 @@ io.on("connection", (socket) => {
    */
 
   socket.on("disconnect", () => {
-    const { userI, roomI } = findUserIndex(rooms, socket.id);
-    console.log("diccsonection: ", rooms[roomI].users[userI]);
-    disUser = rooms[roomI].users[userI];
-    rooms[roomI].users = rooms[roomI].users.filter(
+    const userIndex = findUserIndex(rooms, socket.id);
+    disUser = rooms[roomIndex].users[userIndex];
+    rooms[roomIndex].users = rooms[roomIndex].users.filter(
       ({ id }) => id !== socket.id
     );
 
     if (disUser.host) {
-      if (rooms[roomI].users.length !== 0) {
-        rooms[roomI].users[0].host = true;
-        console.log("New host: ", rooms[roomI].users[0]);
-      } else {
-        rooms.splice(roomI, 1);
-        console.log("Room deleted ", rooms);
-        return;
-      }
+      if (rooms[roomIndex].users.length !== 0) {
+        rooms[roomIndex].users[0].host = true;
+      } else return rooms.splice(roomIndex, 1);
     }
-    io.in(rooms[roomI].id).emit("update-users", rooms[roomI].users);
+    io.in(roomId).emit("update-users", rooms[roomIndex].users);
   });
 });
