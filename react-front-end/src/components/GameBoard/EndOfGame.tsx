@@ -86,6 +86,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         size="large"
         disabled={!props.host}
         onClick={props.newGame}
+        sx={{ color: "white" }}
       >
         New Game
       </Button>
