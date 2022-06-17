@@ -6,8 +6,11 @@ import { EndOfRound } from "./EndOfRound";
 import { EndOfGame } from "./EndOfGame";
 import { IGameBoard } from "../../Interfaces";
 import { Container, CssBaseline, Box, Grow } from "@mui/material";
+import { gameBoardLight } from "../../styles/theme";
 
 const GameBoard = (props: IGameBoard) => {
+  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
       <Container>
@@ -23,9 +26,9 @@ const GameBoard = (props: IGameBoard) => {
             alignItems: "center",
             border: 3,
             borderRadius: 2,
-            borderColor: "white",
             boxShadow: 5,
-            backgroundColor: "white",
+            borderColor: bgc,
+            backgroundColor: bgc,
           }}
         >
           {props.mode === "LOBBY" && (

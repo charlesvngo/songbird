@@ -5,7 +5,13 @@ import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
 import { IUser, ISocket, ITheme } from "./Interfaces";
-import { lightTheme, darkTheme, partyTheme } from "./styles/theme";
+import {
+  lightTheme,
+  darkTheme,
+  gameBoardLight,
+  gameBoardDark,
+  navTheme,
+} from "./styles/theme";
 import { ThemeProvider } from "@mui/material/styles";
 
 // generates random room id
@@ -35,6 +41,7 @@ const App = () => {
   });
   const [socket, setSocket] = useState<ISocket | undefined>(undefined);
   const [theme, setTheme] = useState<ITheme>(lightTheme);
+  const [gameboardTheme, setGameboardTheme] = useState<ITheme>(gameBoardLight);
 
   const createSocket = (createUser: IUser): void => {
     const newRoomId = createUser.roomId ? createUser.roomId : user.roomId;
@@ -59,21 +66,31 @@ const App = () => {
 
   // changes the app's theme
   const changeTheme = (): void => {
-    if (theme === lightTheme || partyTheme) {
+    if (theme === lightTheme) {
       setTheme(darkTheme);
+      setGameboardTheme(gameBoardDark);
       return;
     }
-
     setTheme(lightTheme);
+    setGameboardTheme(gameBoardLight);
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <NavBar changeTheme={changeTheme} />
+      <ThemeProvider theme={navTheme}>
+        <NavBar changeTheme={changeTheme} />
+      </ThemeProvider>
       <div className="App">
         <AudioPlayer src={""} />
         {user.username ? (
-          <Game user={user} socket={socket} setUser={setUser} />
+          <ThemeProvider theme={gameboardTheme}>
+            <Game
+              user={user}
+              socket={socket}
+              setUser={setUser}
+              gameboardTheme={gameboardTheme}
+            />
+          </ThemeProvider>
         ) : (
           <UserForm createSocket={createSocket} />
         )}

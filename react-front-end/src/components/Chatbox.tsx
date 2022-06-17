@@ -12,6 +12,7 @@ import {
   Slide,
   Autocomplete,
 } from "@mui/material";
+import { gameBoardLight } from "../styles/theme";
 
 // logo image
 import bird from "../assets/bird_logo.png";
@@ -20,6 +21,7 @@ const Chatbox = (props: IChatboxProps) => {
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState<string>("");
   const containerRef = useRef(null);
+  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
   const chat = props.messages.map((m, i) => {
     return (
       <Slide
@@ -67,13 +69,13 @@ const Chatbox = (props: IChatboxProps) => {
           display: "flex",
           border: 3,
           borderRadius: 2,
-          borderColor: "white",
+          borderColor: bgc,
+          backgroundColor: bgc,
           margin: 1,
           padding: 2,
           height: "93vh",
           flexDirection: "column-reverse",
           boxShadow: 5,
-          backgroundColor: "white",
         }}
       >
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

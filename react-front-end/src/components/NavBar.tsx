@@ -59,10 +59,7 @@ const NavBar = (props: INavProps) => {
             onClick={handleTheme}
             sx={{ marginRight: 2, color: "white" }}
           />
-          <PartyModeIcon
-            onClick={handleTheme}
-            sx={{ marginRight: 2, color: "white" }}
-          />
+          <PartyModeIcon sx={{ marginRight: 2, color: "white" }} />
           <InfoIcon onClick={handleOpen} sx={{ color: "white" }} />
           <Modal
             open={open}

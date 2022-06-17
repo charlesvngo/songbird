@@ -1,13 +1,33 @@
 import { ITheme } from "../Interfaces";
 import { createTheme } from "@mui/material";
 
-export const lightTheme: ITheme = createTheme({
+// doesn't change
+export const navTheme: ITheme = createTheme({
   palette: {
     primary: {
       main: "#11AD94", // Blue Green
     },
+  },
+});
+
+export const lightTheme: ITheme = createTheme({
+  palette: {
+    primary: {
+      main: "#11AD94",
+    },
     secondary: {
-      main: "#3EA4B4", // Pacific Blue
+      main: "#3EA4B4",
+    },
+  },
+});
+
+export const gameBoardLight: ITheme = createTheme({
+  palette: {
+    primary: {
+      main: "#11AD94",
+    },
+    secondary: {
+      main: "#3EA4B4",
     },
     background: {
       default: "#F4F4FF",
@@ -17,28 +37,36 @@ export const lightTheme: ITheme = createTheme({
 
 export const darkTheme: ITheme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#11AD94", // Blue Green
+      main: "#11AD94",
     },
     secondary: {
-      main: "#3EA4B4", // Pacific Blue
-    },
-    background: {
-      default: "#121212",
+      main: "#3EA4B4",
     },
   },
 });
 
-export const partyTheme: ITheme = createTheme({
+// #121212 for component boxes
+export const gameBoardDark: ITheme = createTheme({
   palette: {
+    mode: "dark",
     primary: {
-      main: "#11AD94", // Blue Green
+      main: "#11AD94",
     },
     secondary: {
-      main: "#3EA4B4", // Pacific Blue
+      main: "#3EA4B4",
     },
     background: {
-      default: "#F4F4FF",
+      default: "#3F3F3F",
+    },
+  },
+});
+
+export const gameModeDark: ITheme = createTheme({
+  palette: {
+    background: {
+      default: "#121212",
     },
   },
 });

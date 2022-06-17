@@ -42,8 +42,8 @@ const Game = (props: IGameProps) => {
 
     socket.on("update-users", (data: [IUser]) => {
       setUsers(data);
-      data.forEach(u => {
-        if(u.username === user.username) props.setUser(u)
+      data.forEach((u) => {
+        if (u.username === user.username) props.setUser(u);
       });
     });
 
@@ -79,7 +79,7 @@ const Game = (props: IGameProps) => {
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(`${props.user.username}: ${message}`);
-    if(message === "") return
+    if (message === "") return;
     if (mode === ROUND) {
       if (message === track.name) {
         let roundScore: number =
@@ -118,8 +118,9 @@ const Game = (props: IGameProps) => {
       }}
     >
       <Box>
-        <Leaderboard users={users} />
+        <Leaderboard users={users} gameboardTheme={props.gameboardTheme} />
       </Box>
+
       <Box sx={{ gridColumn: "span 2" }}>
         <GameBoard
           roomId={props.user.roomId}
@@ -132,6 +133,7 @@ const Game = (props: IGameProps) => {
           users={users}
           round={round}
           host={user.host}
+          gameboardTheme={props.gameboardTheme}
         />
       </Box>
       <Box>
@@ -142,6 +144,7 @@ const Game = (props: IGameProps) => {
           setMessage={setMessage}
           messages={messages}
           mode={mode}
+          gameboardTheme={props.gameboardTheme}
         />
       </Box>
     </Box>
