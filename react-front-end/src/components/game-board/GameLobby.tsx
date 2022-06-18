@@ -33,7 +33,9 @@ export const GameLobby = (props: IGameLobby) => {
   };
 
   const handleCopyClick = (): void => {
-    navigator.clipboard.writeText(`http://localhost:3000/?${props.roomId}`);
+    navigator.clipboard.writeText(
+      `https://songbird-game.herokuapp.com//?${props.roomId}`
+    );
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
