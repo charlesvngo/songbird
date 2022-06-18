@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-// const axios = require("axios");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
@@ -14,177 +13,232 @@ const {
   createAutocomplete,
   queryArtist,
 } = require("./helpers/spotify");
-const getTrack = require("./helpers/game");
+const { getTrack, findRoomIndex, findUserIndex } = require("./helpers/game");
 const sampleSonglist = require("./helpers/autocompleteSongs");
 
-// socket IO
+// Server set up
 const socketio = require("socket.io");
 const http = require("http");
 const server = http.createServer(app);
 const io = socketio(server);
-
-// global variables
-let token = "";
-let users = [];
-let rooms = [];
 
 // express configuration
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
+server.listen(PORT, () => {
+  console.log(`Express is listening on port ${PORT} 👍`);
+});
+
+// global variables
+let token = "";
+let rooms = [];
+
 // retrieves authentication token from spotify
 getToken().then((res) => {
   token = res.data.access_token;
 });
 
-server.listen(PORT, () => {
-  console.log(`Express is listening on port ${PORT} 👍`);
-});
-
-// establishes socket connection
+/* New socket CONNECTION established to server from client
+ * @parmas - {Socket object}: Socket
+ *          {Socket.handshake.query}: username {string}, roomId {number}, avatar{ulr}
+ * From the given roomId determine if the room already exists (findRoomIndex())
+ *  - IF it doesn't then create a new room and push the connected user in the users array
+ *  - ELSE push the connected user into the users array within the current room (roomIndex)
+ *
+ * @return - <message>: 'update-users' - Send a socket emit to the room, updating the clients with the user information
+ */
 io.on("connection", (socket) => {
-  const { username, roomId, avatar } = socket.handshake.query;
-  console.log("User has connected:", username);
+  let { username, roomId, avatar } = socket.handshake.query;
   socket.join(roomId);
 
-  const host = rooms.find(({ Id }) => Id === roomId) ? false : true;
-  console.log("Host?: ", host);
-  users.push({
-    id: socket.id,
-    username,
-    roomId,
-    avatar,
-    score: 0,
-    roundScore: 0,
-    host,
-    winning: false,
-  });
+  let roomIndex = findRoomIndex(rooms, roomId);
 
-  if ((index = rooms.findIndex(({ Id }) => Id === roomId)) === -1) {
+  if (roomIndex === -1) {
     rooms.push({
-      Id: roomId,
+      id: roomId,
       tracks: [],
       titles: [],
       currentTrack: {},
       rounds: 0,
       currentRound: 1,
+      users: [
+        {
+          id: socket.id,
+          username,
+          roomId,
+          avatar,
+          score: 0,
+          roundScore: 0,
+          host: true,
+          winning: false,
+        },
+      ],
+    });
+    roomIndex = findRoomIndex(rooms, roomId);
+  } else {
+    rooms[roomIndex].users.push({
+      id: socket.id,
+      username,
+      roomId,
+      avatar,
+      score: 0,
+      roundScore: 0,
+      host: false,
+      winning: false,
     });
   }
 
-  const usersInRoom = users.filter((u) => u.roomId === roomId);
-  io.in(roomId).emit("update-users", usersInRoom);
+  io.in(roomId).emit("update-users", rooms[roomIndex].users);
 
-  // socket.on("player-joined", () => {
-  //   console.log("player-joined ", roomId);
-  // });
+  /* NEW GAME message sent to the sever.
+   * @parmas - <message>: 'new-game'
+   *
+   * The host has started a new game with the existing clients. Zero the score before transitioning back to the lobby
+   *
+   * @return - <message>: 'update-users', {users[]} - Update all clients in the room with the zeroed scores
+   * @return - <message>: 'start-new-game' - Instruct all users to transition to the LOBBY mode
+   */
+  socket.on("new-game", () => {
+    rooms[roomIndex].currentRound = 1;
+    rooms[roomIndex].users.forEach((u) => {
+      u.score = 0;
+      u.roundScore = 0;
+    });
+    io.in(rooms[roomIndex].id).emit("update-users", rooms[roomIndex].users);
+    io.in(rooms[roomIndex].id).emit("start-new-game", "new-game");
+  });
 
+  /* START GAME message sent to the sever.
+   * @parmas - <message>: 'new-game', {genre, rounds} - the genre and number of rounds selected for the game
+   *
+   * The host has started thr game. Use the provided genre to call the Spotify API and generate tracks.
+   *  getPlaylist(token, genre)
+   * Grab a track to play from that list. getTrack(rooms, roomId)
+   * Update the room with the number of selected rounds.
+   * Create an list of red-herring songs for autocorrect input field.
+   *
+   * @return - <message>: 'next-track', {track} - Update all clients in the room with the track to be played next
+   * @return - <message>: 'track-list' -  Update all clients in the room with a list of titles to use for autocomplete
+   * @return - <message>: 'game-started' - Instruct all users to transition to the COUNTDOWN mode
+   * @return - 5 second delay - <message>: 'round-start' - Instruct all users to transition to the ROUND mode to start the round
+   */
+  socket.on("start-game", (genre, rounds, artist) => {
+    getPlaylist(token, genre, artist).then((result) => {
+      const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
+      const titles = filterTitles(tracks);
+
+      rooms[roomIndex] = { ...rooms[roomIndex], tracks, titles, rounds };
+
+      const nextTrack = getTrack(rooms, roomId);
+      const autocomplete = createAutocomplete(sampleSonglist, titles);
+
+      io.to(roomId).emit("next-track", nextTrack);
+      io.to(roomId).emit("track-list", autocomplete);
+
+      io.to(roomId).emit("game-started", roomId);
+      setTimeout(() => {
+        io.to(rooms[roomIndex].id).emit(
+          "round-start",
+          rooms[roomIndex].currentRound
+        );
+      }, 5000);
+    });
+  });
+
+  /* END OF ROUND message sent to the sever.
+   * @parmas - <message>: 'end-of-round'
+   *
+   * From the given roomId determine if the room already exists (findRoomIndex())
+   *  - IF it doesn't then create a new room and push the connected user in the users array
+   *  - ELSE push the connected user into the users array within the current room (roomIndex)
+   *
+   * @return
+   * - IF the room round = current round - <message>: 'end-of-game'
+   *          - send message to clients in the room the game is over
+   *  - ELSE  - 10 second delay - <message>: 'end-of-game',  {nextTrack} next track to play
+   *            - send message to clients in the room to go to the next round, provide new track
+   *          - 15 second delay - <message>: 'round-start',  {currentRound} current round
+   *          - Update the client with the current round and direct them to start the round
+   */
   socket.on("end-of-round", () => {
-    const userIndex = users.findIndex(({ id }) => id === socket.id);
+    const userIndex = findUserIndex(rooms, socket.id);
+    if (!rooms[roomIndex].users[userIndex].host) return;
+    rooms[roomIndex].currentRound++;
 
-    if (!users[userIndex].host) return;
-
-    const index = rooms.findIndex(({ Id }) => Id === roomId);
-    rooms[index].currentRound++;
-    const nextTrack = getTrack(rooms, roomId);
-
-    if (rooms[index].currentRound === rooms[index].rounds + 1) {
+    if (rooms[roomIndex].currentRound === rooms[roomIndex].rounds + 1) {
       return setTimeout(() => {
         io.in(roomId).emit("end-of-game", "End of Game");
       }, 10000);
     }
 
+    const nextTrack = getTrack(rooms, roomId);
     setTimeout(() => {
-      users.forEach((user) => {
-        if ((user.roomID = roomId)) user.roundScore = 0;
+      rooms[roomIndex].users.forEach((user) => {
+        user.roundScore = 0;
       });
       io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
-      io.to(roomId).emit("round-start", rooms[index].currentRound);
+      io.to(roomId).emit("round-start", rooms[roomIndex].currentRound);
     }, 15000);
   });
 
+  /* CORRECT ANSWER message sent to the sever.
+   * @parmas - <message>: 'correct-answer'
+   * @parmas - {score}: The score the user received for guessing the correct answer
+   *
+   * @return - <message>: 'update-users' - Update all clients in the room with the updated scores
+   * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
+   */
   socket.on("correct-answer", (score) => {
-    const userIndex = users.findIndex(({ id }) => id === socket.id);
-    const newScore = users[userIndex].score + score;
-    users[userIndex] = {
-      ...users[userIndex],
-      roundScore: score,
-      score: newScore,
-    };
+    const userIndex = findUserIndex(rooms, socket.id);
 
-    users.sort((a, b) => b.score - a.score);
-    users[0].winning = true;
-    if (users.length > 1) {
-      for (let i = 1; i < users.length; i++) {
-        users[i].winning = false;
+    if (rooms[roomIndex].users[userIndex].roundScore) return;
+
+    rooms[roomIndex].users[userIndex].score += score;
+    rooms[roomIndex].users[userIndex].roundScore = score;
+
+    rooms[roomIndex].users.sort((a, b) => b.score - a.score);
+    rooms[roomIndex].users[0].winning = true;
+    if (rooms[roomIndex].users.length > 1) {
+      for (let i = 1; i < rooms[roomIndex].users.length; i++) {
+        rooms[roomIndex].users[i].winning = false;
       }
     }
 
-    io.in(users[userIndex].roomId).emit(
-      "update-users",
-      users.filter((u) => u.roomId === users[userIndex].roomId)
-    );
-    io.in(users[userIndex].roomId).emit("receive-chat-messages", {
+    io.in(roomId).emit("update-users", rooms[roomIndex].users);
+
+    io.in(roomId).emit("receive-chat-messages", {
       username,
       message: `Correct guess! Scored: ${score}`,
       avatar,
     });
   });
 
-  socket.on("send-chat-message", (guess) => {
-    io.in(roomId).emit("receive-chat-messages", {
+  /* SEND CHAT MESSAGE message sent to the sever.
+   * @parmas - <message>: 'send-chat-message'
+   * @parmas - {message}: The message sent by the socket (client)
+   *
+   * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
+   */
+  socket.on("send-chat-message", (message) => {
+    io.in(rooms[roomIndex].id).emit("receive-chat-messages", {
       username,
-      message: guess,
+      message,
       avatar,
     });
   });
 
-  socket.on("new-game", () => {
-    const roomIndex = rooms.findIndex(({ Id }) => Id === roomId);
-
-    rooms[roomIndex].currentRound = 1;
-    users.forEach((u) => {
-      if (u.roomId === roomId) {
-        u.score = 0;
-        u.roundScore = 0;
-      }
-    });
-    io.in(roomId).emit(
-      "update-users",
-      users.filter((u) => u.roomId === roomId)
-    );
-    io.in(roomId).emit("start-new-game", "new-game");
-  });
-
-  // what dis doing?
-  socket.on("start-game", (genre, rounds, artist) => {
-    // Obtain the playlist based on the selected genre passed in from host.
-    getPlaylist(token, genre, artist).then((result) => {
-      const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
-      const titles = filterTitles(tracks);
-
-      const index = rooms.findIndex(({ Id }) => Id === roomId);
-      rooms[index] = { ...rooms[index], tracks, titles, rounds };
-      const nextTrack = getTrack(rooms, roomId);
-
-      // Create an list of red-herring songs.
-      const autocomplete = createAutocomplete(sampleSonglist, titles);
-
-      io.to(roomId).emit("next-track", nextTrack);
-      io.to(roomId).emit("track-list", autocomplete);
-      // Tell all players that the game has started
-      io.to(roomId).emit("game-started", rooms[index].roomId);
-      setTimeout(() => {
-        // After the 5 second countdown, Tell clients to play track and start guessing.
-        io.to(roomId).emit("round-start", rooms[index].currentRound);
-      }, 5000);
-    });
-  });
-
+  /* SEARCH ARTIST message sent to the sever.
+   * @parmas - <message>: 'search-artist'
+   * @parmas - {searchParam}: search query to send to Spotify's API
+   *
+   * @return - <message>: 'artist-list' {artist, id} - An array of artist and that artist corrisponding Spotify id
+   */
   socket.on("search-artist", (searchParam) => {
     queryArtist(token, searchParam).then((result) => {
       io.to(roomId).emit(
@@ -197,19 +251,29 @@ io.on("connection", (socket) => {
   });
 
   // disconnects user and removes them from users array
+  /* Socket has DISCONNECTed message sent to the sever.
+   * @parmas - <message>: 'disconnect' - the socket has disconnected
+   *
+   * The socket has disconnected. Remove the users from the rooms users array.
+   * IF that user was host:
+   * IF there are no other users in the room delete the room from the rooms array
+   * ELSE assign a new user the host role (default user[0])
+   *
+   * @return - <message>: 'update-users', {users[]} - Update all clients in the room with the current users in the room
+   */
+
   socket.on("disconnect", () => {
-    disUser = users.find((u) => u.id === socket.id);
-    users = users.filter((u) => u.id !== socket.id);
+    const userIndex = findUserIndex(rooms, socket.id);
+    disUser = rooms[roomIndex].users[userIndex];
+    rooms[roomIndex].users = rooms[roomIndex].users.filter(
+      ({ id }) => id !== socket.id
+    );
 
     if (disUser.host) {
-      newHostIndex = users.findIndex((u) => u.roomId === disUser.roomId);
-      if (newHostIndex !== -1) {
-        users[newHostIndex].host = true;
-      }
+      if (rooms[roomIndex].users.length !== 0) {
+        rooms[roomIndex].users[0].host = true;
+      } else return rooms.splice(roomIndex, 1);
     }
-    io.in(roomId).emit(
-      "update-users",
-      users.filter((u) => u.roomId === roomId)
-    );
+    io.in(roomId).emit("update-users", rooms[roomIndex].users);
   });
 });
