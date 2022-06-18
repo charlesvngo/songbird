@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { TramOutlined } from "@mui/icons-material";
 import { lightTheme } from "../styles/theme";
 
 const NavBar = (props: INavProps) => {
@@ -23,10 +22,10 @@ const NavBar = (props: INavProps) => {
 
   const handleOpen = (): void => setOpen(true);
   const handleClose = (): void => setOpen(false);
-  const handleTheme = () => props.changeTheme();
+  const handleTheme = (): void => props.changeTheme();
 
-  const themeColor = props.theme === lightTheme ? "white" : "#121212";
-  const logo = props.theme === lightTheme ? logoLight : logoDark;
+  const themeColor: string = props.theme === lightTheme ? "white" : "#121212";
+  const logo: string = props.theme === lightTheme ? logoLight : logoDark;
 
   return (
     <AppBar position="static">

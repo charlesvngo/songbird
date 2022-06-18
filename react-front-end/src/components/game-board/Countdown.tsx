@@ -17,8 +17,8 @@ const Count = styled(Typography, {
 }));
 
 export const Countdown = () => {
-  const [counter, setCounter] = useState(5);
-  const [trackOut, setTrackOut] = useState(false);
+  const [counter, setCounter] = useState<number>(5);
+  const [trackOut, setTrackOut] = useState<boolean>(false);
 
   const containerRef = useRef(null);
 

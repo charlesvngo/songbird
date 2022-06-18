@@ -19,7 +19,7 @@ export interface IArtist {
 export interface ITrack {
   name: string;
   artist: string;
-  album: { images: string };
+  album: { images: [{ url: string }] };
   preview_url: string;
 }
 

@@ -11,7 +11,8 @@ import { Container, CssBaseline, Box, Grow } from "@mui/material";
 import { gameBoardLight } from "../../styles/theme";
 
 const GameBoard = (props: IGameBoard) => {
-  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+  const bgc: string =
+    props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>

@@ -13,12 +13,12 @@ import {
 } from "@mui/material";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
-  const sortedUsers = props.users.sort(
+  const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
 
   // displays final scoreboard
-  const users = sortedUsers.map((user, i) => {
+  const users: JSX.Element[] = sortedUsers.map((user: IUser, i: number) => {
     let bgc = "#F4F4FF";
     if (i === 2) bgc = "#a6e4ed";
     if (i === 1) bgc = "#7bcedb";

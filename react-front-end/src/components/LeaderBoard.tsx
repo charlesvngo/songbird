@@ -7,10 +7,11 @@ import { List, Box, Divider, Typography, Grow } from "@mui/material";
 import { gameBoardLight } from "../styles/theme";
 
 const Leaderboard = (props: ILeaderboardProps) => {
-  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+  const bgc: string =
+    props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
   // displays each user on leaderboard
-  const users = props.users.map((user: IUser, i: number) => {
+  const users: JSX.Element[] = props.users.map((user: IUser, i: number) => {
     return (
       <LeaderboardCard
         key={i}

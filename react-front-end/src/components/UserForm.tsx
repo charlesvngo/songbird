@@ -72,9 +72,9 @@ const UserForm = (props: IUserFormProps) => {
   });
   const [roomId, setRoomId] = useState<string>(getUrlParams());
 
-  const nextAvatar = () => {
+  const nextAvatar = (): void => {
     const currentHistory = [...history];
-    let newBirdIndex = birdIndex;
+    let newBirdIndex: number = birdIndex;
     newBirdIndex++;
 
     if (newBirdIndex < birds.length) {
@@ -84,8 +84,8 @@ const UserForm = (props: IUserFormProps) => {
     }
   };
 
-  const prevAvatar = () => {
-    const currentHistory = [...history];
+  const prevAvatar = (): void => {
+    const currentHistory: number[] = [...history];
 
     if (history.length > 1) {
       currentHistory.pop();

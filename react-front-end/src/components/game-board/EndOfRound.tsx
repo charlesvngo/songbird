@@ -12,12 +12,12 @@ import {
 } from "@mui/material";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
-  const sortedUsers = props.users.sort(
+  const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
 
   // displays per round scoreboard
-  const users = sortedUsers.map((user, i) => {
+  const users: JSX.Element[] = sortedUsers.map((user: IUser, i: number) => {
     const bgc = i === 0 && user.roundScore !== 0 ? "#3EA4B4" : "#F4F4FF";
     const tc = i === 0 && user.roundScore !== 0 ? "white" : "green";
     return (

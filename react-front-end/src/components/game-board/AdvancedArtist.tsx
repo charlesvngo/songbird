@@ -8,11 +8,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const AdvancedArtist = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<any>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<IArtist | null>(null);
   const [inputValue, setInputValue] = useState<string>("");
-  const context = useContext<IArtistContext>(ArtistContext);
-  const loading = open && context.artistList.length === 0;
+  const context: IArtistContext = useContext<IArtistContext>(ArtistContext);
+  const loading: boolean = open && context.artistList.length === 0;
 
   useEffect(() => {
     if (!open) {
@@ -21,7 +21,7 @@ const AdvancedArtist = () => {
   }, [open]);
 
   useEffect(() => {
-    const timeOut = setTimeout(() => {
+    const timeOut: NodeJS.Timeout = setTimeout(() => {
       context.queryArtist(inputValue);
     }, 500);
     return () => clearTimeout(timeOut);

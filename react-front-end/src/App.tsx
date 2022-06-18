@@ -38,7 +38,7 @@ const App = () => {
     host: false,
     winning: false,
   });
-  const [socket, setSocket] = useState<ISocket | undefined>(undefined);
+  const [socket, setSocket] = useState<ISocket>({} as ISocket);
   const [theme, setTheme] = useState<ITheme>(lightTheme);
   const [gameboardTheme, setGameboardTheme] = useState<ITheme>(gameBoardLight);
 

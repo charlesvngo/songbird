@@ -26,8 +26,8 @@ const BouncingBox = styled(Box, {
 }));
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
-  const [bounce, setBounce] = useState(true);
-  const containerRef = useRef(null);
+  const [bounce, setBounce] = useState<boolean>(true);
+  const containerRef: React.MutableRefObject<null> = useRef(null);
 
   let bgc = "";
   if (props.user.host && props.gameboardTheme === gameBoardLight)

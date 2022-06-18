@@ -1,4 +1,4 @@
-export const availableGenres = [
+export const availableGenres: string[] = [
   "acoustic",
   "afrobeat",
   "alt-rock",

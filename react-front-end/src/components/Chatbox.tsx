@@ -23,8 +23,9 @@ const Chatbox = (props: IChatboxProps) => {
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState<string>("");
 
-  const containerRef = useRef(null);
-  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+  const containerRef: React.MutableRefObject<null> = useRef(null);
+  const bgc: string =
+    props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
   // displays all chat messages
   const chat = props.messages.map((m, i) => {

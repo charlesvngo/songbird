@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { IGenreSelector } from "../../Interfaces";
+import { IArtistContext, IGenreSelector } from "../../Interfaces";
 import AdvancedSettings from "./AdvancedSettings";
 
 import { ArtistContext } from "../../Game";
@@ -10,7 +10,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 const GenreSelector = (props: IGenreSelector) => {
   const [advancedSettings, setAdvancedSettings] = useState<boolean>(false);
   const [alightment, setAlignment] = useState<string | null>(null);
-  const context = useContext(ArtistContext);
+  const context: IArtistContext = useContext<IArtistContext>(ArtistContext);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
