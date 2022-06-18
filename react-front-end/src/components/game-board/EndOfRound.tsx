@@ -74,6 +74,9 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         alignItems: "center",
         justifyContent: "space-evenly",
         height: "93vh",
+        overflow: "scroll",
+        overflowX: "hidden",
+        overflowY: "auto",
       }}
     >
       <Box

@@ -35,10 +35,18 @@ const NavBar = (props: INavProps) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          height: "7vh",
         }}
       >
         <Toolbar>
-          <Avatar src={logo} variant="rounded" sx={{ marginRight: 2 }} />
+          <Avatar
+            src={logo}
+            variant="rounded"
+            sx={{ marginRight: 2 }}
+            onClick={() => {
+              location.reload();
+            }}
+          />
           <Typography
             variant="h6"
             noWrap

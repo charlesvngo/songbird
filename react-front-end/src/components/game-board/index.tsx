@@ -23,7 +23,7 @@ const GameBoard = (props: IGameBoard) => {
             marginTop: 1,
             marginBottom: 1,
             padding: 2,
-            height: "93vh",
+            height: "90vh",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

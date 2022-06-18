@@ -68,6 +68,9 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         alignItems: "center",
         justifyContent: "space-evenly",
         height: "93vh",
+        overflow: "scroll",
+        overflowX: "hidden",
+        overflowY: "auto",
       }}
     >
       <Typography

@@ -29,17 +29,26 @@ const Leaderboard = (props: ILeaderboardProps) => {
           borderRadius: 2,
           margin: 1,
           padding: 2,
-          height: "93vh",
+          height: "90vh",
           boxShadow: 5,
         }}
       >
         <Typography variant="h6" component="h6" align="left">
           Room ID: {props.users[0].roomId}
         </Typography>
-        <List>
-          <Divider />
-          {users}
-        </List>
+        <Box
+          sx={{
+            overflow: "scroll",
+            maxHeight: "80vh",
+            overflowX: "hidden",
+            overflowY: "auto",
+          }}
+        >
+          <List>
+            <Divider />
+            {users}
+          </List>
+        </Box>
       </Box>
     </Grow>
   );

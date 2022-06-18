@@ -81,7 +81,7 @@ const Chatbox = (props: IChatboxProps) => {
           backgroundColor: bgc,
           margin: 1,
           padding: 2,
-          height: "93vh",
+          height: "90vh",
           flexDirection: "column-reverse",
           boxShadow: 5,
         }}
