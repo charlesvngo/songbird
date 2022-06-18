@@ -42,7 +42,7 @@ getToken().then((res) => {
 });
 
 /* New socket CONNECTION established to server from client
- * @parmas - {Socket object}: Socket
+ * @params - {Socket object}: Socket
  *          {Socket.handshake.query}: username {string}, roomId {number}, avatar{ulr}
  * From the given roomId determine if the room already exists (findRoomIndex())
  *  - IF it doesn't then create a new room and push the connected user in the users array
@@ -94,7 +94,7 @@ io.on("connection", (socket) => {
   io.in(roomId).emit("update-users", rooms[roomIndex].users);
 
   /* NEW GAME message sent to the sever.
-   * @parmas - <message>: 'new-game'
+   * @params - <message>: 'new-game'
    *
    * The host has started a new game with the existing clients. Zero the score before transitioning back to the lobby
    *
@@ -113,7 +113,7 @@ io.on("connection", (socket) => {
   });
 
   /* START GAME message sent to the sever.
-   * @parmas - <message>: 'new-game', {genre, rounds} - the genre and number of rounds selected for the game
+   * @params - <message>: 'new-game', {genre, rounds} - the genre and number of rounds selected for the game
    *
    * The host has started thr game. Use the provided genre to call the Spotify API and generate tracks.
    *  getPlaylist(token, genre)
@@ -148,7 +148,7 @@ io.on("connection", (socket) => {
   });
 
   /* END OF ROUND message sent to the sever.
-   * @parmas - <message>: 'end-of-round'
+   * @params - <message>: 'end-of-round'
    *
    * From the given roomId determine if the room already exists (findRoomIndex())
    *  - IF it doesn't then create a new room and push the connected user in the users array
@@ -188,8 +188,8 @@ io.on("connection", (socket) => {
   });
 
   /* CORRECT ANSWER message sent to the sever.
-   * @parmas - <message>: 'correct-answer'
-   * @parmas - {score}: The score the user received for guessing the correct answer
+   * @params - <message>: 'correct-answer'
+   * @params - {score}: The score the user received for guessing the correct answer
    *
    * @return - <message>: 'update-users' - Update all clients in the room with the updated scores
    * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
@@ -223,8 +223,8 @@ io.on("connection", (socket) => {
   });
 
   /* SEND CHAT MESSAGE message sent to the sever.
-   * @parmas - <message>: 'send-chat-message'
-   * @parmas - {message}: The message sent by the socket (client)
+   * @params - <message>: 'send-chat-message'
+   * @params - {message}: The message sent by the socket (client)
    *
    * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
    */
@@ -237,6 +237,15 @@ io.on("connection", (socket) => {
     });
   });
 
+  /* queries an artist from the spotify API if user is searching for a specific artist.
+   * @params - <message>: "search-artist"
+   * @params - {searchParam}: The query which is to be sent to the helper function. Value is already URI encoded from the client.
+   *
+   * Takes the search param and passes it into the queryArtist helper function. Function returns a promise.
+   * After the promise resolves, the data is then parsed to only return the artist and the spotify artist ID.
+   *
+   * @return - <message>: "artist-list", [{artist: artistName, id: artistId}] - Returns an array for client to parse.
+   */
   socket.on("search-artist", (searchParam) => {
     queryArtist(token, searchParam).then((result) => {
       io.to(roomId).emit(
@@ -250,7 +259,7 @@ io.on("connection", (socket) => {
 
   // disconnects user and removes them from users array
   /* Socket has DISCONNECTed message sent to the sever.
-   * @parmas - <message>: 'disconnect' - the socket has disconnected
+   * @params - <message>: 'disconnect' - the socket has disconnected
    *
    * The socket has disconnected. Remove the users from the rooms users array.
    * IF that user was host:
@@ -259,7 +268,6 @@ io.on("connection", (socket) => {
    *
    * @return - <message>: 'update-users', {users[]} - Update all clients in the room with the current users in the room
    */
-
   socket.on("disconnect", () => {
     const { userI, roomI } = findUserIndex(rooms, socket.id);
     console.log("diccsonection: ", rooms[roomI].users[userI]);
