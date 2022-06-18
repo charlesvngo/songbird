@@ -48,7 +48,7 @@ export const Countdown = () => {
           height: "93vh",
         }}
       >
-        <Typography variant="h2">Song starts in: </Typography>
+        {/* <Typography variant="h2">Song starts in: </Typography> */}
         <Grow in={true} {...{ timeout: 500 }}>
           <Count /*animate={trackOut}*/>{counter}</Count>
         </Grow>

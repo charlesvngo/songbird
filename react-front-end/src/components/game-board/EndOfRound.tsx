@@ -76,22 +76,6 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         height: "93vh",
       }}
     >
-      {/* <Typography
-        variant="h4"
-        component="h4"
-        sx={{
-          mr: 2,
-          fontWeight: 700,
-          fontSize: 50,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-          textShadow: "4px 0px 1px #17CEB4",
-        }}
-      >
-        END OF ROUND #{props.round}
-      </Typography> */}
-
       <Box
         sx={{
           display: "flex",
@@ -108,12 +92,11 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             border: 3,
             borderRadius: 2,
           }}
-          alt="The house from the offer."
           src={props.track.album.images[0].url}
         />
 
         <ListItemText
-          sx={{ fontSize: 15, padding: 2 }}
+          sx={{ fontSize: 20, padding: 2 }}
           primary={"The song title was:"}
           secondary={props.track.name}
         />

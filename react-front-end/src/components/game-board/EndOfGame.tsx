@@ -80,7 +80,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           letterSpacing: ".3rem",
           color: "inherit",
           textDecoration: "none",
-          textShadow: "4px 0px 1px #17CEB4",
+          textShadow: "4px 0px 1px #11AD94",
         }}
       >
         GAME OVER

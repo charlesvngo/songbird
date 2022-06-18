@@ -95,7 +95,7 @@ export const PlayGame = (props: IPlayGameProps) => {
             letterSpacing: ".3rem",
             color: "inherit",
             textDecoration: "none",
-            textShadow: "4px 0px 1px #17CEB4",
+            textShadow: "4px 0px 1px #11AD94",
           }}
         >
           GUESS THE SONG
@@ -110,7 +110,7 @@ export const PlayGame = (props: IPlayGameProps) => {
             textDecoration: "none",
           }}
         >
-          ROUND #{props.round}
+          ROUND {props.round}
         </Typography>
       </Box>
 
@@ -131,7 +131,6 @@ export const PlayGame = (props: IPlayGameProps) => {
             borderRadius: 2,
             filter: `blur(${blur}px)`,
           }}
-          alt="The house from the offer."
           src={props.track.album.images[0].url}
         />
 
