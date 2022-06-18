@@ -90,7 +90,7 @@ io.on("connection", (socket) => {
     });
   }
 
-  io.in(roomId).emit("update-users", rooms[roomIndex].users);
+  io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
 
   /* NEW GAME message sent to the sever.
    * @params - <message>: 'new-game'
@@ -102,12 +102,12 @@ io.on("connection", (socket) => {
    */
   socket.on("new-game", () => {
     rooms[roomIndex].currentRound = 1;
-    rooms[roomIndex].users.forEach((u) => {
+    rooms[roomIndex]?.users.forEach((u) => {
       u.score = 0;
       u.roundScore = 0;
     });
-    io.in(rooms[roomIndex].id).emit("update-users", rooms[roomIndex].users);
-    io.in(rooms[roomIndex].id).emit("start-new-game", "new-game");
+    io.in(rooms[roomIndex]?.id).emit("update-users", rooms[roomIndex]?.users);
+    io.in(rooms[roomIndex]?.id).emit("start-new-game", "new-game");
   });
 
   /* START GAME message sent to the sever.
@@ -139,9 +139,9 @@ io.on("connection", (socket) => {
 
       io.to(roomId).emit("game-started", roomId);
       setTimeout(() => {
-        io.to(rooms[roomIndex].id).emit(
+        io.to(rooms[roomIndex]?.id).emit(
           "round-start",
-          rooms[roomIndex].currentRound
+          rooms[roomIndex]?.currentRound
         );
       }, 5000);
     });
@@ -164,10 +164,10 @@ io.on("connection", (socket) => {
    */
   socket.on("end-of-round", () => {
     const userIndex = findUserIndex(rooms, socket.id);
-    if (!rooms[roomIndex].users[userIndex].host) return;
+    if (!rooms[roomIndex]?.users[userIndex].host) return;
     rooms[roomIndex].currentRound++;
 
-    if (rooms[roomIndex].currentRound === rooms[roomIndex].rounds + 1) {
+    if (rooms[roomIndex]?.currentRound === rooms[roomIndex]?.rounds + 1) {
       return setTimeout(() => {
         io.in(roomId).emit("end-of-game", "End of Game");
       }, 10000);
@@ -175,7 +175,7 @@ io.on("connection", (socket) => {
 
     const nextTrack = getTrack(rooms, roomId);
     setTimeout(() => {
-      rooms[roomIndex].users.forEach((user) => {
+      rooms[roomIndex]?.users.forEach((user) => {
         user.roundScore = 0;
       });
       io.in(roomId).emit("next-round", nextTrack);
@@ -183,7 +183,7 @@ io.on("connection", (socket) => {
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
-      io.to(roomId).emit("round-start", rooms[roomIndex].currentRound);
+      io.to(roomId).emit("round-start", rooms[roomIndex]?.currentRound);
     }, 15000);
   });
 
@@ -197,20 +197,20 @@ io.on("connection", (socket) => {
   socket.on("correct-answer", (score) => {
     const userIndex = findUserIndex(rooms, socket.id);
 
-    if (rooms[roomIndex].users[userIndex].roundScore) return;
+    if (rooms[roomIndex]?.users[userIndex].roundScore) return;
 
     rooms[roomIndex].users[userIndex].score += score;
     rooms[roomIndex].users[userIndex].roundScore = score;
 
-    rooms[roomIndex].users.sort((a, b) => b.score - a.score);
+    rooms[roomIndex]?.users.sort((a, b) => b.score - a.score);
     rooms[roomIndex].users[0].winning = true;
-    if (rooms[roomIndex].users.length > 1) {
-      for (let i = 1; i < rooms[roomIndex].users.length; i++) {
+    if (rooms[roomIndex]?.users.length > 1) {
+      for (let i = 1; i < rooms[roomIndex]?.users.length; i++) {
         rooms[roomIndex].users[i].winning = false;
       }
     }
 
-    io.in(roomId).emit("update-users", rooms[roomIndex].users);
+    io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
 
     io.in(roomId).emit("receive-chat-messages", {
       username,
@@ -226,7 +226,7 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
    */
   socket.on("send-chat-message", (message) => {
-    io.in(rooms[roomIndex].id).emit("receive-chat-messages", {
+    io.in(rooms[roomIndex]?.id).emit("receive-chat-messages", {
       username,
       message,
       avatar,
@@ -263,16 +263,16 @@ io.on("connection", (socket) => {
    */
   socket.on("disconnect", () => {
     const userIndex = findUserIndex(rooms, socket.id);
-    disUser = rooms[roomIndex].users[userIndex];
-    rooms[roomIndex].users = rooms[roomIndex].users.filter(
+    const disUser = rooms[roomIndex]?.users[userIndex];
+    rooms[roomIndex].users = rooms[roomIndex]?.users.filter(
       ({ id }) => id !== socket.id
     );
 
-    if (disUser.host) {
-      if (rooms[roomIndex].users.length !== 0) {
+    if (disUser?.host) {
+      if (rooms[roomIndex]?.users.length !== 0) {
         rooms[roomIndex].users[0].host = true;
       } else return rooms.splice(roomIndex, 1);
     }
-    io.in(roomId).emit("update-users", rooms[roomIndex].users);
+    io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
   });
 });

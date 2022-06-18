@@ -8,18 +8,19 @@ const axios = require("axios");
  * @return - axios promise containing the access token which will expire in 1 hour.
  */
 const getToken = () => {
-  const client_id = process.env.CLIENT_ID;
-  const client_secret = process.env.CLIENT_SECRET;
-  const auth_token = Buffer.from(
-    `${client_id}:${client_secret}`,
+  const clientId = process.env.CLIENT_ID;
+  const clientSecret = process.env.CLIENT_SECRET;
+  const authToken = Buffer.from(
+    `${clientId}:${clientSecret}`,
     "utf-8"
   ).toString("base64");
 
   const url = "https://accounts.spotify.com/api/token";
   const headers = {
-    Authorization: "Basic " + auth_token,
+    Authorization: "Basic " + authToken,
     "Content-Type": "application/x-www-form-urlencoded",
   };
+  // eslint-disable-next-line camelcase
   const body = qs.stringify({ grant_type: "client_credentials" });
 
   return axios.post(url, body, { headers: headers }).catch((error) => {
@@ -36,11 +37,11 @@ const getToken = () => {
  */
 const getPlaylist = (token, genre, artist) => {
   const limit = 50; // needs to be set as a function argument, number of rounds?
-  let api_playlist_url = "https://api.spotify.com/v1/recommendations?market=CA";
-  api_playlist_url += `&limit=${limit}`;
-  api_playlist_url += `&seed_genres=${genre}`;
+  let apiPlaylistUrl = "https://api.spotify.com/v1/recommendations?market=CA";
+  apiPlaylistUrl += `&limit=${limit}`;
+  apiPlaylistUrl += `&seed_genres=${genre}`;
   if (artist !== "") {
-    api_playlist_url = `https://api.spotify.com/v1/artists/${artist}/top-tracks?market=CA`;
+    apiPlaylistUrl = `https://api.spotify.com/v1/artists/${artist}/top-tracks?market=CA`;
   }
 
   const header = {
@@ -48,7 +49,10 @@ const getPlaylist = (token, genre, artist) => {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  return axios.get(api_playlist_url, { headers: header });
+  return axios.get(apiPlaylistUrl, { headers: header }).catch((error) => {
+    console.log("error", error.message);
+    getToken();
+  });
 };
 
 /* Takes a tracks array and filters out all information except the artist name and track name.
@@ -86,13 +90,13 @@ const createAutocomplete = (sampleSonglist, titles) => {
  * @return - axios promise containing an array of artists with all information provided by spotify
  */
 const queryArtist = (token, searchParam) => {
-  const api_artist_url = `https://api.spotify.com/v1/search?q=${searchParam}&type=artist&market=CA&limit=5`;
+  const apiArtistUrl = `https://api.spotify.com/v1/search?q=${searchParam}&type=artist&market=CA&limit=5`;
   const header = {
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-  return axios.get(api_artist_url, { headers: header });
+  return axios.get(apiArtistUrl, { headers: header });
 };
 
 module.exports = {
