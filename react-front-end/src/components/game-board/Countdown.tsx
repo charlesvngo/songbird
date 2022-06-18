@@ -3,8 +3,7 @@ import { StyledTypoProps } from "../../Interfaces";
 import TrackOutFwdBot from "../../styles/animations/tracking-out";
 
 // material UI
-import { styled } from "@mui/material/styles";
-import { Typography, Box, Slide, Grow } from "@mui/material";
+import { Typography, Box, Slide, Grow, styled } from "@mui/material";
 
 const Count = styled(Typography, {
   shouldForwardProp: (prop) => prop !== "animate",
@@ -19,19 +18,19 @@ const Count = styled(Typography, {
 
 export const Countdown = () => {
   const [counter, setCounter] = useState(5);
-  // const [trackOut, setTrackOut] = useState(false);
+  const [trackOut, setTrackOut] = useState(false);
 
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // setTrackOut(false);
+    setTrackOut(false);
     counter > 1 &&
       setTimeout(() => {
         setCounter(counter - 1);
       }, 1000);
-    // setTimeout(() => {
-    //   setTrackOut(true);
-    // }, 200);
+    setTimeout(() => {
+      setTrackOut(true);
+    }, 200);
   }, [counter]);
 
   return (
@@ -48,9 +47,9 @@ export const Countdown = () => {
           height: "93vh",
         }}
       >
-        {/* <Typography variant="h2">Song starts in: </Typography> */}
+        <Typography variant="h2">Song starts in: </Typography>
         <Grow in={true} {...{ timeout: 500 }}>
-          <Count /*animate={trackOut}*/>{counter}</Count>
+          <Count animate={trackOut}>{counter}</Count>
         </Grow>
       </Box>
     </Slide>
