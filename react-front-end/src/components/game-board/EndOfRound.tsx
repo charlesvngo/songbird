@@ -22,7 +22,12 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
     const tc = i === 0 && user.roundScore !== 0 ? "white" : "green";
     return (
       <Box
-        sx={{ backgroundColor: bgc, width: "35vw", borderRadius: 2 }}
+        sx={{
+          backgroundColor: bgc,
+          width: "35vw",
+          borderRadius: 2,
+          margin: 2,
+        }}
         key={i}
       >
         <ListItem>
@@ -71,19 +76,21 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         height: "93vh",
       }}
     >
-      <Typography
+      {/* <Typography
         variant="h4"
         component="h4"
         sx={{
           mr: 2,
           fontWeight: 700,
+          fontSize: 50,
           letterSpacing: ".3rem",
           color: "inherit",
           textDecoration: "none",
+          textShadow: "4px 0px 1px #17CEB4",
         }}
       >
-        END OF ROUND {props.round}
-      </Typography>
+        END OF ROUND #{props.round}
+      </Typography> */}
 
       <Box
         sx={{
@@ -106,12 +113,22 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         />
 
         <ListItemText
-          sx={{ fontSize: 10, padding: 2 }}
+          sx={{ fontSize: 15, padding: 2 }}
           primary={"The song title was:"}
           secondary={props.track.name}
         />
       </Box>
-      {users}
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {users}
+      </Box>
     </Box>
   );
 };

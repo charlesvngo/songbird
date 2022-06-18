@@ -29,10 +29,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
       <Box
         key={i}
         sx={{
-          backgroundColor: bgc,
           width: "35vw",
-          borderRadius: 2,
           color: tc,
+          backgroundColor: bgc,
+          borderRadius: 2,
+          margin: 2,
         }}
       >
         <ListItem>
@@ -75,14 +76,25 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         sx={{
           mr: 2,
           fontWeight: 700,
+          fontSize: 50,
           letterSpacing: ".3rem",
           color: "inherit",
           textDecoration: "none",
+          textShadow: "4px 0px 1px #17CEB4",
         }}
       >
         GAME OVER
       </Typography>
-      {users}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {users}
+      </Box>
       <Button
         variant="contained"
         size="large"

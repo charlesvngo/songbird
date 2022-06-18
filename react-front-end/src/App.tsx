@@ -16,7 +16,7 @@ import {
   navTheme,
 } from "./styles/theme";
 
-// generate a room id
+// generates a room id
 import { getRoomId } from "./helpers/roomGenerator";
 
 // socket io client

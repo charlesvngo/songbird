@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ILeaderboardCardProps, StyledBoxProps } from "../Interfaces";
-import AnimationBounceLeft from "./animations/bounce-left";
+import AnimationBounceLeft from "../styles/animations/bounce-left";
 
 // material UI
 import {
