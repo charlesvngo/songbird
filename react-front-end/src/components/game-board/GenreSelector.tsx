@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-
-// interfaces
 import { IGenreSelector } from "../../Interfaces";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-
-// components
 import AdvancedSettings from "./AdvancedSettings";
+
+// material UI
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GenreSelector = (props: IGenreSelector) => {
   const [advancedSettings, setAdvancedSettings] = useState<boolean>(false);

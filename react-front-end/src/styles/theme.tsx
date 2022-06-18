@@ -1,7 +1,6 @@
 import { ITheme } from "../Interfaces";
 import { createTheme } from "@mui/material";
 
-// doesn't change
 export const navTheme: ITheme = createTheme({
   palette: {
     primary: {

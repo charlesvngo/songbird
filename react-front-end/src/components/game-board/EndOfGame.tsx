@@ -1,21 +1,23 @@
 import React from "react";
 import { IEndOfGameProps, IUser } from "../../Interfaces";
+
+// material UI
 import {
   ListItem,
   ListItemAvatar,
   Avatar,
-  Divider,
   ListItemText,
   Box,
   Typography,
   Button,
 } from "@mui/material";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
   const sortedUsers = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
+
+  // displays final scoreboard
   const users = sortedUsers.map((user, i) => {
     let bgc = "#F4F4FF";
     if (i === 2) bgc = "#a6e4ed";
@@ -27,10 +29,11 @@ export const EndOfGame = (props: IEndOfGameProps) => {
       <Box
         key={i}
         sx={{
-          backgroundColor: bgc,
           width: "35vw",
-          borderRadius: 2,
           color: tc,
+          backgroundColor: bgc,
+          borderRadius: 2,
+          margin: 2,
         }}
       >
         <ListItem>
@@ -73,14 +76,25 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         sx={{
           mr: 2,
           fontWeight: 700,
+          fontSize: 50,
           letterSpacing: ".3rem",
           color: "inherit",
           textDecoration: "none",
+          textShadow: "4px 0px 1px #11AD94",
         }}
       >
         GAME OVER
       </Typography>
-      {users}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {users}
+      </Box>
       <Button
         variant="contained"
         size="large"

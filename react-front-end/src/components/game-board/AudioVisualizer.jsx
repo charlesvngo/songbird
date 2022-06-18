@@ -1,5 +1,7 @@
 import React from "react";
 import "../../styles/visualizer.css";
+
+// material UI
 import { Box } from "@mui/material";
 
 const AudioVisualizer = () => {
@@ -21,7 +23,6 @@ const AudioVisualizer = () => {
 
   addBarSpans();
 
-  // helpers
   // returns the number of active spans
   const getActiveSpans = (spans) => {
     let counter = 0;
@@ -32,12 +33,13 @@ const AudioVisualizer = () => {
 
     return counter;
   };
+
   // returns a random number between 1 and 20
   const getRandomHeight = (maxBarHeight) => {
     return Math.round(Math.random() * (maxBarHeight - 1)) + 1;
   };
 
-  // main programm (repeats)
+  // main program (repeats)
   const setRandomBars = (maxBarHeight) => {
     const bars = document.getElementsByClassName("equalizer-bar");
 
@@ -53,7 +55,6 @@ const AudioVisualizer = () => {
           spans[j].style.opacity = "0";
         }
 
-        // set little opacity
         let upperSpan = MAX_BAR_HEIGHT - j;
         if (newHeight > MAX_BAR_HEIGHT - 5 && upperSpan < 5) {
           spans[j].style.opacity = "0." + upperSpan;
@@ -72,8 +73,6 @@ const AudioVisualizer = () => {
       sx={{
         height: 200,
         width: 300,
-        // border: 3,
-        // borderRadius: 2,
       }}
     >
       <div className="equalizer">

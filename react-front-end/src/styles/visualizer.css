@@ -1,6 +1,7 @@
+/* Audio Visualizer Styling */
+
 .equalizer-box {
   font-family: arial, sans-serif;
-  /* background-color: #000; */
   width: 100%;
   height: calc(100vh - 4rem);
   margin: 0;
@@ -25,7 +26,7 @@
   border-radius: 2px;
   width: 100%;
   margin: 2px 0;
-  background-color: #FFF;
+  background-color: #fff;
   transition: 0.2s ease all;
   opacity: 1;
 }

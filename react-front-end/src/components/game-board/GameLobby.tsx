@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import "../../styles/loading.css";
-import GenreSelector from "./GenreSelector";
 import { IGameLobby } from "../../Interfaces";
-import { RoundaboutRightSharp } from "@mui/icons-material";
+import GenreSelector from "./GenreSelector";
+import "../../styles/loading.css";
+
+// material UI
 import {
   Typography,
   Box,
@@ -16,7 +17,6 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 
 export const GameLobby = (props: IGameLobby) => {
-  console.log(props);
   const [rounds, setRounds] = useState<number>(5);
   const [copied, setCopied] = useState<boolean>(false);
 

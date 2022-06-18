@@ -1,10 +1,15 @@
 import React from "react";
-import LeaderboardCard from "./LeaderboardCard";
 import { IUser, ILeaderboardProps } from "../Interfaces";
+import LeaderboardCard from "./LeaderboardCard";
+
+// material UI
 import { List, Box, Divider, Typography, Grow } from "@mui/material";
 import { gameBoardLight } from "../styles/theme";
 
 const Leaderboard = (props: ILeaderboardProps) => {
+  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+
+  // displays each user on leaderboard
   const users = props.users.map((user: IUser, i: number) => {
     return (
       <LeaderboardCard
@@ -14,8 +19,6 @@ const Leaderboard = (props: ILeaderboardProps) => {
       />
     );
   });
-
-  const bgc = props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>

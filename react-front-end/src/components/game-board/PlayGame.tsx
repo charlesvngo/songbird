@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { IPlayGameProps, StyledTypoProps } from "../../Interfaces";
 import AudioVisualizer from "./AudioVisualizer.jsx";
-import { IPlayGameProps } from "../../Interfaces";
-import { Box, Slider, Stack, Typography, LinearProgress, styled } from "@mui/material";
+// import AnimationTextPopUpBottom from "../../styles/animations/text-pop-up-bottom";
+
+// material UI
+import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import VolumeDown from "@mui/icons-material/VolumeDown";
-import AnimationTextPopUpBottom from "../animations/text-pop-up-bottom"
-import { StyledTypoProps } from "../../Interfaces"
 
-const TextPop = styled(Typography, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledTypoProps>(({animate}) => ({
-  fontSize: '2rem',
-  position: 'absolute',
-  ...(animate &&
-    {
-      animation: animate && `${AnimationTextPopUpBottom()} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`
-    }),
-})) 
+// const TextPop = styled(Typography, {
+//   shouldForwardProp: (prop) => prop !== "animate",
+// })<StyledTypoProps>(({ animate }) => ({
+//   fontSize: "2rem",
+//   position: "absolute",
+//   ...(animate && {
+//     animation:
+//       animate &&
+//       `${AnimationTextPopUpBottom()} 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both`,
+//   }),
+// }));
 
 export const PlayGame = (props: IPlayGameProps) => {
   const [blur, setBlur] = useState<number>(10);
@@ -22,11 +26,10 @@ export const PlayGame = (props: IPlayGameProps) => {
   const [volume, setVolume] = useState<
     number | string | Array<number | string>
   >(50);
-  const [popRound, setPopRound] = useState<boolean>(false)
+  // const [popRound, setPopRound] = useState<boolean>(false);
 
   // updates progress bar
   useEffect(() => {
-    // progress < 100 && setTimeout(() => setProgress(progress + 1), 290);
     const timer: NodeJS.Timeout = setTimeout(() => {
       setProgress((props.audio.currentTime / props.audio.duration) * 100);
       setBlur(10 - (props.audio.currentTime / props.audio.duration) * 10);
@@ -35,26 +38,33 @@ export const PlayGame = (props: IPlayGameProps) => {
   }, [progress]);
 
   useEffect(() => {
-
     props.audio.src = props.track.preview_url;
     props.audio.volume = 0.05; // default volume
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
     };
-    setPopRound(true);
+    // setPopRound(true);
   }, []);
 
   // volume adjustments
   const handleVolumeChange = (event: Event, newValue: number | number[]) => {
     setVolume(newValue);
     const volumeConversion = Number(newValue) / 100;
-
     if (volumeConversion === 0.0) {
       props.audio.volume = 0;
     }
-
     props.audio.volume = volumeConversion / 10;
+  };
+
+  const handleVolumeMin = (): void => {
+    setVolume(0);
+    props.audio.volume = 0;
+  };
+
+  const handleVolumeMax = (): void => {
+    setVolume(100);
+    props.audio.volume = 0.1;
   };
 
   return (
@@ -67,19 +77,42 @@ export const PlayGame = (props: IPlayGameProps) => {
         height: "93vh",
       }}
     >
-
-        <TextPop
-          animate = {popRound}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h4"
           sx={{
-            top: 55,
+            // mr: 2,
+            fontWeight: 700,
+            fontSize: 50,
+            letterSpacing: ".3rem",
+            color: "inherit",
+            textDecoration: "none",
+            textShadow: "4px 0px 1px #11AD94",
+          }}
+        >
+          GUESS THE SONG
+        </Typography>
+
+        <Typography
+          variant="subtitle1"
+          sx={{
             fontWeight: 700,
             letterSpacing: ".3rem",
             color: "inherit",
             textDecoration: "none",
           }}
         >
-          GUESS THE SONG -  ROUND {props.round}
-        </TextPop>
+          ROUND {props.round}
+        </Typography>
+      </Box>
 
       <Box
         sx={{
@@ -98,7 +131,6 @@ export const PlayGame = (props: IPlayGameProps) => {
             borderRadius: 2,
             filter: `blur(${blur}px)`,
           }}
-          alt="The house from the offer."
           src={props.track.album.images[0].url}
         />
 
@@ -112,7 +144,7 @@ export const PlayGame = (props: IPlayGameProps) => {
       />
 
       <Stack spacing={2} direction="row">
-        <VolumeDown />
+        <VolumeDown onClick={handleVolumeMin} />
         <Slider
           aria-label="Volume"
           valueLabelDisplay="auto"
@@ -120,7 +152,7 @@ export const PlayGame = (props: IPlayGameProps) => {
           onChange={handleVolumeChange}
           sx={{ width: "20vh" }}
         />
-        <VolumeUp />
+        <VolumeUp onClick={handleVolumeMax} />
       </Stack>
     </Box>
   );

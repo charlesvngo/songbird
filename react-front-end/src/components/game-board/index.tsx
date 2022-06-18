@@ -1,10 +1,12 @@
 import React from "react";
+import { IGameBoard } from "../../Interfaces";
 import { GameLobby } from "./GameLobby";
 import { Countdown } from "./Countdown";
 import { PlayGame } from "./PlayGame";
 import { EndOfRound } from "./EndOfRound";
 import { EndOfGame } from "./EndOfGame";
-import { IGameBoard } from "../../Interfaces";
+
+// material UI
 import { Container, CssBaseline, Box, Grow } from "@mui/material";
 import { gameBoardLight } from "../../styles/theme";
 
@@ -53,11 +55,13 @@ const GameBoard = (props: IGameBoard) => {
               round={props.round}
             />
           )}
-          {props.mode === "END_OF_GAME" && 
+          {props.mode === "END_OF_GAME" && (
             <EndOfGame
               users={props.users}
-              newGame = {props.newGame} 
-              host={props.host}/>}
+              newGame={props.newGame}
+              host={props.host}
+            />
+          )}
         </Box>
       </Container>
     </Grow>

@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
+import { IArtist, IArtistContext } from "../../Interfaces";
+import { ArtistContext } from "../../Game";
+
+// material UI
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import { ArtistContext } from "../../Game";
-import { IArtist, IArtistContext } from "../../Interfaces";
 
 const AdvancedArtist = () => {
-  const context = useContext<IArtistContext>(ArtistContext);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<any>(null);
   const [inputValue, setInputValue] = useState<string>("");
+  const context = useContext<IArtistContext>(ArtistContext);
   const loading = open && context.artistList.length === 0;
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const AdvancedArtist = () => {
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search for an Artist"
+          label="Search for an artist"
           InputProps={{
             ...params.InputProps,
             endAdornment: (

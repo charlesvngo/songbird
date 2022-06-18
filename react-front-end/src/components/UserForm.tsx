@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { IUserFormProps, IUser } from "../Interfaces";
+
+// helpers
+import { getUrlParams } from "../helpers/roomGenerator";
+
+// material UI
 import {
   Container,
   CssBaseline,
@@ -12,9 +17,7 @@ import {
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
-import { getUrlParams } from "../helpers/roomGenerator";
-
-// image assets
+// assets
 import bird1 from "../assets/bird_1.png";
 import bird2 from "../assets/bird_2.png";
 import bird3 from "../assets/bird_3.png";
@@ -35,7 +38,6 @@ import bird17 from "../assets/bird_17.png";
 import bird18 from "../assets/bird_18.png";
 
 const UserForm = (props: IUserFormProps) => {
-  // bird avatar state
   const birds = [
     bird1,
     bird2,
@@ -107,7 +109,6 @@ const UserForm = (props: IUserFormProps) => {
     <Grow in={true} {...{ timeout: 1000 }}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-
         <Box
           sx={{
             marginTop: 15,

@@ -17,17 +17,13 @@ const findRoomIndex = (rooms, roomId) => {
 };
 
 const findUserIndex = (rooms, idToFind) => {
-  let retUserIndex = -1;
-  let retRoomIndex = -1;
-  for (let i = 0; i < rooms.length; i++) {
-    retUserIndex = rooms[i].users.findIndex(({ id }) => id === idToFind);
-    if (retUserIndex !== -1) {
-      retRoomIndex = i;
-      return { userI: retUserIndex, roomI: retRoomIndex };
-    }
-  }
+  let retIndex = -1;
 
-  return { userI: null, roomI: null };
+  rooms.forEach((r) => {
+    retIndex = r.users.findIndex(({ id }) => id === idToFind);
+    if (retIndex !== -1) return retIndex;
+  });
+  return retIndex;
 };
 
 module.exports = { getTrack, findRoomIndex, findUserIndex };

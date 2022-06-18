@@ -1,31 +1,34 @@
 import React, { useRef, useState } from "react";
 import { ILeaderboardCardProps, StyledBoxProps } from "../Interfaces";
+import AnimationBounceLeft from "../styles/animations/bounce-left";
+
+// material UI
 import {
+  Box,
   ListItem,
   Divider,
   ListItemAvatar,
   ListItemText,
   Avatar,
   Slide,
-  BoxProps,
   styled,
 } from "@mui/material";
-import { Box } from "@mui/system";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { gameBoardLight, gameBoardDark } from "../styles/theme";
-import AnimationBounceLeft from "./animations/bounce-left";
 
-const BouncingBox = styled(Box, {shouldForwardProp: (prop) => prop !== 'animate',})<StyledBoxProps>(({animate}) => ({
+const BouncingBox = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "animate",
+})<StyledBoxProps>(({ animate }) => ({
   fontSize: 88,
-  ...(animate &&
-    {
-  animation: animate && `${AnimationBounceLeft()} 0.8s both`
-    }),
-})) 
+  ...(animate && {
+    animation: animate && `${AnimationBounceLeft()} 0.8s both`,
+  }),
+}));
 
 const LeaderboardCard = (props: ILeaderboardCardProps) => {
-  const [bounce, setBounce] = useState(true)
+  const [bounce, setBounce] = useState(true);
   const containerRef = useRef(null);
+
   let bgc = "";
   if (props.user.host && props.gameboardTheme === gameBoardLight)
     bgc = "#FAFAFA";
@@ -34,7 +37,7 @@ const LeaderboardCard = (props: ILeaderboardCardProps) => {
 
   return (
     <Slide direction="right" in={true} container={containerRef.current}>
-      <BouncingBox animate = {bounce} sx={{ backgroundColor: bgc }}>
+      <BouncingBox animate={bounce} sx={{ backgroundColor: bgc }}>
         <ListItem>
           <ListItemAvatar>
             <Avatar
