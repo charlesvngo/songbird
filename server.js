@@ -13,7 +13,7 @@ const whitelist = [
   "https://songbird-game.herokuapp.com",
 ];
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     console.log("** Origin of request " + origin);
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       console.log("Origin acceptable");
@@ -162,19 +162,23 @@ io.on("connection", (socket) => {
 
       rooms[roomIndex] = { ...rooms[roomIndex], tracks, titles, rounds };
 
-      const nextTrack = getTrack(rooms, roomId);
-      const autocomplete = createAutocomplete(sampleSonglist, titles);
+      if (tracks.length >= rooms[roomIndex].rounds) {
+        const nextTrack = getTrack(rooms, roomId);
+        const autocomplete = createAutocomplete(sampleSonglist, titles);
 
-      io.to(roomId).emit("next-track", nextTrack);
-      io.to(roomId).emit("track-list", autocomplete);
+        io.to(roomId).emit("next-track", nextTrack);
+        io.to(roomId).emit("track-list", autocomplete);
 
-      io.to(roomId).emit("game-started", roomId);
-      setTimeout(() => {
-        io.to(rooms[roomIndex]?.id).emit(
-          "round-start",
-          rooms[roomIndex]?.currentRound
-        );
-      }, 5000);
+        io.to(roomId).emit("game-started", roomId);
+        setTimeout(() => {
+          io.to(rooms[roomIndex]?.id).emit(
+            "round-start",
+            rooms[roomIndex]?.currentRound
+          );
+        }, 5000);
+      } else {
+        io.to(roomId).emit("error", "Please select a different artist.");
+      }
     });
   });
 

@@ -49,6 +49,7 @@ const Game = (props: IGameProps) => {
   const [round, setRound] = useState<number>(0);
   const [artist, setArtist] = useState<string | null>("");
   const [artistList, setArtistList] = useState<IArtist[] | []>([]);
+  const [artistError, setArtistError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<IMessage[]>([
     {
@@ -105,6 +106,14 @@ const Game = (props: IGameProps) => {
 
     socket.on("artist-list", (data: IArtist[] | []) => {
       setArtistList(data);
+    });
+
+    socket.on("error", (data: string) => {
+      setArtistError(true);
+      const timeout: NodeJS.Timeout = setTimeout(() => {
+        setArtistError(false);
+      }, 4000);
+      return () => clearTimeout(timeout);
     });
 
     return () => socket.disconnect();
@@ -164,6 +173,7 @@ const Game = (props: IGameProps) => {
     setArtist,
     artistList,
     setArtistList,
+    artistError,
     queryArtist,
   };
 

@@ -148,6 +148,7 @@ export interface IArtistContext {
   setArtist: (artist: string | null) => void;
   artistList: IArtist[];
   setArtistList: (artistList: IArtist[]) => void;
+  artistError: boolean;
   queryArtist: (searchParams: string) => void;
 }
 
