@@ -6,7 +6,8 @@
   "author": "garrettgsb",
   "license": "MIT",
   "scripts": {
-    "go": "nodemon server.js"
+    "go": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -16,5 +17,9 @@
     "nodemon": "^1.19.4",
     "qs": "^6.10.5",
     "socket.io": "2.3.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
+
 }
