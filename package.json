@@ -7,11 +7,13 @@
   "license": "MIT",
   "scripts": {
     "go": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd react-front-end && npm install && npm run build"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.16.4",
     "nodemon": "^1.19.4",
@@ -21,5 +23,4 @@
   "engines": {
     "node": "14.x"
   }
-
 }
