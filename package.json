@@ -8,7 +8,7 @@
   "scripts": {
     "go": "nodemon server.js",
     "start": "node server.js",
-    "heroku-postbuild": "cd react-front-end && npm install && npm run build"
+    "heroku-postbuild": "cd react-front-end && npm install --dev typescript && npm install && npm run build"
   },
   "dependencies": {
     "axios": "^0.27.2",
