@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { IGenreSelector } from "../../Interfaces";
 import AdvancedSettings from "./AdvancedSettings";
+
+import { ArtistContext } from "../../Game";
 
 // material UI
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
@@ -8,6 +10,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 const GenreSelector = (props: IGenreSelector) => {
   const [advancedSettings, setAdvancedSettings] = useState<boolean>(false);
   const [alightment, setAlignment] = useState<string | null>(null);
+  const context = useContext(ArtistContext);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
@@ -23,8 +26,9 @@ const GenreSelector = (props: IGenreSelector) => {
     if (alightment === "advanced-settings") {
       setAdvancedSettings(true);
     }
-    if (alightment !== "advanced-settings" && advancedSettings === false) {
+    if (alightment !== "advanced-settings" && advancedSettings !== false) {
       setAdvancedSettings(false);
+      context.setArtist(null);
     }
     return;
   }, [alightment]);
@@ -58,7 +62,12 @@ const GenreSelector = (props: IGenreSelector) => {
           Advanced
         </ToggleButton>
       </ToggleButtonGroup>
-      {advancedSettings && <AdvancedSettings selectGenre={props.selectGenre} />}
+      {advancedSettings && (
+        <AdvancedSettings
+          selectGenre={props.selectGenre}
+          advancedSettings={advancedSettings}
+        />
+      )}
     </>
   );
 };

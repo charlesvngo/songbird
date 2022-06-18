@@ -10,6 +10,9 @@ import {
   IGameProps,
   ITracklist,
   IArtistContext,
+  IArtist,
+  ITrack,
+  IMessage,
 } from "./Interfaces";
 import { Box } from "@mui/material";
 
@@ -39,15 +42,15 @@ const Game = (props: IGameProps) => {
   // game state
   const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
   const [users, setUsers] = useState<[IUser]>([user]);
-  const [track, setTrack] = useState<any>({});
-  const [tracklist, setTracklist] = useState<[ITracklist] | []>([]);
+  const [track, setTrack] = useState<ITrack>({} as ITrack);
+  const [tracklist, setTracklist] = useState<ITracklist[] | []>([]);
   const [mode, setMode] = useState<string>(LOBBY);
   const [genre, setGenre] = useState<string>("pop");
   const [round, setRound] = useState<number>(0);
   const [artist, setArtist] = useState<string | null>("");
-  const [artistList, setArtistList] = useState<any[]>([]);
+  const [artistList, setArtistList] = useState<IArtist[] | []>([]);
   const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<IMessage[]>([
     {
       message: "Welcome to Songbird!",
       username: "",
@@ -60,7 +63,7 @@ const Game = (props: IGameProps) => {
   }, []);
 
   useEffect(() => {
-    socket.on("receive-chat-messages", (data: any) => {
+    socket.on("receive-chat-messages", (data: IMessage) => {
       setMessages((prev) => [...prev, data]);
     });
 
@@ -80,12 +83,12 @@ const Game = (props: IGameProps) => {
       setRound(data);
     });
 
-    socket.on("next-round", (data: any) => {
+    socket.on("next-round", (data: ITrack) => {
       setTrack(data);
       setMode(COUNTDOWN);
     });
 
-    socket.on("next-track", (data: any) => {
+    socket.on("next-track", (data: ITrack) => {
       setTrack(data);
     });
 
@@ -96,11 +99,11 @@ const Game = (props: IGameProps) => {
       setMode(LOBBY);
     });
 
-    socket.on("track-list", (data: ITracklist | any) => {
+    socket.on("track-list", (data: ITracklist[] | []) => {
       setTracklist(data);
     });
 
-    socket.on("artist-list", (data: any) => {
+    socket.on("artist-list", (data: IArtist[] | []) => {
       setArtistList(data);
     });
 

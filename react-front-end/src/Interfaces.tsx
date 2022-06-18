@@ -16,6 +16,13 @@ export interface IArtist {
   id: string;
 }
 
+export interface ITrack {
+  name: string;
+  artist: string;
+  album: { images: string };
+  preview_url: string;
+}
+
 export interface ISocket {
   emit: (
     eventName: string,
@@ -54,10 +61,10 @@ export interface IGameLobby {
 }
 
 export interface IGameBoard extends IGameLobby {
-  track: any;
+  track: ITrack;
   mode: string;
   endOfRound: () => void;
-  audio: any;
+  audio: HTMLAudioElement;
   users: IUser[];
   round: number;
   newGame: () => void;
@@ -65,15 +72,15 @@ export interface IGameBoard extends IGameLobby {
 }
 
 export interface IPlayGameProps {
-  track: any;
+  track: ITrack;
   endOfRound: () => void;
-  audio: any;
+  audio: HTMLAudioElement;
   round: number;
 }
 
 export interface IGameProps {
   user: IUser;
-  socket: any;
+  socket: ISocket;
   setUser: (user: IUser) => void;
   gameboardTheme: ITheme;
 }
@@ -90,7 +97,7 @@ export interface ILeaderboardCardProps {
 }
 export interface IEndOfRoundProps {
   users: IUser[];
-  track: any;
+  track: ITrack;
   round: number;
 }
 export interface IEndOfGameProps {
@@ -106,7 +113,7 @@ export interface IGenreSelector {
   selectGenre: (newGenre: string) => void;
 }
 
-export interface Imessage {
+export interface IMessage {
   username: string | null;
   message: string;
   avatar: string;
@@ -122,13 +129,14 @@ export interface IChatboxProps {
   message: string;
   setMessage: (message: string) => void;
   sendMessage: (e: React.FormEvent<HTMLFormElement>) => void;
-  messages: Imessage[];
+  messages: IMessage[];
   mode: string;
   gameboardTheme: ITheme;
 }
 
 export interface IAdvancedSettings {
   selectGenre: (message: string) => void;
+  advancedSettings: boolean;
 }
 
 export interface StyledBoxProps extends BoxProps {
