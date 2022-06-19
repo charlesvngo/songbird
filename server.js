@@ -308,6 +308,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     userIndex = findUserIndex(rooms, socket.id);
     const disUser = rooms[roomIndex]?.users[userIndex];
+    if (!disUser) return;
     console.log("Dissconnected user: ", disUser);
     rooms[roomIndex].users = rooms[roomIndex]?.users.filter(
       ({ id }) => id !== socket.id
@@ -316,11 +317,11 @@ io.on("connection", (socket) => {
     if (disUser?.host) {
       if (rooms[roomIndex]?.users.length !== 0) {
         rooms[roomIndex].users[0].host = true;
-        console.log("New host ", rooms[roomIndex].users[0]);
+        console.log("New host ", rooms[roomIndex]?.users[0]);
       } else return rooms.splice(roomIndex, 1);
     }
     io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
-    io.to(rooms[roomIndex].users[0].id).emit(
+    io.to(rooms[roomIndex]?.users[0].id).emit(
       "update-user",
       rooms[roomIndex]?.users[0]
     );
