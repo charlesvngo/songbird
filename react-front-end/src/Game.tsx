@@ -66,19 +66,17 @@ const Game = (props: IGameProps) => {
   ]);
 
   useEffect(() => {
-    socket.emit("player-joined", "hi");
-  }, []);
 
-  useEffect(() => {
     socket.on("receive-chat-messages", (data: IMessage) => {
       setMessages((prev) => [...prev, data]);
     });
 
+    socket.on("update-user", (data: IUser) => {
+      props.setUser(data);
+    });
+
     socket.on("update-users", (data: [IUser]) => {
-      setUsers(data);
-      data.forEach((u) => {
-        if (u.username === user.username) props.setUser(u);
-      });
+      setUsers(data);   
     });
 
     socket.on("game-started", (data: number) => {
