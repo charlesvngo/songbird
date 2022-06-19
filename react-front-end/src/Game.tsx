@@ -16,6 +16,9 @@ import {
 } from "./Interfaces";
 import { Box } from "@mui/material";
 
+// theming for mobile
+import { useTheme } from "@mui/material/styles";
+
 // game modes
 const ROUND: string = "ROUND";
 const LOBBY: string = "LOBBY";
@@ -38,6 +41,9 @@ const Game = (props: IGameProps) => {
   const socket: ISocket = props.socket;
   const user = props.user;
   const element = document.getElementById("songTrack")!;
+
+  // Detecting mobile layouts
+  const theme = useTheme();
 
   // game state
   const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
@@ -183,6 +189,9 @@ const Game = (props: IGameProps) => {
         display: "grid",
         gap: 0,
         gridTemplateColumns: "repeat(4, 1fr)",
+        [theme.breakpoints.down("md")]: {
+          gridTemplateColumns: "1fr",
+        },
       }}
     >
       <Box>

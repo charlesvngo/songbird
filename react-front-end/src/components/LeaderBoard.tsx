@@ -3,10 +3,20 @@ import { IUser, ILeaderboardProps } from "../Interfaces";
 import LeaderboardCard from "./LeaderboardCard";
 
 // material UI
-import { List, Box, Divider, Typography, Grow } from "@mui/material";
+import {
+  List,
+  Box,
+  Divider,
+  Typography,
+  Grow,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { gameBoardLight } from "../styles/theme";
 
 const Leaderboard = (props: ILeaderboardProps) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
   const bgc: string =
     props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
@@ -29,26 +39,25 @@ const Leaderboard = (props: ILeaderboardProps) => {
           borderRadius: 2,
           margin: 1,
           padding: 2,
-          height: "90vh",
+          height: "89vh",
           boxShadow: 5,
+          overflow: "scroll",
+          overflowX: "hidden",
+          overflowY: "auto",
+          [theme.breakpoints.down("md")]: {
+            height: "10vh",
+          },
         }}
       >
-        <Typography variant="h6" component="h6" align="left">
-          Room ID: {props.users[0].roomId}
-        </Typography>
-        <Box
-          sx={{
-            overflow: "scroll",
-            maxHeight: "80vh",
-            overflowX: "hidden",
-            overflowY: "auto",
-          }}
-        >
-          <List>
-            <Divider />
-            {users}
-          </List>
-        </Box>
+        {!matches && (
+          <Typography variant="h6" component="h6" align="left">
+            Room ID: {props.users[0].roomId}
+          </Typography>
+        )}
+        <List>
+          <Divider />
+          {users}
+        </List>
       </Box>
     </Grow>
   );
