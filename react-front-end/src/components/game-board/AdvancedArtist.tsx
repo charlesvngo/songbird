@@ -3,9 +3,12 @@ import { IArtist, IArtistContext } from "../../Interfaces";
 import { ArtistContext } from "../../Game";
 
 // material UI
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import CircularProgress from "@mui/material/CircularProgress";
+import {
+  TextField,
+  Autocomplete,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 
 const AdvancedArtist = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -34,54 +37,59 @@ const AdvancedArtist = () => {
   }, [value]);
 
   return (
-    <Autocomplete
-      id="artist-autocomplete"
-      sx={{ width: "331px", marginTop: "1em" }}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      isOptionEqualToValue={(option: IArtist, value) =>
-        option.artist === value.artist
-      }
-      getOptionLabel={(option: IArtist) => option.artist}
-      options={context.artistList}
-      value={value}
-      onChange={(
-        event: React.SyntheticEvent<Element, Event>,
-        newValue: IArtist | null
-      ) => {
-        setValue(newValue);
-      }}
-      onInputChange={(
-        event: React.SyntheticEvent<Element, Event>,
-        newInputValue: string
-      ) => {
-        setInputValue(newInputValue);
-      }}
-      inputValue={inputValue}
-      loading={loading}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Search for an artist"
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
+    <>
+      <Autocomplete
+        id="artist-autocomplete"
+        sx={{ width: "331px", marginTop: "1em" }}
+        open={open}
+        onOpen={() => {
+          setOpen(true);
+        }}
+        onClose={() => {
+          setOpen(false);
+        }}
+        isOptionEqualToValue={(option: IArtist, value) =>
+          option.artist === value.artist
+        }
+        getOptionLabel={(option: IArtist) => option.artist}
+        options={context.artistList}
+        value={value}
+        onChange={(
+          event: React.SyntheticEvent<Element, Event>,
+          newValue: IArtist | null
+        ) => {
+          setValue(newValue);
+        }}
+        onInputChange={(
+          event: React.SyntheticEvent<Element, Event>,
+          newInputValue: string
+        ) => {
+          setInputValue(newInputValue);
+        }}
+        inputValue={inputValue}
+        loading={loading}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label="Search for an artist"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
+        )}
+      />
+      {context.artistError && (
+        <Alert severity="error">Please select a different artist.</Alert>
       )}
-    />
+    </>
   );
 };
 

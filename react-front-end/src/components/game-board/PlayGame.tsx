@@ -4,7 +4,15 @@ import AudioVisualizer from "./AudioVisualizer.jsx";
 // import AnimationTextPopUpBottom from "../../styles/animations/text-pop-up-bottom";
 
 // material UI
-import { Box, Slider, Stack, Typography, LinearProgress } from "@mui/material";
+import {
+  Box,
+  Slider,
+  Stack,
+  Typography,
+  LinearProgress,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 
@@ -21,6 +29,9 @@ import VolumeDown from "@mui/icons-material/VolumeDown";
 // }));
 
 export const PlayGame = (props: IPlayGameProps) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
   const [blur, setBlur] = useState<number>(10);
   const [progress, setProgress] = useState<number>(0);
   const [volume, setVolume] = useState<
@@ -92,6 +103,9 @@ export const PlayGame = (props: IPlayGameProps) => {
             // mr: 2,
             fontWeight: 700,
             fontSize: 50,
+            [theme.breakpoints.down("md")]: {
+              fontSize: "2em",
+            },
             letterSpacing: ".3rem",
             color: "inherit",
             textDecoration: "none",
@@ -130,17 +144,26 @@ export const PlayGame = (props: IPlayGameProps) => {
             border: 3,
             borderRadius: 2,
             filter: `blur(${blur}px)`,
+            [theme.breakpoints.down("md")]: {
+              marginRight: 0,
+            },
           }}
           src={props.track.album.images[0].url}
         />
 
-        <AudioVisualizer />
+        {!matches && <AudioVisualizer />}
       </Box>
 
       <LinearProgress
         variant="determinate"
         value={progress}
-        sx={{ height: 20, width: "45vh" }}
+        sx={{
+          height: 20,
+          width: "40vw",
+          [theme.breakpoints.down("md")]: {
+            width: "75vw",
+          },
+        }}
       />
 
       <Stack spacing={2} direction="row">
@@ -150,7 +173,12 @@ export const PlayGame = (props: IPlayGameProps) => {
           valueLabelDisplay="auto"
           value={typeof volume === "number" ? volume : 0}
           onChange={handleVolumeChange}
-          sx={{ width: "20vh" }}
+          sx={{
+            width: "30vw",
+            [theme.breakpoints.down("md")]: {
+              width: "50vw",
+            },
+          }}
         />
         <VolumeUp onClick={handleVolumeMax} />
       </Stack>

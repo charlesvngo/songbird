@@ -10,9 +10,11 @@ import {
   Box,
   Typography,
   Button,
+  useTheme,
 } from "@mui/material";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
+  const theme = useTheme();
   const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
@@ -30,6 +32,9 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         key={i}
         sx={{
           width: "35vw",
+          [theme.breakpoints.down("md")]: {
+            width: "85vw",
+          },
           color: tc,
           backgroundColor: bgc,
           borderRadius: 2,
@@ -68,6 +73,9 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         alignItems: "center",
         justifyContent: "space-evenly",
         height: "93vh",
+        overflow: "scroll",
+        overflowX: "hidden",
+        overflowY: "auto",
       }}
     >
       <Typography

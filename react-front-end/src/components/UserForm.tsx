@@ -14,6 +14,7 @@ import {
   TextField,
   Button,
   Grow,
+  Alert,
 } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
@@ -61,7 +62,7 @@ const UserForm = (props: IUserFormProps) => {
   const [birdIndex, setBirdIndex] = useState<number>(0);
   const [history, setHistory] = useState<number[]>([0]);
   const [user, setUser] = useState<IUser>({
-    id: 0,
+    id: "",
     username: "",
     roomId: "",
     score: 0,
@@ -172,6 +173,7 @@ const UserForm = (props: IUserFormProps) => {
           >
             {roomId ? "Join" : "Start Game"}
           </Button>
+          {props.status === "full" && <Alert severity="error">Room full</Alert>}
         </Box>
       </Container>
     </Grow>

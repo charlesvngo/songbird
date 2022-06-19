@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { IChatboxProps } from "../Interfaces";
+import { useTheme } from "@mui/material/styles";
 
 // material UI
 import {
@@ -20,6 +21,8 @@ import { gameBoardLight } from "../styles/theme";
 import logo from "../assets/bird_logo.png";
 
 const Chatbox = (props: IChatboxProps) => {
+  const theme = useTheme();
+
   const [value, setValue] = React.useState<string | null>(null);
   const [inputValue, setInputValue] = React.useState<string>("");
 
@@ -81,7 +84,10 @@ const Chatbox = (props: IChatboxProps) => {
           backgroundColor: bgc,
           margin: 1,
           padding: 2,
-          height: "93vh",
+          height: "89vh",
+          [theme.breakpoints.down("md")]: {
+            height: "20vh",
+          },
           flexDirection: "column-reverse",
           boxShadow: 5,
         }}

@@ -16,6 +16,9 @@ import {
 } from "./Interfaces";
 import { Box } from "@mui/material";
 
+// theming for mobile
+import { useTheme } from "@mui/material/styles";
+
 // game modes
 const ROUND: string = "ROUND";
 const LOBBY: string = "LOBBY";
@@ -39,6 +42,9 @@ const Game = (props: IGameProps) => {
   const user = props.user;
   const element = document.getElementById("songTrack")!;
 
+  // Detecting mobile layouts
+  const theme = useTheme();
+
   // game state
   const [audio] = useState<HTMLAudioElement>(element as HTMLAudioElement);
   const [users, setUsers] = useState<[IUser]>([user]);
@@ -49,6 +55,7 @@ const Game = (props: IGameProps) => {
   const [round, setRound] = useState<number>(0);
   const [artist, setArtist] = useState<string | null>("");
   const [artistList, setArtistList] = useState<IArtist[] | []>([]);
+  const [artistError, setArtistError] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<IMessage[]>([
     {
@@ -59,19 +66,17 @@ const Game = (props: IGameProps) => {
   ]);
 
   useEffect(() => {
-    socket.emit("player-joined", "hi");
-  }, []);
 
-  useEffect(() => {
     socket.on("receive-chat-messages", (data: IMessage) => {
       setMessages((prev) => [...prev, data]);
     });
 
+    socket.on("update-user", (data: IUser) => {
+      props.setUser(data);
+    });
+
     socket.on("update-users", (data: [IUser]) => {
-      setUsers(data);
-      data.forEach((u) => {
-        if (u.username === user.username) props.setUser(u);
-      });
+      setUsers(data);   
     });
 
     socket.on("game-started", (data: number) => {
@@ -105,6 +110,14 @@ const Game = (props: IGameProps) => {
 
     socket.on("artist-list", (data: IArtist[] | []) => {
       setArtistList(data);
+    });
+
+    socket.on("error", (data: string) => {
+      setArtistError(true);
+      const timeout: NodeJS.Timeout = setTimeout(() => {
+        setArtistError(false);
+      }, 4000);
+      return () => clearTimeout(timeout);
     });
 
     return () => socket.disconnect();
@@ -164,6 +177,7 @@ const Game = (props: IGameProps) => {
     setArtist,
     artistList,
     setArtistList,
+    artistError,
     queryArtist,
   };
 
@@ -173,6 +187,9 @@ const Game = (props: IGameProps) => {
         display: "grid",
         gap: 0,
         gridTemplateColumns: "repeat(4, 1fr)",
+        [theme.breakpoints.down("md")]: {
+          gridTemplateColumns: "1fr",
+        },
       }}
     >
       <Box>

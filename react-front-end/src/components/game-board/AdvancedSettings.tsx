@@ -7,6 +7,7 @@ import { availableGenres } from "../../helpers/availableGenres";
 
 // material UI
 import { Autocomplete, TextField, Box } from "@mui/material";
+import { isContext } from "vm";
 
 const AdvancedSettings = (props: IAdvancedSettings) => {
   const [value, setValue] = useState<string | null>(null);

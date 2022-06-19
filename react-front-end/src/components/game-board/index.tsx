@@ -9,62 +9,63 @@ import { EndOfGame } from "./EndOfGame";
 // material UI
 import { Container, CssBaseline, Box, Grow } from "@mui/material";
 import { gameBoardLight } from "../../styles/theme";
+import { useTheme } from "@mui/material/styles";
 
 const GameBoard = (props: IGameBoard) => {
+  const theme = useTheme();
   const bgc: string =
     props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
-      <Container>
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 1,
-            marginBottom: 1,
-            padding: 2,
-            height: "93vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: 2,
-            boxShadow: 5,
-            backgroundColor: bgc,
-          }}
-        >
-          {props.mode === "LOBBY" && (
-            <GameLobby
-              roomId={props.roomId}
-              selectGenre={props.selectGenre}
-              startGame={props.startGame}
-              host={props.host}
-            />
-          )}
-          {props.mode === "COUNTDOWN" && <Countdown />}
-          {props.mode === "ROUND" && (
-            <PlayGame
-              track={props.track}
-              endOfRound={props.endOfRound}
-              audio={props.audio}
-              round={props.round}
-            />
-          )}
-          {props.mode === "END_OF_ROUND" && (
-            <EndOfRound
-              users={props.users}
-              track={props.track}
-              round={props.round}
-            />
-          )}
-          {props.mode === "END_OF_GAME" && (
-            <EndOfGame
-              users={props.users}
-              newGame={props.newGame}
-              host={props.host}
-            />
-          )}
-        </Box>
-      </Container>
+      <Box
+        sx={{
+          margin: 1,
+          padding: 2,
+          height: "89vh",
+          [theme.breakpoints.down("md")]: {
+            height: "50vh",
+          },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: 2,
+          boxShadow: 5,
+          backgroundColor: bgc,
+        }}
+      >
+        {props.mode === "LOBBY" && (
+          <GameLobby
+            roomId={props.roomId}
+            selectGenre={props.selectGenre}
+            startGame={props.startGame}
+            host={props.host}
+          />
+        )}
+        {props.mode === "COUNTDOWN" && <Countdown />}
+        {props.mode === "ROUND" && (
+          <PlayGame
+            track={props.track}
+            endOfRound={props.endOfRound}
+            audio={props.audio}
+            round={props.round}
+          />
+        )}
+        {props.mode === "END_OF_ROUND" && (
+          <EndOfRound
+            users={props.users}
+            track={props.track}
+            round={props.round}
+          />
+        )}
+        {props.mode === "END_OF_GAME" && (
+          <EndOfGame
+            users={props.users}
+            newGame={props.newGame}
+            host={props.host}
+          />
+        )}
+      </Box>
     </Grow>
   );
 };
