@@ -24,7 +24,7 @@ const GameBoard = (props: IGameBoard) => {
           padding: 2,
           height: "89vh",
           [theme.breakpoints.down("md")]: {
-            height: "45vh",
+            height: "50vh",
           },
           display: "flex",
           flexDirection: "column",

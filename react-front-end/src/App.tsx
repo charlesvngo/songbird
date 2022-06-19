@@ -18,6 +18,7 @@ import {
 
 // generates a room id
 import { getRoomId } from "./helpers/roomGenerator";
+import { CssBaseline } from "@mui/material";
 
 // socket io client
 const socketIOClient = require("socket.io-client");
@@ -83,6 +84,7 @@ const App = () => {
         <AudioPlayer src={""} />
         {user.username ? (
           <ThemeProvider theme={gameboardTheme}>
+            <CssBaseline />
             <Game
               user={user}
               socket={socket}
