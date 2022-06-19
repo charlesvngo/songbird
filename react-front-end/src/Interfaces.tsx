@@ -155,3 +155,10 @@ export interface IArtistContext {
 export interface StyledTypoProps extends TypographyProps {
   animate?: boolean;
 }
+
+export interface ILoadingProps extends IGameProps{
+
+}
+export interface IAppProps {
+  fail?: boolean;
+}

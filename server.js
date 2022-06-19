@@ -82,8 +82,6 @@ getToken().then((res) => {
  */
 io.on("connection", (socket) => {
   let { username, roomId, avatar } = socket.handshake.query;
-  socket.join(roomId);
-
   let roomIndex = findRoomIndex(rooms, roomId);
 
   if (roomIndex === -1) {
@@ -108,7 +106,20 @@ io.on("connection", (socket) => {
       ],
     });
     roomIndex = findRoomIndex(rooms, roomId);
+    socket.emit("joined-room", {
+      id: socket.id,
+      username,
+      roomId,
+      avatar,
+      score: 0,
+      roundScore: 0,
+      host: false,
+      winning: false,
+    });
   } else {
+    if (rooms[roomIndex].users.legth === 3) {
+      return socket.emit("room-full", "Room is full");
+    }
     rooms[roomIndex].users.push({
       id: socket.id,
       username,
@@ -121,6 +132,7 @@ io.on("connection", (socket) => {
     });
   }
 
+  socket.join(roomId);
   io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
 
   /* NEW GAME message sent to the sever.

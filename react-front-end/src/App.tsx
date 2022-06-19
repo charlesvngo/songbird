@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { IUser, ISocket, ITheme } from "./Interfaces";
+import React, { useState, useEffect } from "react";
+import { IUser, ISocket, ITheme, IAppProps } from "./Interfaces";
 import Game from "./Game";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
@@ -23,7 +23,7 @@ import { getRoomId } from "./helpers/roomGenerator";
 const socketIOClient = require("socket.io-client");
 const ENDPOINT = "/";
 
-const App = () => {
+const App = (props: IAppProps) => {
   // grab the window URL and set the Room ID to that url. URL should be formatted as localhost:3000/?[:roomId]
   const roomId: string = getRoomId();
 
@@ -41,6 +41,23 @@ const App = () => {
   const [socket, setSocket] = useState<ISocket>({} as ISocket);
   const [theme, setTheme] = useState<ITheme>(lightTheme);
   const [gameboardTheme, setGameboardTheme] = useState<ITheme>(gameBoardLight);
+
+  useEffect(() => {
+    socket.on("joined-room", (data: IUser) => {
+      setUser((prev) => {
+        return {
+          id: data.id,
+          username: data.username,
+          roomId: data.roomId,
+          avatar: data.avatar,
+          score: 0,
+          roundScore: 0,
+          host: data.host,
+          winning: data.winning,
+        };
+      });
+    });
+  },[socket])
 
   const createSocket = (createUser: IUser): void => {
     const newRoomId = createUser.roomId ? createUser.roomId : user.roomId;
@@ -62,6 +79,7 @@ const App = () => {
       })
     );
   };
+
 
   // switches between light and dark mode
   const changeTheme = (): void => {

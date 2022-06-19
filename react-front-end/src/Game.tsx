@@ -60,10 +60,7 @@ const Game = (props: IGameProps) => {
   ]);
 
   useEffect(() => {
-    socket.emit("player-joined", "hi");
-  }, []);
 
-  useEffect(() => {
     socket.on("receive-chat-messages", (data: IMessage) => {
       setMessages((prev) => [...prev, data]);
     });
