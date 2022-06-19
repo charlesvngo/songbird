@@ -1,21 +1,22 @@
 import React from "react";
-import { BottomNavigation, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 
 const Footer = () => {
   return (
-    <BottomNavigation sx={{ bottom: 0 }}>
-      <Typography
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          bottom: 1,
-        }}
-      >
+    <Container
+      maxWidth={false}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 1,
+      }}
+    >
+      <Typography variant="subtitle1">
         {" "}
         © 2022 Songbird, All Rights Reserved
       </Typography>
-    </BottomNavigation>
+    </Container>
   );
 };
 

@@ -11,10 +11,13 @@ import {
   Typography,
   Button,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 
 export const EndOfGame = (props: IEndOfGameProps) => {
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
   const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
@@ -32,13 +35,14 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         key={i}
         sx={{
           width: "35vw",
-          [theme.breakpoints.down("md")]: {
-            width: "85vw",
-          },
           color: tc,
           backgroundColor: bgc,
           borderRadius: 2,
           margin: 2,
+          [theme.breakpoints.down("md")]: {
+            width: "85vw",
+            margin: 1,
+          },
         }}
       >
         <ListItem>
@@ -49,7 +53,15 @@ export const EndOfGame = (props: IEndOfGameProps) => {
           <ListItemAvatar>
             <Avatar
               src={user.avatar}
-              sx={{ padding: 1, width: 80, height: 80 }}
+              sx={{
+                padding: 1,
+                width: 80,
+                height: 80,
+                [theme.breakpoints.down("md")]: {
+                  width: 50,
+                  height: 50,
+                },
+              }}
             />
           </ListItemAvatar>
           <ListItemText
@@ -72,27 +84,29 @@ export const EndOfGame = (props: IEndOfGameProps) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-evenly",
-        height: "93vh",
+        height: "100vh",
         overflow: "scroll",
         overflowX: "hidden",
         overflowY: "auto",
       }}
     >
-      <Typography
-        variant="h4"
-        component="h4"
-        sx={{
-          mr: 2,
-          fontWeight: 700,
-          fontSize: 50,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-          textShadow: "4px 0px 1px #11AD94",
-        }}
-      >
-        GAME OVER
-      </Typography>
+      {!matches && (
+        <Typography
+          variant="h4"
+          component="h4"
+          sx={{
+            mr: 2,
+            fontWeight: 700,
+            fontSize: 50,
+            letterSpacing: ".3rem",
+            color: "inherit",
+            textDecoration: "none",
+            textShadow: "4px 0px 1px #11AD94",
+          }}
+        >
+          GAME OVER
+        </Typography>
+      )}
       <Box
         sx={{
           display: "flex",

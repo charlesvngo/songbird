@@ -9,7 +9,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GenreSelector = (props: IGenreSelector) => {
   const [advancedSettings, setAdvancedSettings] = useState<boolean>(false);
-  const [alightment, setAlignment] = useState<string | null>(null);
+  const [alightment, setAlignment] = useState<string | null>("pop");
   const context: IArtistContext = useContext<IArtistContext>(ArtistContext);
 
   const handleAlignment = (

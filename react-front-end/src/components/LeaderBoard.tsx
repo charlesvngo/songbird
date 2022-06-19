@@ -39,13 +39,13 @@ const Leaderboard = (props: ILeaderboardProps) => {
           borderRadius: 2,
           margin: 1,
           padding: 2,
-          height: "89vh",
+          height: "86vh",
           boxShadow: 5,
           overflow: "scroll",
           overflowX: "hidden",
           overflowY: "auto",
           [theme.breakpoints.down("md")]: {
-            height: "10vh",
+            height: "18vh",
           },
         }}
       >

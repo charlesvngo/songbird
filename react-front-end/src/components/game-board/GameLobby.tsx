@@ -50,7 +50,7 @@ export const GameLobby = (props: IGameLobby) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "93vh",
+          height: "100vh",
         }}
       >
         {props.host && <GenreSelector selectGenre={props.selectGenre} />}

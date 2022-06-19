@@ -85,7 +85,7 @@ export const PlayGame = (props: IPlayGameProps) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-evenly",
-        height: "93vh",
+        height: "100vh",
       }}
     >
       <Box
@@ -96,24 +96,26 @@ export const PlayGame = (props: IPlayGameProps) => {
           justifyContent: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          component="h4"
-          sx={{
-            // mr: 2,
-            fontWeight: 700,
-            fontSize: 50,
-            [theme.breakpoints.down("md")]: {
-              fontSize: "2em",
-            },
-            letterSpacing: ".3rem",
-            color: "inherit",
-            textDecoration: "none",
-            textShadow: "4px 0px 1px #11AD94",
-          }}
-        >
-          GUESS THE SONG
-        </Typography>
+        {!matches && (
+          <Typography
+            variant="h4"
+            component="h4"
+            sx={{
+              // mr: 2,
+              fontWeight: 700,
+              fontSize: 50,
+              [theme.breakpoints.down("md")]: {
+                fontSize: "2em",
+              },
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+              textShadow: "4px 0px 1px #11AD94",
+            }}
+          >
+            GUESS THE SONG
+          </Typography>
+        )}
 
         <Typography
           variant="subtitle1"
@@ -145,7 +147,9 @@ export const PlayGame = (props: IPlayGameProps) => {
             borderRadius: 2,
             filter: `blur(${blur}px)`,
             [theme.breakpoints.down("md")]: {
-              marginRight: 0,
+              marginRight: 0.5,
+              height: 150,
+              width: 150,
             },
           }}
           src={props.track.album.images[0].url}
@@ -159,9 +163,9 @@ export const PlayGame = (props: IPlayGameProps) => {
         value={progress}
         sx={{
           height: 20,
-          width: "40vw",
+          width: "30vw",
           [theme.breakpoints.down("md")]: {
-            width: "75vw",
+            width: "60vw",
           },
         }}
       />
@@ -174,9 +178,9 @@ export const PlayGame = (props: IPlayGameProps) => {
           value={typeof volume === "number" ? volume : 0}
           onChange={handleVolumeChange}
           sx={{
-            width: "30vw",
+            width: "15vw",
             [theme.breakpoints.down("md")]: {
-              width: "50vw",
+              width: "30vw",
             },
           }}
         />

@@ -5,6 +5,7 @@ import Loading from "./Loading";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
+import Footer from "./components/Footer";
 import "./App.css";
 
 // material UI
@@ -19,7 +20,7 @@ import {
 
 // generates a room id
 import { getRoomId } from "./helpers/roomGenerator";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Box } from "@mui/material";
 
 // socket io client
 const socketIOClient = require("socket.io-client");
@@ -46,7 +47,7 @@ const App = (props: IAppProps) => {
   const [status, setStatus] = useState<string>("");
 
   const createSocket = (createUser: IUser): void => {
-    setStatus("")
+    setStatus("");
     const newRoomId = createUser.roomId ? createUser.roomId : user.roomId;
     setUser((prev) => {
       return {
@@ -85,19 +86,35 @@ const App = (props: IAppProps) => {
       </ThemeProvider>
       <div className="App">
         <AudioPlayer src={""} />
-        {(user.username && status !== "full") ? 
-        ((status === 'success') ? (
-          <ThemeProvider theme={gameboardTheme}>
-            <CssBaseline />
-            <Game
-              user={user}
-              socket={socket}
-              setUser={setUser}
-              gameboardTheme={gameboardTheme}
-            />
-          </ThemeProvider>) : <Loading setStatus = {setStatus} socket = {socket}/>
-        ) : (<UserForm createSocket={createSocket} status = {status}/>)}
+        {user.username && status !== "full" ? (
+          status === "success" ? (
+            <ThemeProvider theme={gameboardTheme}>
+              <CssBaseline />
+              <Game
+                user={user}
+                socket={socket}
+                setUser={setUser}
+                gameboardTheme={gameboardTheme}
+              />
+            </ThemeProvider>
+          ) : (
+            <Loading setStatus={setStatus} socket={socket} />
+          )
+        ) : (
+          <Box
+            sx={{
+              height: "88vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <UserForm createSocket={createSocket} status={status} />
+          </Box>
+        )}
       </div>
+      <Footer />
     </ThemeProvider>
   );
 };

@@ -66,7 +66,6 @@ const Game = (props: IGameProps) => {
   ]);
 
   useEffect(() => {
-
     socket.on("receive-chat-messages", (data: IMessage) => {
       setMessages((prev) => [...prev, data]);
     });
@@ -76,7 +75,7 @@ const Game = (props: IGameProps) => {
     });
 
     socket.on("update-users", (data: [IUser]) => {
-      setUsers(data);   
+      setUsers(data);
     });
 
     socket.on("game-started", (data: number) => {
@@ -189,6 +188,7 @@ const Game = (props: IGameProps) => {
         gridTemplateColumns: "repeat(4, 1fr)",
         [theme.breakpoints.down("md")]: {
           gridTemplateColumns: "1fr",
+          height: "100vh",
         },
       }}
     >

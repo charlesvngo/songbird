@@ -81,7 +81,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "space-evenly",
-        height: "93vh",
+        height: "100vh",
         overflow: "scroll",
         overflowX: "hidden",
         overflowY: "auto",
@@ -102,6 +102,10 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             width: 200,
             border: 3,
             borderRadius: 2,
+            [theme.breakpoints.down("md")]: {
+              height: 150,
+              width: 150,
+            },
           }}
           src={props.track.album.images[0].url}
         />

@@ -3,7 +3,15 @@ import { StyledTypoProps } from "../../Interfaces";
 import TrackOutFwdBot from "../../styles/animations/tracking-out";
 
 // material UI
-import { Typography, Box, Slide, Grow, styled } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Slide,
+  Grow,
+  styled,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 
 const Count = styled(Typography, {
   shouldForwardProp: (prop) => prop !== "animate",
@@ -21,6 +29,9 @@ export const Countdown = () => {
   const [trackOut, setTrackOut] = useState<boolean>(false);
 
   const containerRef = useRef(null);
+
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     setTrackOut(false);
@@ -44,12 +55,14 @@ export const Countdown = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "93vh",
+          height: "100vh",
         }}
       >
         <Typography variant="h2">Song starts in: </Typography>
         <Grow in={true} {...{ timeout: 500 }}>
-          <Count animate={trackOut}>{counter}</Count>
+          {(!matches && <Count animate={trackOut}>{counter}</Count>) || (
+            <Count>{counter}</Count>
+          )}
         </Grow>
       </Box>
     </Slide>

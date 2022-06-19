@@ -22,9 +22,9 @@ const GameBoard = (props: IGameBoard) => {
         sx={{
           margin: 1,
           padding: 2,
-          height: "89vh",
+          height: "86vh",
           [theme.breakpoints.down("md")]: {
-            height: "50vh",
+            height: "45vh",
           },
           display: "flex",
           flexDirection: "column",
