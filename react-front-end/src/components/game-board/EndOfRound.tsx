@@ -9,9 +9,14 @@ import {
   ListItemText,
   Typography,
   Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 
 export const EndOfRound = (props: IEndOfRoundProps) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+
   const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
@@ -25,6 +30,9 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         sx={{
           backgroundColor: bgc,
           width: "35vw",
+          [theme.breakpoints.down("md")]: {
+            width: "85vw",
+          },
           borderRadius: 2,
           margin: 2,
         }}
@@ -113,7 +121,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
           justifyContent: "center",
         }}
       >
-        {users}
+        {!matches ? users : users[0]}
       </Box>
     </Box>
   );

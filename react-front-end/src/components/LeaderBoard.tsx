@@ -55,7 +55,7 @@ const Leaderboard = (props: ILeaderboardProps) => {
           </Typography>
         )}
         <List>
-          <Divider />
+          {!matches && <Divider />}
           {users}
         </List>
       </Box>
