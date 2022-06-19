@@ -1,7 +1,7 @@
 import { BoxProps, TypographyProps } from "@mui/material";
 
 export interface IUser {
-  id: number;
+  id: string;
   username: string;
   roomId: string;
   avatar: string;
@@ -107,6 +107,7 @@ export interface IEndOfGameProps {
 }
 export interface IUserFormProps {
   createSocket: (username: IUser) => void;
+  status: string;
 }
 
 export interface IGenreSelector {
@@ -156,8 +157,9 @@ export interface StyledTypoProps extends TypographyProps {
   animate?: boolean;
 }
 
-export interface ILoadingProps extends IGameProps{
-
+export interface ILoadingProps {
+  setStatus: (status: string) => void
+  socket: ISocket;
 }
 export interface IAppProps {
   fail?: boolean;

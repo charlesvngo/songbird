@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IUser, ISocket, ITheme, IAppProps } from "./Interfaces";
 import Game from "./Game";
+import Loading from "./Loading";
 import NavBar from "./components/NavBar";
 import UserForm from "./components/UserForm";
 import AudioPlayer from "./components/AudioPlayer";
@@ -29,7 +30,7 @@ const App = (props: IAppProps) => {
 
   // create a colour palette for the App
   const [user, setUser] = useState<IUser>({
-    id: 0,
+    id: "",
     username: "",
     roomId: roomId,
     avatar: "",
@@ -41,25 +42,10 @@ const App = (props: IAppProps) => {
   const [socket, setSocket] = useState<ISocket>({} as ISocket);
   const [theme, setTheme] = useState<ITheme>(lightTheme);
   const [gameboardTheme, setGameboardTheme] = useState<ITheme>(gameBoardLight);
-
-  useEffect(() => {
-    socket.on("joined-room", (data: IUser) => {
-      setUser((prev) => {
-        return {
-          id: data.id,
-          username: data.username,
-          roomId: data.roomId,
-          avatar: data.avatar,
-          score: 0,
-          roundScore: 0,
-          host: data.host,
-          winning: data.winning,
-        };
-      });
-    });
-  },[socket])
+  const [status, setStatus] = useState<string>("");
 
   const createSocket = (createUser: IUser): void => {
+    setStatus("")
     const newRoomId = createUser.roomId ? createUser.roomId : user.roomId;
     setUser((prev) => {
       return {
@@ -80,7 +66,6 @@ const App = (props: IAppProps) => {
     );
   };
 
-
   // switches between light and dark mode
   const changeTheme = (): void => {
     if (theme === lightTheme) {
@@ -99,7 +84,8 @@ const App = (props: IAppProps) => {
       </ThemeProvider>
       <div className="App">
         <AudioPlayer src={""} />
-        {user.username ? (
+        {(user.username && status !== "full") ? 
+        ((status === 'success') ? (
           <ThemeProvider theme={gameboardTheme}>
             <Game
               user={user}
@@ -107,10 +93,8 @@ const App = (props: IAppProps) => {
               setUser={setUser}
               gameboardTheme={gameboardTheme}
             />
-          </ThemeProvider>
-        ) : (
-          <UserForm createSocket={createSocket} />
-        )}
+          </ThemeProvider>) : <Loading setStatus = {setStatus} socket = {socket}/>
+        ) : (<UserForm createSocket={createSocket} status = {status}/>)}
       </div>
     </ThemeProvider>
   );

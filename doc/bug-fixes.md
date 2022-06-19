@@ -27,3 +27,5 @@ Check off when fixed and deployed:
     - this also seems to cause the Host boolean to be set to false and then none of the players can start the game
 
 11. Overall performance degrades with each round
+
+12. Find a way to clear the room ID if a use is not successful loggin in
