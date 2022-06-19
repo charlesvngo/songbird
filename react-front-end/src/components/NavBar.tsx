@@ -35,7 +35,7 @@ const NavBar = (props: INavProps) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          height: "7vh",
+          // height: "5vh",
         }}
       >
         <Toolbar>

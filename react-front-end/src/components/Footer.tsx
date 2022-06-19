@@ -4,11 +4,12 @@ import { Container, Typography } from "@mui/material";
 const Footer = () => {
   return (
     <Container
-      maxWidth={false}
       sx={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        minWidth: "100vw",
         marginTop: 1,
       }}
     >

@@ -39,7 +39,7 @@ const Leaderboard = (props: ILeaderboardProps) => {
           borderRadius: 2,
           margin: 1,
           padding: 2,
-          height: "86vh",
+          height: "90vh",
           boxShadow: 5,
           overflow: "scroll",
           overflowX: "hidden",

@@ -98,12 +98,22 @@ const App = (props: IAppProps) => {
               />
             </ThemeProvider>
           ) : (
-            <Loading setStatus={setStatus} socket={socket} />
+            <Box
+              sx={{
+                height: "91vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Loading setStatus={setStatus} socket={socket} />
+            </Box>
           )
         ) : (
           <Box
             sx={{
-              height: "88vh",
+              height: "91vh",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",

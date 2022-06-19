@@ -17,6 +17,8 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
+  const songTitle = props.track.name;
+
   const sortedUsers: IUser[] = props.users.sort(
     (a: IUser, b: IUser): number => b.roundScore - a.roundScore
   );
@@ -114,7 +116,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
         <ListItemText
           sx={{ fontSize: 20, padding: 2 }}
           primary={"The song title was:"}
-          secondary={props.track.name}
+          secondary={songTitle.split("(")[0]}
         />
       </Box>
 
