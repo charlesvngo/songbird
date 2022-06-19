@@ -105,6 +105,7 @@ export const EndOfRound = (props: IEndOfRoundProps) => {
             [theme.breakpoints.down("md")]: {
               height: 150,
               width: 150,
+              marginRight: 1,
             },
           }}
           src={props.track.album.images[0].url}

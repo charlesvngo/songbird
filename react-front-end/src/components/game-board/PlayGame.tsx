@@ -117,17 +117,31 @@ export const PlayGame = (props: IPlayGameProps) => {
           </Typography>
         )}
 
-        <Typography
-          variant="subtitle1"
-          sx={{
-            fontWeight: 700,
-            letterSpacing: ".3rem",
-            color: "inherit",
-            textDecoration: "none",
-          }}
-        >
-          ROUND {props.round}
-        </Typography>
+        {(!matches && (
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            ROUND {props.round}
+          </Typography>
+        )) || (
+          <Typography
+            variant="subtitle1"
+            sx={{
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            GUESS THE SONG - ROUND {props.round}
+          </Typography>
+        )}
       </Box>
 
       <Box
