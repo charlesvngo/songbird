@@ -16,13 +16,12 @@ const findRoomIndex = (rooms, roomId) => {
   return rooms.findIndex(({ id }) => id === roomId);
 };
 
-const findUserIndex = (rooms, idToFind) => {
+const findUserIndex = (room, idToFind) => {
   let retIndex = -1;
+  if (room === [] || !room) return;
+  if (room.users === [] || !room.users) return;
+  retIndex = room.users.findIndex(({ id }) => id === idToFind);
 
-  rooms.forEach((r) => {
-    retIndex = r.users.findIndex(({ id }) => id === idToFind);
-    if (retIndex !== -1) return retIndex;
-  });
   return retIndex;
 };
 

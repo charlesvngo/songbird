@@ -130,14 +130,17 @@ io.on("connection", (socket) => {
     io.to(socket.id).emit("joined-room", "success");
   }
 
-  let userIndex = findUserIndex(rooms, socket.id);
+  let userIndex = findUserIndex(rooms[roomIndex], socket.id);
   socket.join(roomId);
 
   // io.in(roomId).emit("update-users", rooms[roomIndex]?.users);
   io.in(rooms[roomIndex]?.id).emit("update-users", rooms[roomIndex]?.users);
   io.to(socket.id).emit("update-user", rooms[roomIndex]?.users[userIndex]);
 
-  console.log(rooms[roomIndex]?.users[userIndex]);
+  console.log("User index ", userIndex);
+  console.log(rooms[9]);
+
+  console.log("User logged in ", rooms[roomIndex]?.users[userIndex]);
   /* NEW GAME message sent to the sever.
    * @params - <message>: 'new-game'
    *
@@ -213,7 +216,13 @@ io.on("connection", (socket) => {
    *          - Update the client with the current round and direct them to start the round
    */
   socket.on("end-of-round", () => {
-    userIndex = findUserIndex(rooms, socket.id);
+    userIndex = findUserIndex(rooms[roomIndex], socket.id);
+    console.log(
+      "User sending end of round",
+      rooms[roomIndex]?.users[userIndex]
+    );
+    console.log("User index sending end of round", userIndex);
+    console.log("Rooms index sending end of round", roomIndex);
     if (!rooms[roomIndex]?.users[userIndex].host) return;
     rooms[roomIndex].currentRound++;
 
@@ -245,7 +254,7 @@ io.on("connection", (socket) => {
    * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
    */
   socket.on("correct-answer", (score) => {
-    userIndex = findUserIndex(rooms, socket.id);
+    userIndex = findUserIndex(rooms[roomIndex], socket.id);
 
     if (rooms[roomIndex]?.users[userIndex].roundScore) return;
 
@@ -312,7 +321,8 @@ io.on("connection", (socket) => {
    * @return - <message>: 'update-users', {users[]} - Update all clients in the room with the current users in the room
    */
   socket.on("disconnect", () => {
-    userIndex = findUserIndex(rooms, socket.id);
+    console.log("Dissconnected user socket id: ", socket.id);
+    userIndex = findUserIndex(rooms[roomIndex], socket.id);
     const disUser = rooms[roomIndex]?.users[userIndex];
     if (!disUser) return;
     console.log("Dissconnected user: ", disUser);
