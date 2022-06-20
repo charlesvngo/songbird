@@ -19,7 +19,7 @@ export const EndOfGame = (props: IEndOfGameProps) => {
   const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   const sortedUsers: IUser[] = props.users.sort(
-    (a: IUser, b: IUser): number => b.roundScore - a.roundScore
+    (a: IUser, b: IUser): number => b.score - a.score
   );
 
   // displays final scoreboard

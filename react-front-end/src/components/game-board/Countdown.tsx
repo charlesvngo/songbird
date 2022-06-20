@@ -36,15 +36,17 @@ export const Countdown = () => {
   useEffect(() => {
     setTrackOut(false);
     const countTimer: NodeJS.Timeout = setTimeout(() => {
+      if (counter > 0) {
         setCounter(counter - 1);
-      }, 1000);
+      }
+    }, 1000);
     const animationTimer: NodeJS.Timeout = setTimeout(() => {
       setTrackOut(true);
     }, 200);
     return () => {
-      clearTimeout(animationTimer)
-      clearTimeout(countTimer)
-    }
+      clearTimeout(animationTimer);
+      clearTimeout(countTimer);
+    };
   }, [counter]);
 
   return (
