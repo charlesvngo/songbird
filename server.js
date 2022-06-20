@@ -138,7 +138,6 @@ io.on("connection", (socket) => {
   io.to(socket.id).emit("update-user", rooms[roomIndex]?.users[userIndex]);
 
   console.log("User index ", userIndex);
-  console.log(rooms[9]);
 
   console.log("User logged in ", rooms[roomIndex]?.users[userIndex]);
   /* NEW GAME message sent to the sever.
@@ -234,9 +233,10 @@ io.on("connection", (socket) => {
 
     const nextTrack = getTrack(rooms, roomId);
     setTimeout(() => {
-      rooms[roomIndex]?.users.forEach((user) => {
+      rooms[roomIndex].users.forEach((user) => {
         user.roundScore = 0;
       });
+
       io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
 
