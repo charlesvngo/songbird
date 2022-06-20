@@ -71,6 +71,12 @@ const maxNumPlayers = 8;
 getToken().then((res) => {
   token = res.data.access_token;
 });
+setInteral(() => {
+  getToken().then((res) => {
+    token = res.data.access_token;
+  }),
+    3.6e6;
+});
 
 /* New socket CONNECTION established to server from client
  * @params - {Socket object}: Socket
