@@ -44,7 +44,7 @@ export const PlayGame = (props: IPlayGameProps) => {
     const timer: NodeJS.Timeout = setTimeout(() => {
       setProgress((props.audio.currentTime / props.audio.duration) * 100);
       setBlur(10 - (props.audio.currentTime / props.audio.duration) * 10);
-    }, 300);
+    }, 500);
     return () => clearTimeout(timer);
   }, [progress]);
 

@@ -65,6 +65,7 @@ server.listen(PORT, () => {
 // global variables
 let token = "";
 let rooms = [];
+const maxNumPlayers = 8;
 
 // retrieves authentication token from spotify
 getToken().then((res) => {
@@ -108,7 +109,7 @@ io.on("connection", (socket) => {
     roomIndex = findRoomIndex(rooms, roomId);
     io.to(socket.id).emit("joined-room", "success");
   } else {
-    if (rooms[roomIndex].users.length >= 3) {
+    if (rooms[roomIndex].users.length >= maxNumPlayers) {
       return io.to(socket.id).emit("room-full", "Room is full");
     }
     rooms[roomIndex].users.push({
