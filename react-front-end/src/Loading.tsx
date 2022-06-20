@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ILoadingProps, ISocket } from "./Interfaces";
 
 const Loading = (props: ILoadingProps) => {
   const socket: ISocket = props.socket;
 
-  useEffect( ()  =>{
     socket.on("joined-room", (data: string) =>{
       props.setStatus("success")
       console.log("Socket received success")
@@ -13,7 +12,6 @@ const Loading = (props: ILoadingProps) => {
       props.setStatus("full")
       console.log("Socket received full")
     })
-  }, []);
 
   return(
     <>    

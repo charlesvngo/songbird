@@ -24,13 +24,16 @@ export const Countdown = () => {
 
   useEffect(() => {
     setTrackOut(false);
-    counter > 1 &&
-      setTimeout(() => {
+    const countTimer: NodeJS.Timeout = setTimeout(() => {
         setCounter(counter - 1);
       }, 1000);
-    setTimeout(() => {
+    const animationTimer: NodeJS.Timeout = setTimeout(() => {
       setTrackOut(true);
     }, 200);
+    return () => {
+      clearTimeout(animationTimer)
+      clearTimeout(countTimer)
+    }
   }, [counter]);
 
   return (
