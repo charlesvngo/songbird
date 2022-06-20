@@ -13,12 +13,17 @@ const getTrack = (rooms, roomId) => {
 };
 
 const findRoomIndex = (rooms, roomId) => {
+  if (!rooms) {
+    return;
+  }
+
   return rooms.findIndex(({ id }) => id === roomId);
 };
 
 const findUserIndex = (room, idToFind) => {
   let retIndex = -1;
-
+  if (room === [] || !room) return;
+  if (room.users === [] || !room.users) return;
   retIndex = room.users.findIndex(({ id }) => id === idToFind);
 
   return retIndex;

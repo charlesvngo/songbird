@@ -214,14 +214,6 @@ io.on("connection", (socket) => {
    */
   socket.on("end-of-round", () => {
     userIndex = findUserIndex(rooms[roomIndex], socket.id);
-    console.log(
-      "🚀 ~ file: server.js ~ line 219 ~ socket.on ~ userIndex",
-      userIndex
-    );
-    console.log(
-      "🚀 ~ file: server.js ~ line 219 ~ socket.on ~ roomIndex",
-      roomIndex
-    );
 
     if (!rooms[roomIndex]?.users[userIndex].host) return;
     rooms[roomIndex].currentRound++;
