@@ -311,6 +311,7 @@ io.on("connection", (socket) => {
    */
   socket.on("disconnect", () => {
     userIndex = findUserIndex(rooms[roomIndex], socket.id);
+    if (userIndex === -1) return;
     const disUser = rooms[roomIndex]?.users[userIndex];
     if (!disUser) return;
     console.log("Dissconnected user: ", disUser);
