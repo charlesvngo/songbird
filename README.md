@@ -1,4 +1,4 @@
-# Songbird
+# Songbird ♫
 
 Multiplayer guessing game with a musical twist.
 
