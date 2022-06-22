@@ -71,6 +71,7 @@ const UserForm = (props: IUserFormProps) => {
     host: false,
     winning: false,
   });
+  const [password, setPassword] = useState("");
   const [roomId, setRoomId] = useState<string>(getUrlParams());
 
   const nextAvatar = (): void => {
@@ -153,6 +154,17 @@ const UserForm = (props: IUserFormProps) => {
           />
           <TextField
             margin="normal"
+            required
+            fullWidth
+            id="password"
+            label="Password"
+            type="password"
+            name="password"
+            autoComplete="password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            margin="normal"
             fullWidth
             name="room-id"
             label="Enter Room ID (Optional)"
@@ -165,14 +177,26 @@ const UserForm = (props: IUserFormProps) => {
               setRoomId(e.target.value);
             }}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, color: "white" }}
-          >
-            {roomId ? "Join" : "Start Game"}
-          </Button>
+          {password === "1122" ? (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, color: "white" }}
+            >
+              {roomId ? "Join" : "Start Game"}
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled
+              sx={{ mt: 3, mb: 2, color: "white" }}
+            >
+              {roomId ? "Join" : "Start Game"}
+            </Button>
+          )}
           {props.status === "full" && <Alert severity="error">Room full</Alert>}
         </Box>
       </Container>

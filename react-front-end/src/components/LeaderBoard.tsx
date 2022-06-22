@@ -20,8 +20,12 @@ const Leaderboard = (props: ILeaderboardProps) => {
   const bgc: string =
     props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
 
+  const sortedUsers: IUser[] = props.users.sort(
+    (a: IUser, b: IUser): number => b.score - a.score
+  );
+
   // displays each user on leaderboard
-  const users: JSX.Element[] = props.users.map((user: IUser, i: number) => {
+  const users: JSX.Element[] = sortedUsers.map((user: IUser, i: number) => {
     return (
       <LeaderboardCard
         key={i}

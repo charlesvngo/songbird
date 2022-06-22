@@ -34,9 +34,6 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   const [blur, setBlur] = useState<number>(10);
   const [progress, setProgress] = useState<number>(0);
-  const [volume, setVolume] = useState<
-    number | string | Array<number | string>
-  >(50);
   // const [popRound, setPopRound] = useState<boolean>(false);
 
   // updates progress bar
@@ -50,7 +47,8 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   useEffect(() => {
     props.audio.src = props.track.preview_url;
-    props.audio.volume = 0.05; // default volume
+    // props.audio.volume = 0.05; // default volume
+    handleVolumeChange(new Event("volume"), Number(props.volume));
     props.audio.play();
     props.audio.onended = () => {
       props.endOfRound();
@@ -60,7 +58,7 @@ export const PlayGame = (props: IPlayGameProps) => {
 
   // volume adjustments
   const handleVolumeChange = (event: Event, newValue: number | number[]) => {
-    setVolume(newValue);
+    props.setVolume(newValue);
     const volumeConversion = Number(newValue) / 100;
     if (volumeConversion === 0.0) {
       props.audio.volume = 0;
@@ -69,12 +67,12 @@ export const PlayGame = (props: IPlayGameProps) => {
   };
 
   const handleVolumeMin = (): void => {
-    setVolume(0);
+    props.setVolume(0);
     props.audio.volume = 0;
   };
 
   const handleVolumeMax = (): void => {
-    setVolume(100);
+    props.setVolume(100);
     props.audio.volume = 0.1;
   };
 
@@ -189,7 +187,7 @@ export const PlayGame = (props: IPlayGameProps) => {
         <Slider
           aria-label="Volume"
           valueLabelDisplay="auto"
-          value={typeof volume === "number" ? volume : 0}
+          value={typeof props.volume === "number" ? props.volume : 0}
           onChange={handleVolumeChange}
           sx={{
             width: "15vw",

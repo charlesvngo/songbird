@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IGameBoard } from "../../Interfaces";
 import { GameLobby } from "./GameLobby";
 import { Countdown } from "./Countdown";
@@ -15,6 +15,9 @@ const GameBoard = (props: IGameBoard) => {
   const theme = useTheme();
   const bgc: string =
     props.gameboardTheme === gameBoardLight ? "#FFFFFF" : "#121212";
+  const [volume, setVolume] = useState<
+    number | string | Array<number | string>
+  >(50);
 
   return (
     <Grow in={true} {...{ timeout: 1000 }}>
@@ -49,6 +52,8 @@ const GameBoard = (props: IGameBoard) => {
             endOfRound={props.endOfRound}
             audio={props.audio}
             round={props.round}
+            volume={volume}
+            setVolume={setVolume}
           />
         )}
         {props.mode === "END_OF_ROUND" && (
