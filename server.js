@@ -134,7 +134,6 @@ io.on("connection", (socket) => {
   io.in(rooms[roomIndex]?.id).emit("update-users", rooms[roomIndex]?.users);
   io.to(socket.id).emit("update-user", rooms[roomIndex]?.users[userIndex]);
 
-  console.log(rooms[roomIndex]?.users[userIndex]);
   /* NEW GAME message sent to the sever.
    * @params - <message>: 'new-game'
    *
@@ -314,7 +313,7 @@ io.on("connection", (socket) => {
     if (userIndex === -1) return;
     const disUser = rooms[roomIndex]?.users[userIndex];
     if (!disUser) return;
-    console.log("Dissconnected user: ", disUser);
+
     rooms[roomIndex].users = rooms[roomIndex]?.users.filter(
       ({ id }) => id !== socket.id
     );

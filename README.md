@@ -1,15 +1,15 @@
 # Songbird ♫
 
-Multiplayer guessing game with a musical twist built with an Express back-end and React front-end.
+Multiplayer guessing game with a musical twist built with an Express/SocketIO back-end and React front-end.
 
 ## Final Product
 
 ![User Form](doc/screenshots/light-userform.png?raw=true "User Form")
-![Host Lobby](doc/screenshots/dark-host-lobby.png?raw=true "Host Lobby")
-![Guest Lobby](doc/screenshots/dark-guest-lobby.png?raw=true "Guest Lobby")
+![Host Lobby](doc/screenshots/dark-host-lobby.png?raw=true "Host Lobby (Dark Mode)")
+![Guest Lobby](doc/screenshots/dark-guest-lobby.png?raw=true "Guest Lobby (Dark Mode)")
 ![Play Game](doc/screenshots/light-play-game.png?raw=true "Play Game")
 ![End of Round](doc/screenshots/light-end-round.png?raw=true "End of round")
-![Game Over](doc/screenshots/dark-game-over.png?raw=true "Game Over")
+![Game Over](doc/screenshots/dark-game-over.png?raw=true "Game Over (Dark Mode)")
 
 ## Getting Started (not done editing)
 
