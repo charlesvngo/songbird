@@ -7,7 +7,7 @@ import { EndOfRound } from "./EndOfRound";
 import { EndOfGame } from "./EndOfGame";
 
 // material UI
-import { Container, CssBaseline, Box, Grow } from "@mui/material";
+import { Box, Grow } from "@mui/material";
 import { gameBoardLight } from "../../styles/theme";
 import { useTheme } from "@mui/material/styles";
 
