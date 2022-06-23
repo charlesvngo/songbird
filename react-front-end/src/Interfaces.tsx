@@ -76,6 +76,10 @@ export interface IPlayGameProps {
   endOfRound: () => void;
   audio: HTMLAudioElement;
   round: number;
+  volume: number | string | Array<number | string>;
+  setVolume: (
+    value: React.SetStateAction<string | number | (string | number)[]>
+  ) => void;
 }
 
 export interface IGameProps {
@@ -158,7 +162,7 @@ export interface StyledTypoProps extends TypographyProps {
 }
 
 export interface ILoadingProps {
-  setStatus: (status: string) => void
+  setStatus: (status: string) => void;
   socket: ISocket;
 }
 export interface IAppProps {
