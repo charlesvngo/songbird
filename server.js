@@ -183,6 +183,7 @@ io.on("connection", (socket) => {
 
         io.to(roomId).emit("game-started", roomId);
         setTimeout(() => {
+          if (!rooms[roomIndex]) return;
           io.to(rooms[roomIndex]?.id).emit(
             "round-start",
             rooms[roomIndex]?.currentRound
@@ -217,12 +218,14 @@ io.on("connection", (socket) => {
 
     if (rooms[roomIndex]?.currentRound === rooms[roomIndex]?.rounds + 1) {
       return setTimeout(() => {
+        if (!rooms[roomIndex]) return;
         io.in(roomId).emit("end-of-game", "End of Game");
       }, 10000);
     }
 
     const nextTrack = getTrack(rooms, roomId);
     setTimeout(() => {
+      if (!rooms[roomIndex]) return;
       rooms[roomIndex]?.users.forEach((user) => {
         user.roundScore = 0;
       });
@@ -231,6 +234,7 @@ io.on("connection", (socket) => {
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
+      if (!rooms[roomIndex]) return;
       io.to(roomId).emit("round-start", rooms[roomIndex]?.currentRound);
     }, 15000);
   });
