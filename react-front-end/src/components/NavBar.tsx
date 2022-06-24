@@ -12,9 +12,12 @@ import {
   Avatar,
   Modal,
   Box,
+  Link,
+  Divider,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { lightTheme } from "../styles/theme";
 
 const NavBar = (props: INavProps) => {
@@ -140,9 +143,75 @@ const NavBar = (props: INavProps) => {
                 🌟 If you can't guess a song, worry not, as there is ample
                 opportunity for redemption.
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              <Typography
+                id="modal-modal-description"
+                sx={{ mt: 2, marginBottom: 2 }}
+              >
                 🏆 Refer to the leaderboard each round to see whose in the lead.
               </Typography>
+
+              <Divider />
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginTop: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LinkedInIcon sx={{ marginRight: 1 }} />
+                  <Link
+                    href="https://www.linkedin.com/in/amymariemart/"
+                    underline="none"
+                  >
+                    Amy Martin
+                  </Link>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LinkedInIcon sx={{ marginRight: 1 }} />
+                  <Link
+                    href="https://www.linkedin.com/in/darrenpkelly/"
+                    underline="none"
+                  >
+                    Darren Kelly
+                  </Link>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <LinkedInIcon sx={{ marginRight: 1 }} />
+                  <Link
+                    href="https://www.linkedin.com/in/charlesvanngo/"
+                    underline="none"
+                  >
+                    Charles Ngo
+                  </Link>
+                </Box>
+              </Box>
             </Box>
           </Modal>
         </Typography>
