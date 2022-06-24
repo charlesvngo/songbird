@@ -1,5 +1,8 @@
+import { Axios, AxiosResponse } from "axios";
+import { Itracks, IArtist, Isonglist } from "../interface";
+
 const qs = require("qs");
-const axios = require("axios");
+const axios: Axios = require("axios");
 
 /* Obtain the spotify access token to access playlists and track previews.
  * To obtain spotify access keys, follow steps taken in https://developer.spotify.com/documentation/general/guides/authorization/
@@ -7,7 +10,7 @@ const axios = require("axios");
  *
  * @return - axios promise containing the access token which will expire in 1 hour.
  */
-const getToken = () => {
+const getToken = (): Promise<void | AxiosResponse<any, any>> => {
   const clientId = process.env.CLIENT_ID;
   const clientSecret = process.env.CLIENT_SECRET;
   const authToken = Buffer.from(
@@ -35,7 +38,7 @@ const getToken = () => {
  *
  * @return - axios promise containing an array of tracks with all information.
  */
-const getPlaylist = (token, genre, artist) => {
+const getPlaylist = (token: string, genre: string, artist: string): Promise<void | AxiosResponse<any, any>> => {
   const limit = 50; // needs to be set as a function argument, number of rounds?
   let apiPlaylistUrl = "https://api.spotify.com/v1/recommendations?market=CA";
   apiPlaylistUrl += `&limit=${limit}`;
@@ -60,10 +63,10 @@ const getPlaylist = (token, genre, artist) => {
  *
  * @return - {tracks} {artist, id} returns a filtered object.
  */
-const filterTitles = (tracks) => {
+const filterTitles = (tracks: Itracks[]): Isonglist[] => {
   return tracks.map((track) => {
     return {
-      artist: track.artists.map((artist) => artist.name).join(", "),
+      artist: track.artists.map((artist: IArtist) => artist.name).join(", "),
       name: track.name,
     };
   });
@@ -75,7 +78,7 @@ const filterTitles = (tracks) => {
  *
  * @return - {output} [{ artist, title }]
  */
-const createAutocomplete = (sampleSonglist, titles) => {
+const createAutocomplete = (sampleSonglist: Isonglist[], titles: Isonglist[]): Isonglist[] => {
   const autocomplete = [...sampleSonglist, ...titles];
   const output = [...new Set(autocomplete.map((e) => JSON.stringify(e)))].map(
     (e) => JSON.parse(e)
@@ -89,7 +92,7 @@ const createAutocomplete = (sampleSonglist, titles) => {
  *
  * @return - axios promise containing an array of artists with all information provided by spotify
  */
-const queryArtist = (token, searchParam) => {
+const queryArtist = (token: string, searchParam: string): Promise<AxiosResponse<any, any>> => {
   const apiArtistUrl = `https://api.spotify.com/v1/search?q=${searchParam}&type=artist&market=CA&limit=5`;
   const header = {
     Accept: "application/json",

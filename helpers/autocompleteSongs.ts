@@ -1,5 +1,7 @@
 // A pregenerated list of songs to seed the autocomplete feature.
-const songlist = [
+import { Isonglist } from "../interface";
+
+const songlist: Isonglist[] = [
   { artist: "Aretha Franklin", name: "Spanish Harlem" },
   { artist: "Felt", name: "Primitive Painters" },
   {
