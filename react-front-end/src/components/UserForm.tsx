@@ -169,7 +169,6 @@ const UserForm = (props: IUserFormProps) => {
             type="submit"
             fullWidth
             variant="contained"
-            disabled
             sx={{ mt: 3, mb: 2, color: "white" }}
           >
             {roomId ? "Join" : "Start Game"}

@@ -14,6 +14,8 @@ import {
   Box,
   Link,
   Divider,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -29,6 +31,8 @@ const NavBar = (props: INavProps) => {
 
   const themeColor: string = props.theme === lightTheme ? "white" : "#121212";
   const logo: string = props.theme === lightTheme ? logoLight : logoDark;
+
+  const theme = useTheme();
 
   return (
     <AppBar position="static">
@@ -94,6 +98,9 @@ const NavBar = (props: INavProps) => {
                 borderRadius: 2,
                 boxShadow: 24,
                 p: 4,
+                [theme.breakpoints.down("md")]: {
+                  width: "75vw",
+                },
               }}
             >
               <Typography
