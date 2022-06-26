@@ -1,9 +1,11 @@
 export interface IArtist {
   name: string;
+  id: string;
 }
 export interface Itracks {
   artists: IArtist[];
   name: string;
+  preview_url: string;
 }
 
 export interface Isonglist {
@@ -28,7 +30,7 @@ export interface Iusers {
 }
 
 export interface Irooms {
-  id: string;
+  id: string | string[]
   tracks: Itracks[];
   titles: Ititles[];
   currentTrack :Itracks;
@@ -36,5 +38,3 @@ export interface Irooms {
   currentRound: number;
   users: Iusers[];
 }
-
-

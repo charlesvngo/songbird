@@ -1,28 +1,35 @@
 const express = require("express");
-const app = express();
+const app: Express = express();
 const bodyParser = require("body-parser");
 const path = require("path");
 const cors = require("cors"); // allows/disallows cross-site communication
 require("dotenv").config();
 
-const PORT = process.env.PORT || 8080;
+const PORT: number = Number(process.env.PORT) || 8080;
 
-const whitelist = [
+import { AxiosResponse } from "axios";
+import { CorsOptions } from "cors";
+import { Express } from "express";
+import { IArtist, Irooms, Itracks } from "./interface";
+import { createServer } from "http";
+import { Server } from "socket.io";
+
+const whitelist: string[] = [
   "http://localhost:3000",
   "http://localhost:8081",
   "https://songbird-game.herokuapp.com",
 ];
-const corsOptions = {
+
+const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
 };
-// --> Add this
-app.use(cors(corsOptions));
+
 
 // helper functions
 const {
@@ -36,15 +43,14 @@ const { getTrack, findRoomIndex, findUserIndex } = require("./helpers/game");
 const sampleSonglist = require("./helpers/autocompleteSongs");
 
 // Server set up
-const socketio = require("socket.io");
-const http = require("http");
-const server = http.createServer(app);
-const io = socketio(server);
+const server = createServer(app);
+const io = new Server(server);
 
 // express configuration
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
@@ -60,16 +66,16 @@ server.listen(PORT, () => {
 });
 
 // global variables
-let token = "";
-let rooms = [];
-const maxNumPlayers = 8;
+let token: string  = "";
+let rooms: Irooms[] = [];
+const maxNumPlayers: number = 8;
 
 // retrieves authentication token from spotify
-getToken().then((res) => {
+getToken().then((res: AxiosResponse) => {
   token = res.data.access_token;
 });
 setInterval(() => {
-  getToken().then((res) => {
+  getToken().then((res: AxiosResponse) => {
     token = res.data.access_token;
   });
 }, 3.5e6);
@@ -87,12 +93,22 @@ io.on("connection", (socket) => {
   let { username, roomId, avatar } = socket.handshake.query;
   let roomIndex = findRoomIndex(rooms, roomId);
 
+  if (!roomId || Array.isArray(roomId)) {
+    return;
+  }
+  if (!username || Array.isArray(username)) {
+    return;
+  }
+  if (!avatar || Array.isArray(avatar)) {
+    return;
+  }
+
   if (roomIndex === -1) {
     rooms.push({
       id: roomId,
       tracks: [],
       titles: [],
-      currentTrack: {},
+      currentTrack: {} as Itracks,
       rounds: 0,
       currentRound: 1,
       users: [
@@ -166,12 +182,16 @@ io.on("connection", (socket) => {
    * @return - <message>: 'game-started' - Instruct all users to transition to the COUNTDOWN mode
    * @return - 5 second delay - <message>: 'round-start' - Instruct all users to transition to the ROUND mode to start the round
    */
-  socket.on("start-game", (genre, rounds, artist) => {
-    getPlaylist(token, genre, artist).then((result) => {
-      const tracks = result.data.tracks.filter((t) => t.preview_url !== null);
+  socket.on("start-game", (genre: string, rounds: number, artist: string) => {
+    
+    getPlaylist(token, genre, artist).then((result: AxiosResponse) => {
+      const tracks: Itracks[] = result.data.tracks.filter((t: Itracks) => t.preview_url !== null);
       const titles = filterTitles(tracks);
 
       rooms[roomIndex] = { ...rooms[roomIndex], tracks, titles, rounds };
+      if (!roomId || Array.isArray(roomId)) {
+        return;
+      }
 
       if (tracks.length >= rooms[roomIndex].rounds) {
         const nextTrack = getTrack(rooms, roomId);
@@ -210,6 +230,7 @@ io.on("connection", (socket) => {
    *          - Update the client with the current round and direct them to start the round
    */
   socket.on("end-of-round", () => {
+    
     userIndex = findUserIndex(rooms[roomIndex], socket.id);
 
     if (!rooms[roomIndex]?.users[userIndex].host) return;
@@ -217,6 +238,9 @@ io.on("connection", (socket) => {
 
     if (rooms[roomIndex]?.currentRound === rooms[roomIndex]?.rounds + 1) {
       return setTimeout(() => {
+        if (!roomId || Array.isArray(roomId)) {
+          return;
+        }
         if (rooms[roomIndex] === undefined) return;
         io.in(roomId).emit("end-of-game", "End of Game");
       }, 10000);
@@ -228,12 +252,18 @@ io.on("connection", (socket) => {
       rooms[roomIndex]?.users.forEach((user) => {
         user.roundScore = 0;
       });
+      if (!roomId || Array.isArray(roomId)) {
+        return;
+      }
       io.in(roomId).emit("next-round", nextTrack);
     }, 10000);
 
     setTimeout(() => {
       // After the 5 second countdown, Tell clients to play track and start guessing
       if (rooms[roomIndex] === undefined) return;
+      if (!roomId || Array.isArray(roomId)) {
+        return;
+      }
       io.to(roomId).emit("round-start", rooms[roomIndex]?.currentRound);
     }, 15000);
   });
@@ -245,7 +275,10 @@ io.on("connection", (socket) => {
    * @return - <message>: 'update-users' - Update all clients in the room with the updated scores
    * @return - <message>: 'receive-chat-messages' - Update all clients in the room with a message stating a corrent answer was sumbitted by the user
    */
-  socket.on("correct-answer", (score) => {
+  socket.on("correct-answer", (score: number) => {
+    if (!roomId || Array.isArray(roomId)) {
+      return;
+    }
     userIndex = findUserIndex(rooms[roomIndex], socket.id);
 
     if (rooms[roomIndex]?.users[userIndex].roundScore) return;
@@ -276,7 +309,7 @@ io.on("connection", (socket) => {
    *
    * @return - <message>: 'receive-chat-messages' {username, message, avatar} - Update all clients in the room with a message sent by the socket
    */
-  socket.on("send-chat-message", (message) => {
+  socket.on("send-chat-message", (message: string) => {
     io.in(rooms[roomIndex]?.id).emit("receive-chat-messages", {
       username,
       message,
@@ -290,11 +323,14 @@ io.on("connection", (socket) => {
    *
    * @return - <message>: 'artist-list' {artist, id} - An array of artist and that artist corrisponding Spotify id
    */
-  socket.on("search-artist", (searchParam) => {
-    queryArtist(token, searchParam).then((result) => {
+  socket.on("search-artist", (searchParam: string) => {
+    queryArtist(token, searchParam).then((result: AxiosResponse) => {
+      if (!roomId || Array.isArray(roomId)) {
+        return;
+      }
       io.to(roomId).emit(
         "artist-list",
-        result.data.artists.items.map((artist) => {
+        result.data.artists.items.map((artist: IArtist) => {
           return { artist: artist.name, id: artist.id };
         })
       );
@@ -313,6 +349,9 @@ io.on("connection", (socket) => {
    * @return - <message>: 'update-users', {users[]} - Update all clients in the room with the current users in the room
    */
   socket.on("disconnect", () => {
+    if (!roomId || Array.isArray(roomId)) {
+      return;
+    }
     userIndex = findUserIndex(rooms[roomIndex], socket.id);
     if (userIndex === -1) return;
     const disUser = rooms[roomIndex]?.users[userIndex];

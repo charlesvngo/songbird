@@ -23,7 +23,7 @@ import { getRoomId } from "./helpers/roomGenerator";
 import { CssBaseline, Box } from "@mui/material";
 
 // socket io client
-const socketIOClient = require("socket.io-client");
+import { io } from "socket.io-client";
 const ENDPOINT = "/";
 
 const App = (props: IAppProps) => {
@@ -58,7 +58,7 @@ const App = (props: IAppProps) => {
       };
     });
     setSocket(
-      socketIOClient(ENDPOINT, {
+      io(ENDPOINT, {
         query: {
           username: createUser.username,
           roomId: newRoomId,
