@@ -1,6 +1,10 @@
 # Songbird ♫
 
-Multiplayer guessing game with a musical twist built with an Express/SocketIO back-end and React front-end.
+Multiplayer guessing game with a musical twist. Developed with React and Material UI in the front-end and Node.js and Express in the back-end. Multiplayer is handled via Socket.IO. App is written entirely in Typescript for educational purposes. 
+
+App is available for demo at: https://songbird-game.herokuapp.com/
+
+
 
 ## Final Product
 
@@ -19,17 +23,18 @@ Back-end:
 - Body-parser ^1.18.3
 - Cors ^2.8.5
 - Dotenv ^16.0.1
+- Typescript ^4.7.3
 - Express ^4.16.4
 - Nodemon ^1.19.4
 - Node ^14.x
 - qs ^6.10.5
-- Socket.io 2.3.0
+- Socket.io ^4.5.1
 
 Front-end:
 
 - React ^17.0.0
 - Typescript ^4.7.3
-- Socket.io-client ^2.3.0
+- Socket.io-client ^4.5.1
 - Material UI ^5.8.3
 - Emotion ^11.9.3
 
